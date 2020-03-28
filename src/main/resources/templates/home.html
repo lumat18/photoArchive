@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{style.css}" />-->
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
     <title>PhotoARCHIVE</title>
-</head>
-<body>
-helo
-<a th:href="@{/adding}">go to adding section</a>
+  </head>
+  <body>
+    <div>
+      <a th:href="@{/adding}">go to fucking adding section</a>
+      <br />
+      <div class="container">
+        <div class="tag-container">
+          <input class="tag-input" />
+        </div>
+      </div>
 
-<form method="post" th:action="@{search}">
-    <input type="text" th:value="${tagString}" name="tagString">
-    <input type="submit" value="SEARCH">
-</form>
-</body>
+      <form method="post" th:action="@{search}">
+        <input
+          hidden
+          class="tag-holder"
+          type="text"
+          th:value="${tagString}"
+          name="tagString"
+        />
+        <input type="submit" value="SEARCH" />
+      </form>
+    </div>
+    <script th:src="@{script.js}"></script>
+  </body>
 </html>
