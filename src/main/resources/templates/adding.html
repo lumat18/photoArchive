@@ -2,15 +2,23 @@
 <html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}" />
     <title>photoArchive</title>
 </head>
 <body>
 <div>
+    <div class="container">
+        <div class="tag-container">
+            <input class="tag-input" />
+        </div>
+    </div>
+
     <form method="post" th:action="@{/upload-photo}" th:object="${photoDTO}" >
         <input type="text" placeholder="url" th:field="*{url}">
-        <input type="text" placeholder="tags" th:field="*{tagsAsString}">
+        <input class="tag-holder" type="text" placeholder="tags" th:field="*{tagsAsString}">
         <input type="submit" value="Add Photo">
     </form>
 </div>
+<script th:src="@{script.js}"></script>
 </body>
 </html>
