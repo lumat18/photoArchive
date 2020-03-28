@@ -10,5 +10,5 @@ import java.util.Set;
 
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
-    List<Photo> findDistinctByTagsIn(Set<Tag> tags);
+    Set<Photo> findByTagsIn(Set<Tag> tags);
 }
