@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class SearchController {
     private SearchService searchService;
 
-    List<Photo> photos = new ArrayList<>();
+    private String tagString;
 
     @Autowired
     public SearchController(SearchService searchService) {
@@ -25,14 +26,14 @@ public class SearchController {
 
     @GetMapping("/search")
     public String getPhotos(Model model){
-        model.addAttribute("tagString", photos);
+        model.addAttribute("tagString", tagString);
         return "home";
     }
 
     @PostMapping("/search")
-    public String processSearch(){
+    public String processSearch(@RequestParam(name = "tagString") String tagString){
         System.out.println("searchService.getPhotosByTags(tagString) = "
-                + searchService.getPhotosByTags("dog cat"));
+                + searchService.getPhotosByTags(tagString));
         return  "redirect:/home";
     }
 }

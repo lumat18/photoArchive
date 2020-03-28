@@ -9,6 +9,7 @@ helo
 <a th:href="@{/adding}">go to adding section</a>
 
 <form method="post" th:action="@{search}">
+    <input type="text" th:value="${tagString}" name="tagString">
     <input type="submit" value="SEARCH">
 </form>
 </body>
