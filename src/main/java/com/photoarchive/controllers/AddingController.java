@@ -37,7 +37,6 @@ public class AddingController {
     @PostMapping("/upload-photo")
     public String processPost(@ModelAttribute PhotoDTO photoDTO){
         System.out.println(photoDTO);
-        System.out.println("im in processPost");
         photoAddingService.addPhoto(photoDTO);
         return "redirect:/adding";
     }
