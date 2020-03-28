@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>photoArchive</title>
+</head>
+<body>
+<div>
+    <form method="post" th:action="@{/upload-photo}" th:object="${photoDTO}" >
+        <input type="text" placeholder="url" th:field="*{url}">
+        <input type="text" placeholder="tags" th:field="*{tagsAsString}">
+        <input type="submit" value="Add Photo">
+    </form>
+</div>
+</body>
+</html>
