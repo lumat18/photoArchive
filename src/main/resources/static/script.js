@@ -36,20 +36,35 @@ function addTags() {
       const newTag = createTag(tag);
       tagContainer.prepend(newTag);
     });
+  input.value = "";
+  updateHolder();
 }
 
 input.addEventListener("keyup", function(e) {
   if (e.keyCode === 32) {
     tags.push(input.value);
     addTags();
-    holder.value = holder.value + input.value;
-    input.value = "";
   }
 });
 
 document.addEventListener("click", function(e) {
   if (e.target.tagName === "I") {
     console.log(tags);
-    const tagLabel = e.target.getAttribute("data-item");
+    removeTag(e);
   }
 });
+
+function removeTag(e) {
+  const tagLabel = e.target.getAttribute("data-item");
+  const index = tags.indexOf(tagLabel);
+  tags = [...tags.slice(0, index), ...tags.slice(index + 1)];
+  addTags();
+  updateHolder();
+}
+
+function updateHolder() {
+  holder.value = "";
+  tags.forEach(tag => {
+    holder.value += tag;
+  });
+}
