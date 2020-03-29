@@ -155,10 +155,10 @@
       </div>
 
         <!--      FOUND PHOTOS       -->
-      <div>
-        <tr th:each="photo: ${foundPhotos}">
-          <img th:src="${photo.getUrl()}" alt="no image"/>
-        </tr>
+      <div class="masonry">
+        <div th:each="photo: ${foundPhotos}">
+          <img class="foundPhoto" th:src="${photo.getUrl()}" alt="no image"/>
+        </div>
       </div>
 
       <!-- Photo grid (modal) -->
