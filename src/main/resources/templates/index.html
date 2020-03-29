@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
 <title>W3.CSS Template</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="../static/welcome-page.css" />
-<body   >
+<link rel="stylesheet" type="text/css" th:href="@{welcome-page.css}" />
+<body>
 
 <!-- First Grid: Logo & About -->
 <div class="w3-row" style="height: 100%; width: 100%;">
 <div class="w3-half w3-red w3-container" style="height:100%; min-height: 750px;">
     <div class="w3-padding-64 w3-center">
-      <img class="logo" src="../static/images/logo.PNG" class="w3-margin" alt="Person">
+      <img class="logo w3-margin" th:src="@{images/logo.PNG}" alt="Person">
     </div>
     <div class="arrow bounce">
         <i class="fa fa-arrow-down fa-2x"></i>
       </div>
     <div class="w3-padding-16 w3-center">
-      <a href="#" class="start-button">GET STARTED !</a>
+      <a th:href="@{/home}" class="start-button">GET STARTED !</a>
     </div>
   </div>
   <div class="w3-half w3-container w3-center right-side" style="height:100%; min-height: 750px;">
@@ -54,12 +57,6 @@
     </footer>
   
   </div>
-  
 </div>
-
-
-
-
-
 </body>
 </html>

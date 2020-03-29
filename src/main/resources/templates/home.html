@@ -265,7 +265,7 @@
         document.getElementById("modal01").style.display = "block";
         var captionText = document.getElementById("caption");
 
-        let tags = element.alt.replace('[', '').replace(']', '').replace(',', ' ');
+        let tags = element.alt.replace('[', '').replace(']', '').replace(/,/g, ' ');
 
         captionText.innerHTML = tags;
       }
