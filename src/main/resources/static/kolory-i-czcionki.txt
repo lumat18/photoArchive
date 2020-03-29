@@ -1,0 +1,12 @@
+tło-kolor - #F1F1F1   -taki szary
+logo kolor - #D24848  -taki czerwony
+kolor napis - #3B3B6B - taki granatowy
+
+
+
+mały text - Saira Semi Condensed - 500
+duży text - Saira Semi Condensed - 700
+
+
+tekst na stronie - Varela Round
+
