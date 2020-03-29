@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SearchController {
@@ -19,14 +20,17 @@ public class SearchController {
 
     private String tagString;
 
+    private Set<Photo> foundPhotos;
+
     @Autowired
     public SearchController(SearchService searchService) {
         this.searchService = searchService;
     }
 
-    @GetMapping("/search")
+    @GetMapping("/getSearch")
     public String getPhotos(Model model){
         model.addAttribute("tagString", tagString);
+        model.addAttribute("foundPhotos", foundPhotos);
         return "home";
     }
 
@@ -34,6 +38,8 @@ public class SearchController {
     public String processSearch(@RequestParam(name = "tagString") String tagString){
         System.out.println("searchService.getPhotosByTags(tagString) = "
                 + searchService.getPhotosByTags(tagString));
-        return  "redirect:/home";
+
+        foundPhotos = searchService.getPhotosByTags(tagString);
+        return  "redirect:/getSearch";
     }
 }
