@@ -12,8 +12,8 @@
     rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Poppins"
   />
-<!--  <link rel="stylesheet" type="text/css" href="../static/style.css" />-->
-   <link rel="stylesheet" type="text/css" th:href="@{style.css}" />
+  <!-- <link rel="stylesheet" type="text/css" href="../static/style.css" /> -->
+  <link rel="stylesheet" type="text/css" th:href="@{style.css}" />
   <style>
     body,
     h1,
@@ -52,8 +52,12 @@
         >Close Menu</a
       >
       <div class="w3-container">
-        <h3 class="w3-padding-64">
-          <b>Company<br />Name</b>
+        <h3 class="w3-padding-32">
+          <img th:src="@{images/logo-small-name.png}" style="width: 130px" />
+          <!-- <img
+            src="../static/images/logo-small-name.PNG"
+            style="width: 130px"
+          /> -->
         </h3>
       </div>
       <div class="w3-bar-block">
@@ -106,7 +110,8 @@
         onclick="w3_open()"
         >☰</a
       >
-      <span>Company Name</span>
+      <img th:src="@{images/logo-top.png}" style="height: 50px" />
+      <!-- <img src="../static/images/logo-top.PNG" style="height: 50px" /> -->
     </header>
 
     <!-- Overlay effect when opening sidebar on small screens -->
@@ -145,8 +150,8 @@
             />
           </form>
         </div>
-         <script th:src="@{script.js}"></script>
-<!--        <script src="../static/script.js"></script>-->
+        <script th:src="@{script.js}"></script>
+        <!-- <script src="../static/script.js"></script> -->
 
         <h1 class="w3-xxxlarge w3-text-red" style="margin-top: 40px;">
           <b class="paragraph-title">Your photos.</b>
@@ -154,57 +159,14 @@
         <hr style="width:50px;border:5px solid red" class="w3-round" />
       </div>
 
-        <!--      FOUND PHOTOS       -->
+      <!--      FOUND PHOTOS       -->
       <div class="masonry">
         <div th:each="photo: ${foundPhotos}">
-          <img class="foundPhoto" th:src="${photo.getUrl()}" alt="no image"/>
+          <img class="foundPhoto" th:src="${photo.getUrl()}" th:alt="${photo.getTags()}" onclick="onClick(this)"/>
         </div>
       </div>
 
-      <!-- Photo grid (modal) -->
-      <div class="w3-row-padding">
-        <div class="w3-half">
-          <img
-            src="/w3images/kitchenconcrete.jpg"
-            style="width:100%"
-            onclick="onClick(this)"
-            alt="Concrete meets bricks"
-          />
-          <img
-            src="/w3images/livingroom.jpg"
-            style="width:100%"
-            onclick="onClick(this)"
-            alt="Light, white and tight scandinavian design"
-          />
-          <img
-            src="/w3images/diningroom.jpg"
-            style="width:100%"
-            onclick="onClick(this)"
-            alt="White walls with designer chairs"
-          />
-        </div>
 
-        <div class="w3-half">
-          <img
-            src="/w3images/atrium.jpg"
-            style="width:100%"
-            onclick="onClick(this)"
-            alt="Windows for the atrium"
-          />
-          <img
-            src="/w3images/bedroom.jpg"
-            style="width:100%"
-            onclick="onClick(this)"
-            alt="Bedroom and office in one space"
-          />
-          <img
-            src="/w3images/livingroom2.jpg"
-            style="width:100%"
-            onclick="onClick(this)"
-            alt="Scandinavian design"
-          />
-        </div>
-      </div>
 
       <!-- Modal for full size images on click-->
       <div
@@ -304,7 +266,10 @@
         document.getElementById("img01").src = element.src;
         document.getElementById("modal01").style.display = "block";
         var captionText = document.getElementById("caption");
-        captionText.innerHTML = element.alt;
+
+        let tags = element.alt.replace('[', '').replace(']', '').replace(',', ' ');
+
+        captionText.innerHTML = tags;
       }
     </script>
   </body>
