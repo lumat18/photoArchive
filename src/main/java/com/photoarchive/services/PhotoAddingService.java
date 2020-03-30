@@ -2,7 +2,6 @@ package com.photoarchive.services;
 
 import com.photoarchive.domain.Photo;
 import com.photoarchive.domain.Tag;
-import com.photoarchive.models.PhotoDTO;
 import com.photoarchive.repositories.PhotoRepository;
 import com.photoarchive.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;

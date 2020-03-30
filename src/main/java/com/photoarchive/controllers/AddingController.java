@@ -25,7 +25,7 @@ public class AddingController {
         return "adding";
     }
 
-    @PostMapping("/upload-photo")
+    @PostMapping("/upload-photo-with-url")
     public String processPost(@RequestParam(name = "url") String url, @RequestParam(name = "tags") String tags){
         final Photo photo = photoAddingService.addPhoto(url, tags);
         log.info("Photo added to database: " + photo);

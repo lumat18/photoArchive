@@ -3,6 +3,7 @@ const tagContainer = document.querySelector(".tag-container");
 const input = document.querySelector(".tag-input");
 
 const holder = document.querySelector(".tag-holder");
+const holder2 = document.querySelector(".tag-holder2");
 
 var tags = [];
 
@@ -63,10 +64,17 @@ function removeTag(e) {
 }
 
 function updateHolder() {
-  holder.value = "";
-  tags.forEach(tag => {
-    holder.value += tag;
-  });
+  validateHolder(holder);
+  validateHolder(holder2);
+}
+
+function validateHolder(holder) {
+  if(holder !== null){
+    holder.value = "";
+    tags.forEach(tag => {
+      holder.value += tag;
+    });
+  }
 }
 
 function resizable(el, factor) {
