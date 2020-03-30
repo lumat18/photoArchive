@@ -1,23 +1,15 @@
 package com.photoarchive.controllers;
 
 import com.photoarchive.domain.Photo;
-import com.photoarchive.domain.Tag;
-import com.photoarchive.models.PhotoDTO;
-import com.photoarchive.repositories.PhotoRepository;
 import com.photoarchive.services.PhotoAddingService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+@Slf4j
 @Controller
 public class AddingController {
 
@@ -29,15 +21,14 @@ public class AddingController {
     }
 
     @GetMapping("/adding")
-    public String show(Model model){
-        model.addAttribute("photoDTO", new PhotoDTO());
+    public String show(){
         return "adding";
     }
 
     @PostMapping("/upload-photo")
-    public String processPost(@ModelAttribute PhotoDTO photoDTO){
-        System.out.println(photoDTO);
-        photoAddingService.addPhoto(photoDTO);
+    public String processPost(@RequestParam(name = "url") String url, @RequestParam(name = "tags") String tags){
+        final Photo photo = photoAddingService.addPhoto(url, tags);
+        log.info("Photo added to database: " + photo);
         return "redirect:/adding";
     }
 }

@@ -29,15 +29,14 @@ public class PhotoAddingService {
     }
 
     @Transactional
-    public Photo addPhoto(PhotoDTO photoDTO){
+    public Photo addPhoto(String url, String tags){
         Photo photo = new Photo();
-        photo.setUrl(photoDTO.getUrl());
-        final Set<Tag> tagsFromDTO = tagParsingService.parseTagSet(photoDTO);
-
+        photo.setUrl(url);
+        final Set<Tag> tagsFromInput = tagParsingService.parseTagSet(tags);
 
         Set<Tag> tagsToAdd = new HashSet<>();
-        //photo.getTags().forEach(tag -> tag.setTag_name(stringValidatorService.handleTagInput(tag.getTag_name())));
-        tagsFromDTO.forEach(tag -> {
+
+        tagsFromInput.forEach(tag -> {
             Optional<Tag> one = tagRepository.findOne(Example.of(tag));
             if (one.isPresent()) {
                 tagsToAdd.add(one.get());

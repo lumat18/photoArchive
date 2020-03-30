@@ -14,9 +14,9 @@
         </div>
     </div>
 
-    <form method="post" th:action="@{/upload-photo}" th:object="${photoDTO}" >
-        <input type="text" placeholder="url" th:field="*{url}">
-        <input class="tag-holder" type="text" placeholder="tags" th:field="*{tagsAsString}">
+    <form method="post" th:action="@{/upload-photo}"  >
+        <input type="text" placeholder="url" name="url">
+        <input class="tag-holder" type="text" placeholder="tags" name="tags">
         <input type="submit" value="Add Photo">
     </form>
 </div>
