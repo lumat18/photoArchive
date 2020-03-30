@@ -31,33 +31,23 @@ public class PhotoAddingService {
         this.cloudinaryService = cloudinaryService;
     }
 
-    @Transactional
     public Photo addPhoto(String url, String tags){
         Photo photo = new Photo();
+        setCorrectTags(photo, tags);
         photo.setUrl(url);
-        final Set<Tag> tagsFromInput = tagParsingService.parseTagSet(tags);
 
-        Set<Tag> tagsToAdd = new HashSet<>();
-
-        tagsFromInput.forEach(tag -> {
-            Optional<Tag> one = tagRepository.findOne(Example.of(tag));
-            if (one.isPresent()) {
-                tagsToAdd.add(one.get());
-            } else {
-                tagsToAdd.add(tag);
-            }
-        });
-
-        photo.setTags(tagsToAdd);
-
-        tagRepository.saveAll(photo.getTags());
-        tagRepository.flush();
-        return photoRepository.saveAndFlush(photo);
+        return saveToDB(photo);
     }
 
-    @Transactional
     public Photo addPhoto(MultipartFile multipartFile, String tags){
         Photo photo = new Photo();
+        setCorrectTags(photo, tags);
+        setCorrectUrl(multipartFile, photo);
+
+        return saveToDB(photo);
+    }
+
+    private void setCorrectTags(Photo photo, String tags) {
         final Set<Tag> tagsFromInput = tagParsingService.parseTagSet(tags);
 
         Set<Tag> tagsToAdd = new HashSet<>();
@@ -70,17 +60,18 @@ public class PhotoAddingService {
                 tagsToAdd.add(tag);
             }
         });
-
         photo.setTags(tagsToAdd);
-        //here we have photo object with correct tags
+    }
 
-        //set url
+    private void setCorrectUrl(MultipartFile multipartFile, Photo photo) {
         Map result = cloudinaryService.upload(multipartFile);
         String urlInCloud = (String) result.get("url");
         System.out.println(urlInCloud);
         photo.setUrl(urlInCloud);
+    }
 
-        //save to database
+    @Transactional
+    public Photo saveToDB(Photo photo){
         tagRepository.saveAll(photo.getTags());
         tagRepository.flush();
         return photoRepository.saveAndFlush(photo);
