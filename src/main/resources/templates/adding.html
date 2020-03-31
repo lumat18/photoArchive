@@ -24,6 +24,12 @@
         <input class="tag-holder2" type="text" placeholder="tags" name="tags">
         <input type="submit" value="Add Photo">
     </form>
+
+    <div th:if="${message.isActive()}">
+        <h2 th:text="${message.getText()}"></h2>
+    </div>
+
+
 </div>
 <script th:src="@{script.js}"></script>
 </body>

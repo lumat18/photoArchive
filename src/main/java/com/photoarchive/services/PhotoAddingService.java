@@ -2,8 +2,10 @@ package com.photoarchive.services;
 
 import com.photoarchive.domain.Photo;
 import com.photoarchive.domain.Tag;
+import com.photoarchive.exceptions.UnsupportedPhotoFormatException;
 import com.photoarchive.repositories.PhotoRepository;
 import com.photoarchive.repositories.TagRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -16,19 +18,22 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class PhotoAddingService {
 
     private PhotoRepository photoRepository;
     private TagRepository tagRepository;
     private TagParsingService tagParsingService;
     private CloudinaryService cloudinaryService;
+    private PhotoValidatingService photoValidatingService;
 
     @Autowired
-    public PhotoAddingService(PhotoRepository photoRepository, TagRepository tagRepository, TagParsingService tagParsingService, CloudinaryService cloudinaryService) {
+    public PhotoAddingService(PhotoRepository photoRepository, TagRepository tagRepository, TagParsingService tagParsingService, CloudinaryService cloudinaryService, PhotoValidatingService photoValidatingService) {
         this.photoRepository = photoRepository;
         this.tagRepository = tagRepository;
         this.tagParsingService = tagParsingService;
         this.cloudinaryService = cloudinaryService;
+        this.photoValidatingService = photoValidatingService;
     }
 
     public Photo addPhoto(String url, String tags){
@@ -39,7 +44,9 @@ public class PhotoAddingService {
         return saveToDB(photo);
     }
 
-    public Photo addPhoto(MultipartFile multipartFile, String tags){
+    public Photo addPhoto(MultipartFile multipartFile, String tags) throws UnsupportedPhotoFormatException {
+        photoValidatingService.isValid(multipartFile);
+
         Photo photo = new Photo();
         setCorrectTags(photo, tags);
         setCorrectUrl(multipartFile, photo);
@@ -74,6 +81,7 @@ public class PhotoAddingService {
     public Photo saveToDB(Photo photo){
         tagRepository.saveAll(photo.getTags());
         tagRepository.flush();
+        log.info("Photo added to database: " + photo);
         return photoRepository.saveAndFlush(photo);
     }
 }
