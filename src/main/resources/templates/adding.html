@@ -14,24 +14,21 @@
         </div>
     </div>
 
-    <form method="post" th:action="@{/upload-photo-with-url}"  th:object="${photoDTO}" >
+    <form method="post" th:action="@{/upload-photo-with-url}"  th:object="${photoWithUrlDTO}" >
         <input type="text" placeholder="url" th:field="*{url}">
         <span th:if="${#fields.hasErrors('url')}" th:errors="*{url}">tu bedzie message</span>
         <input class="tag-holder" type="text" placeholder="tags" th:field="*{tagsAsString}">
         <span th:if="${#fields.hasErrors('tagsAsString')}" th:errors="*{tagsAsString}">tu bedzie message</span>
         <input type="submit" value="Add Photo">
     </form><br/><br/>
-    <form method="post" enctype="multipart/form-data" th:action="@{/upload-photo-with-file}">
-        <input type="file" name="file">
-        <input class="tag-holder2" type="text" placeholder="tags" name="tags">
+
+    <form method="post" enctype="multipart/form-data" th:action="@{/upload-photo-with-file}" th:object="${photoWithFileDTO}">
+        <input type="file" th:field="*{multipartFile}">
+        <span th:if="${#fields.hasErrors('multipartFile')}" th:errors="*{multipartFile}">tu bedzie message</span>
+        <input class="tag-holder2" type="text" placeholder="tags" th:field="*{tagsAsString}">
+        <span th:if="${#fields.hasErrors('tagsAsString')}" th:errors="*{tagsAsString}">tu bedzie message</span>
         <input type="submit" value="Add Photo">
     </form>
-
-    <div th:if="${invalidSource.isActive()}">
-        <h2 th:text="${invalidSource.getText()}"></h2>
-    </div>
-
-
 </div>
 <script th:src="@{script.js}"></script>
 </body>

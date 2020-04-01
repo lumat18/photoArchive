@@ -1,19 +1,16 @@
 package com.photoarchive.controllers;
 
-import com.photoarchive.domain.Photo;
-import com.photoarchive.exceptions.IncorrectUrlFormatException;
-import com.photoarchive.exceptions.UnsupportedPhotoFormatException;
-import com.photoarchive.models.InvalidInputMessage;
-import com.photoarchive.models.PhotoDTO;
+import com.photoarchive.models.PhotoWithFileDTO;
+import com.photoarchive.models.PhotoWithUrlDTO;
 import com.photoarchive.services.PhotoAddingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
@@ -23,14 +20,14 @@ public class AddingController {
 
     private PhotoAddingService photoAddingService;
 
-    @ModelAttribute(name = "photoDTO")
-    private PhotoDTO photoDTO(){
-        return new PhotoDTO();
+    @ModelAttribute(name = "photoWithUrlDTO")
+    private PhotoWithUrlDTO photoWithUrlDTO(){
+        return new PhotoWithUrlDTO();
     }
 
-    @ModelAttribute(name = "invalidSource")
-    private InvalidInputMessage invalidSource(){
-        return new InvalidInputMessage();
+    @ModelAttribute(name = "photoWithFileDTO")
+    private PhotoWithFileDTO photoWithFileDTO(){
+        return new PhotoWithFileDTO();
     }
 
     @Autowired
@@ -45,39 +42,25 @@ public class AddingController {
 
     @PostMapping("/upload-photo-with-url")
     public String processPostWithUrl(
-                                     @Valid PhotoDTO photoDTO,
-                                     Errors errors,
-                                     @ModelAttribute InvalidInputMessage invalidSource,
-                                     RedirectAttributes redirectAttributes
+                                     @Valid PhotoWithUrlDTO photoWithUrlDTO,
+                                     Errors errors
                                      ){
         if (errors.hasErrors()){
             return "adding";
         }
-        try {
-            photoAddingService.addPhoto(photoDTO.getUrl(), photoDTO.getTagsAsString());
-        } catch (IncorrectUrlFormatException e) {
-            log.warn(e.getMessage());
-            invalidSource.activate("Invalid url format");
-            redirectAttributes.addFlashAttribute("invalidSource", invalidSource);
-        }
-            return "redirect:/adding";
-
+        photoAddingService.addPhoto(photoWithUrlDTO.getUrl(), photoWithUrlDTO.getTagsAsString());
+        return "redirect:/adding";
     }
 
     @PostMapping("/upload-photo-with-file")
-    public String processPostWithFile(@RequestParam(name = "file") MultipartFile multipartFile,
-                                      @RequestParam(name = "tags") String tags,
-                                      @ModelAttribute InvalidInputMessage invalidSource,
-                                      RedirectAttributes redirectAttributes
+    public String processPostWithFile(@Valid PhotoWithFileDTO photoWithFileDTO,
+                                      Errors errors
                                       ){
-        try {
-            photoAddingService.addPhoto(multipartFile, tags);
-        } catch (UnsupportedPhotoFormatException e) {
-            log.warn(e.getMessage());
-            invalidSource.activate("Unsupported file format");
-            redirectAttributes.addFlashAttribute("invalidSource", invalidSource);
-        }finally {
-            return "redirect:/adding";
+        if (errors.hasErrors()){
+            return "adding";
         }
+            photoAddingService.addPhoto(photoWithFileDTO.getMultipartFile(), photoWithFileDTO.getTagsAsString());
+            return "redirect:/adding";
+
     }
 }
