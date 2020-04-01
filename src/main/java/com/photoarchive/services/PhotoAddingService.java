@@ -2,9 +2,12 @@ package com.photoarchive.services;
 
 import com.photoarchive.domain.Photo;
 import com.photoarchive.domain.Tag;
+import com.photoarchive.exceptions.IncorrectUrlFormatException;
 import com.photoarchive.exceptions.UnsupportedPhotoFormatException;
 import com.photoarchive.repositories.PhotoRepository;
 import com.photoarchive.repositories.TagRepository;
+import com.photoarchive.services.validators.PhotoValidatingService;
+import com.photoarchive.services.validators.UrlValidatingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -26,17 +29,21 @@ public class PhotoAddingService {
     private TagParsingService tagParsingService;
     private CloudinaryService cloudinaryService;
     private PhotoValidatingService photoValidatingService;
+    private UrlValidatingService urlValidatingService;
 
     @Autowired
-    public PhotoAddingService(PhotoRepository photoRepository, TagRepository tagRepository, TagParsingService tagParsingService, CloudinaryService cloudinaryService, PhotoValidatingService photoValidatingService) {
+    public PhotoAddingService(PhotoRepository photoRepository, TagRepository tagRepository, TagParsingService tagParsingService, CloudinaryService cloudinaryService, PhotoValidatingService photoValidatingService, UrlValidatingService urlValidatingService) {
         this.photoRepository = photoRepository;
         this.tagRepository = tagRepository;
         this.tagParsingService = tagParsingService;
         this.cloudinaryService = cloudinaryService;
         this.photoValidatingService = photoValidatingService;
+        this.urlValidatingService = urlValidatingService;
     }
 
-    public Photo addPhoto(String url, String tags){
+    public Photo addPhoto(String url, String tags) throws IncorrectUrlFormatException {
+        urlValidatingService.isValid(url);
+
         Photo photo = new Photo();
         setCorrectTags(photo, tags);
         photo.setUrl(url);

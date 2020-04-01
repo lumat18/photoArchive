@@ -1,4 +1,4 @@
-package com.photoarchive.services;
+package com.photoarchive.services.validators;
 
 import com.photoarchive.exceptions.UnsupportedPhotoFormatException;
 import org.springframework.stereotype.Service;
