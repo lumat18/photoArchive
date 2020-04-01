@@ -14,22 +14,20 @@
         </div>
     </div>
 
-    <form method="post" th:action="@{/upload-photo-with-url}"  >
-        <input type="text" placeholder="url" name="url">
-        <input class="tag-holder" type="text" placeholder="tags" name="tags">
+    <form method="post" th:action="@{/upload-photo-with-url}"  th:object="${photoDTO}" >
+        <input type="text" placeholder="url" th:field="*{url}">
+        <input class="tag-holder" type="text" placeholder="tags" th:field="*{tagsAsString}">
+        <span th:if="${#fields.hasErrors('tagsAsString')}" th:errors="*{tagsAsString}">tu bedzie message</span>
         <input type="submit" value="Add Photo">
     </form><br/><br/>
     <form method="post" enctype="multipart/form-data" th:action="@{/upload-photo-with-file}">
         <input type="file" name="file">
         <input class="tag-holder2" type="text" placeholder="tags" name="tags">
-        <div th:if="${invalid-tags.isActive()}">
-            <span th:text="${invalid-tags.getText()}"></span>
-        </div>
         <input type="submit" value="Add Photo">
     </form>
 
     <div th:if="${invalidSource.isActive()}">
-        <span th:text="${invalidSource.getText()}"></span>
+        <h2 th:text="${invalidSource.getText()}"></h2>
     </div>
 
 

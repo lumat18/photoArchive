@@ -1,19 +1,21 @@
 package com.photoarchive.controllers;
 
+import com.photoarchive.domain.Photo;
 import com.photoarchive.exceptions.IncorrectUrlFormatException;
 import com.photoarchive.exceptions.UnsupportedPhotoFormatException;
 import com.photoarchive.models.InvalidInputMessage;
+import com.photoarchive.models.PhotoDTO;
 import com.photoarchive.services.PhotoAddingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -21,11 +23,15 @@ public class AddingController {
 
     private PhotoAddingService photoAddingService;
 
+    @ModelAttribute(name = "photoDTO")
+    private PhotoDTO photoDTO(){
+        return new PhotoDTO();
+    }
+
     @ModelAttribute(name = "invalidSource")
     private InvalidInputMessage invalidSource(){
         return new InvalidInputMessage();
     }
-
 
     @Autowired
     public AddingController(PhotoAddingService photoAddingService) {
@@ -38,19 +44,24 @@ public class AddingController {
     }
 
     @PostMapping("/upload-photo-with-url")
-    public String processPostWithUrl(@RequestParam(name = "url") String url,
-                                     @RequestParam(name = "tags") String tags,
+    public String processPostWithUrl(
+                                     @Valid PhotoDTO photoDTO,
+                                     Errors errors,
                                      @ModelAttribute InvalidInputMessage invalidSource,
-                                     RedirectAttributes redirectAttributes){
+                                     RedirectAttributes redirectAttributes
+                                     ){
+        if (errors.hasErrors()){
+            return "adding";
+        }
         try {
-            photoAddingService.addPhoto(url, tags);
+            photoAddingService.addPhoto(photoDTO.getUrl(), photoDTO.getTagsAsString());
         } catch (IncorrectUrlFormatException e) {
             log.warn(e.getMessage());
             invalidSource.activate("Invalid url format");
             redirectAttributes.addFlashAttribute("invalidSource", invalidSource);
-        }finally {
-            return "redirect:/adding";
         }
+            return "redirect:/adding";
+
     }
 
     @PostMapping("/upload-photo-with-file")
