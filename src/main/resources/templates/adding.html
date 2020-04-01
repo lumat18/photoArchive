@@ -16,6 +16,7 @@
 
     <form method="post" th:action="@{/upload-photo-with-url}"  th:object="${photoDTO}" >
         <input type="text" placeholder="url" th:field="*{url}">
+        <span th:if="${#fields.hasErrors('url')}" th:errors="*{url}">tu bedzie message</span>
         <input class="tag-holder" type="text" placeholder="tags" th:field="*{tagsAsString}">
         <span th:if="${#fields.hasErrors('tagsAsString')}" th:errors="*{tagsAsString}">tu bedzie message</span>
         <input type="submit" value="Add Photo">
