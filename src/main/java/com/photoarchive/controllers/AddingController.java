@@ -41,26 +41,20 @@ public class AddingController {
     }
 
     @PostMapping("/upload-photo-with-url")
-    public String processPostWithUrl(
-                                     @Valid PhotoWithUrlDTO photoWithUrlDTO,
-                                     Errors errors
-                                     ){
+    public String processPostWithUrl(@Valid PhotoWithUrlDTO photoWithUrlDTO, Errors errors){
         if (errors.hasErrors()){
             return "adding";
         }
-        photoAddingService.addPhoto(photoWithUrlDTO.getUrl(), photoWithUrlDTO.getTagsAsString());
+        photoAddingService.addPhoto(photoWithUrlDTO);
         return "redirect:/adding";
     }
 
     @PostMapping("/upload-photo-with-file")
-    public String processPostWithFile(@Valid PhotoWithFileDTO photoWithFileDTO,
-                                      Errors errors
-                                      ){
+    public String processPostWithFile(@Valid PhotoWithFileDTO photoWithFileDTO, Errors errors){
         if (errors.hasErrors()){
             return "adding";
         }
-            photoAddingService.addPhoto(photoWithFileDTO.getMultipartFile(), photoWithFileDTO.getTagsAsString());
+            photoAddingService.addPhoto(photoWithFileDTO);
             return "redirect:/adding";
-
     }
 }

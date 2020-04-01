@@ -1,6 +1,6 @@
 package com.photoarchive.annotations;
 
-import com.photoarchive.services.validators.PhotoValidator;
+import com.photoarchive.validators.PhotoValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

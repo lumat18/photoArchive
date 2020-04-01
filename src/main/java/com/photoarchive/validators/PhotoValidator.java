@@ -1,4 +1,4 @@
-package com.photoarchive.services.validators;
+package com.photoarchive.validators;
 
 import com.photoarchive.annotations.Image;
 import org.springframework.web.multipart.MultipartFile;
