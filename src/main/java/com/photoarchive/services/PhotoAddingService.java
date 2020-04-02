@@ -43,7 +43,7 @@ public class PhotoAddingService {
 
         return saveToDB(photo);
     }
-    
+
     @Transactional
     public Photo saveToDB(Photo photo){
         tagRepository.saveAll(photo.getTags());

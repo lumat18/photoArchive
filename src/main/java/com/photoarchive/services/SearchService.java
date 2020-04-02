@@ -25,11 +25,11 @@ public class SearchService {
         this.tagParsingService = tagParsingService;
     }
 
-    public Set<Photo> getPhotosByTags(String tags){
-        final Set<Tag> tagSet = tagParsingService.parseTagSet(tags);
+    public Set<Photo> getPhotosByTags(String tagsAsString){
+        final Set<Tag> incomingTagSet = tagParsingService.parseTagSet(tagsAsString);
         Set<Tag> queryTagSet = new HashSet<>();
 
-        tagSet.forEach(tag -> {
+        incomingTagSet.forEach(tag -> {
             final Optional<Tag> tagOptional = tagRepository.findOne(Example.of(tag));
             tagOptional.ifPresent(queryTagSet::add);
         });

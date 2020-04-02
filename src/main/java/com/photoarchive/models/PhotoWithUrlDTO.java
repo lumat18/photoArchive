@@ -1,10 +1,8 @@
 package com.photoarchive.models;
 
-import com.photoarchive.annotations.Image;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
