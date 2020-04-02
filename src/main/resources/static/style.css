@@ -87,3 +87,12 @@ body {
   margin: 0 0 1em;
   width: 100%;
 }
+
+.upload {
+  float: left;
+  width: 50%;
+}
+
+.url:after{
+  clear: both;
+}
