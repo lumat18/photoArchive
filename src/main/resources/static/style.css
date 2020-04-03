@@ -106,7 +106,6 @@ body {
 
 
 .add-photo-button{
-  min-width: 400px;
   margin-top: 30px;
   float: right;
 }
@@ -115,4 +114,7 @@ body {
   content: "";
   display: block;
   clear: both;
+}
+.file-input{
+  min-width: 400px;
 }

@@ -134,6 +134,7 @@
       <!--    PHOTO UPLOAD -->
       <div>
         <div class="w3-container">
+            <div>Use the slider to switch between available upload methods<br/><br/></div>
           <label class="switch">
             <input class="slider-switch" type="checkbox" onclick="slide()" />
             <span class="slider round"></span>
@@ -174,6 +175,7 @@
                   >message</span
                   >
                   <input hidden
+                         class="file-button"
                          type="submit"
                          value="Add Photo"
                   />
@@ -218,6 +220,7 @@
                   >
                   <input
                           hidden
+                          class="url-button"
                           type="submit"
                           value="Add Photo"
                   />
@@ -227,16 +230,19 @@
 
         <div class="container w3-container">
           <div class="tag-container">
-            <input class="tag-input" />
+            <input id="search-input-field" class="tag-input" />
           </div>
         </div>
         <div class="w3-container">
-            <button class="add-photo-button w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Add photo</button>
+            <button class="add-photo-button w3-button w3-padding-large w3-red w3-margin-bottom" onclick="clickCorrectButton()">Add photo</button>
         </div>
 
         <script th:src="@{script.js}"></script>
           <script th:src="@{slider-script.js}"></script>
           <script th:src="@{file-button.js}"></script>
+          <script th:src="@{add-photo-button.js}"></script>
+
+
       </div>
 
       <!-- Contact -->
