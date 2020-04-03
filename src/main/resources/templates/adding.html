@@ -156,8 +156,9 @@
                       th:object="${photoWithFileDTO}"
               >
                   <input hidden class="file-dialogue" type="file" th:field="*{multipartFile}" />
-                  <button class="file-input w3-button w3-block w3-padding-large w3-red w3-margin-bottom" type="button" onclick="clickDialogue()">Select file</button>
+                  <button class="file-input w3-button w3-block w3-padding-large w3-red" type="button" onclick="clickDialogue()">Select file</button>
                   <span
+                          class="error-span"
                           th:if="${#fields.hasErrors('multipartFile')}"
                           th:errors="*{multipartFile}"
                   >message</span
@@ -170,6 +171,7 @@
                           th:field="*{tagsAsString}"
                   />
                   <span
+                          class="error-span"
                           th:if="${#fields.hasErrors('tagsAsString')}"
                           th:errors="*{tagsAsString}"
                   >message</span
@@ -203,7 +205,7 @@
                           placeholder="url"
                           th:field="*{url}"
                   />
-                  <span th:if="${#fields.hasErrors('url')}" th:errors="*{url}"
+                  <span class="error-span" th:if="${#fields.hasErrors('url')}" th:errors="*{url}"
                   >message</span
                   >
                   <input
@@ -214,6 +216,7 @@
                           th:field="*{tagsAsString}"
                   />
                   <span
+                          class="error-span"
                           th:if="${#fields.hasErrors('tagsAsString')}"
                           th:errors="*{tagsAsString}"
                   >message</span
@@ -242,54 +245,6 @@
           <script th:src="@{file-button.js}"></script>
           <script th:src="@{add-photo-button.js}"></script>
 
-
-      </div>
-
-      <!-- Contact -->
-      <div class="w3-container" id="contact" style="margin-top: 75px;">
-        <h1 class="w3-xxxlarge w3-text-red">
-          <b class="paragraph-title">Contact.</b>
-        </h1>
-        <hr style="width: 50px; border: 5px solid red;" class="w3-round" />
-        <p>
-          Do you want us to style your home? Fill out the form and fill me in
-          with the details :) We love meeting new people!
-        </p>
-        <form action="/action_page.php" target="_blank">
-          <div class="w3-section">
-            <label>Name</label>
-            <input
-              class="w3-input w3-border"
-              type="text"
-              name="Name"
-              required
-            />
-          </div>
-          <div class="w3-section">
-            <label>Email</label>
-            <input
-              class="w3-input w3-border"
-              type="text"
-              name="Email"
-              required
-            />
-          </div>
-          <div class="w3-section">
-            <label>Message</label>
-            <input
-              class="w3-input w3-border"
-              type="text"
-              name="Message"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom"
-          >
-            Send Message
-          </button>
-        </form>
       </div>
 
       <!-- End page content -->

@@ -117,4 +117,11 @@ body {
 }
 .file-input{
   min-width: 400px;
+  margin-bottom: 30px;
+}
+
+.error-span{
+  margin-left: auto;
+  margin-right: auto;
+  color: #f44336;
 }

@@ -11,11 +11,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class PhotoWithUrlDTO {
 
-    @URL(message = "please set a valid url")
-    @NotBlank(message = "please set an url")
-    @Size(max = 255, message = "url is too long")
+    @URL(message = "Please set a valid url. ")
+    @NotBlank(message = "Please set an url. ")
+    @Size(max = 255, message = "Url is too long. ")
     private String url;
-    @NotBlank(message = "please set minimum 1 tag")
+    @NotBlank(message = "Please set minimum 1 tag. ")
     private String tagsAsString;
 
 }

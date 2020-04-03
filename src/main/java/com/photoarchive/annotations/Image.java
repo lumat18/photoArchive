@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = PhotoValidator.class)
 public @interface Image {
 
-    String message() default "Invalid Photo Format";
+    String message() default "Invalid Photo Format. ";
 
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };

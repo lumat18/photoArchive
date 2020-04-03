@@ -13,6 +13,6 @@ public class PhotoWithFileDTO {
 
     @Image
     private MultipartFile multipartFile;
-    @NotBlank(message = "please set minimum 1 tag")
+    @NotBlank(message = "Please set minimum 1 tag")
     private String tagsAsString;
 }
