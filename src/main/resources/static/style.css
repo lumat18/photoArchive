@@ -90,9 +90,29 @@ body {
 
 .upload {
   float: left;
-  width: 50%;
+  width: 48%;
+  margin-left: 16px;
 }
 
 .url:after{
+  clear: both;
+}
+
+.url-input{
+  margin-bottom: 30px;
+  min-width: 400px;
+  padding: 11px;
+}
+
+
+.add-photo-button{
+  min-width: 400px;
+  margin-top: 30px;
+  float: right;
+}
+
+.add-photo-button:after{
+  content: "";
+  display: block;
   clear: both;
 }

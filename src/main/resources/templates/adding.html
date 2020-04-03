@@ -1,264 +1,336 @@
 <!DOCTYPE html>
 <html
-        lang="en"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:th="http://www.thymeleaf.org"
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
 >
-<title>W3.CSS Template</title>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-<link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Poppins"
-/>
-<!-- <link rel="stylesheet" type="text/css" href="../static/style.css" /> -->
-<link rel="stylesheet" type="text/css" th:href="@{style.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{slider.css}" />
-<style>
+  <title>W3.CSS Template</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Poppins"
+  />
+  <!-- <link rel="stylesheet" type="text/css" href="../static/style.css" /> -->
+  <link rel="stylesheet" type="text/css" th:href="@{style.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{slider.css}" />
+  <style>
     body,
     h1,
     h2,
     h3,
     h4,
     h5 {
-        font-family: "Poppins", sans-serif;
+      font-family: "Poppins", sans-serif;
     }
     body {
-        font-size: 16px;
+      font-size: 16px;
     }
     .w3-half img {
-        margin-bottom: -6px;
-        margin-top: 16px;
-        opacity: 0.8;
-        cursor: pointer;
+      margin-bottom: -6px;
+      margin-top: 16px;
+      opacity: 0.8;
+      cursor: pointer;
     }
     .w3-half img:hover {
-        opacity: 1;
+      opacity: 1;
     }
-</style>
-<body>
-<!-- Sidebar/menu -->
-<nav
-        class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding"
-        style="z-index:3;width:200px;font-weight:bold;"
-        id="mySidebar"
->
-    <br />
-    <a
-            href="javascript:void(0)"
-            onclick="w3_close()"
-            class="w3-button w3-hide-large w3-display-topleft"
-            style="width:100%;font-size:22px"
-    >Close Menu</a
+  </style>
+  <body>
+    <!-- Sidebar/menu -->
+    <nav
+      class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding"
+      style="z-index: 3; width: 200px; font-weight: bold;"
+      id="mySidebar"
     >
-    <div class="w3-container">
+      <br />
+      <a
+        href="javascript:void(0)"
+        onclick="w3_close()"
+        class="w3-button w3-hide-large w3-display-topleft"
+        style="width: 100%; font-size: 22px;"
+        >Close Menu</a
+      >
+      <div class="w3-container">
         <h3 class="w3-padding-32">
-            <img th:src="@{images/logo-small-name.png}" style="width: 130px" />
-            <!-- <img
+          <img th:src="@{images/logo-small-name.png}" style="width: 130px;" />
+          <!-- <img
               src="../static/images/logo-small-name.PNG"
               style="width: 130px"
             /> -->
         </h3>
-    </div>
-    <div class="w3-bar-block">
+      </div>
+      <div class="w3-bar-block">
         <a
-                href="#"
-                onclick="w3_close()"
-                class="w3-bar-item w3-button w3-hover-white"
-        >Home</a
+          href="#"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-hover-white"
+          >Home</a
         >
         <a
-                href="#showcase"
-                onclick="w3_close()"
-                class="w3-bar-item w3-button w3-hover-white"
-        >Showcase</a
+          href="#showcase"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-hover-white"
+          >Showcase</a
         >
         <a
-                href="#services"
-                onclick="w3_close()"
-                class="w3-bar-item w3-button w3-hover-white"
-        >Services</a
+          href="#services"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-hover-white"
+          >Services</a
         >
         <a
-                href="#designers"
-                onclick="w3_close()"
-                class="w3-bar-item w3-button w3-hover-white"
-        >Designers</a
+          href="#designers"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-hover-white"
+          >Designers</a
         >
         <a
-                href="#packages"
-                onclick="w3_close()"
-                class="w3-bar-item w3-button w3-hover-white"
-        >Packages</a
+          href="#packages"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-hover-white"
+          >Packages</a
         >
         <a
-                href="#contact"
-                onclick="w3_close()"
-                class="w3-bar-item w3-button w3-hover-white"
-        >Contact</a
+          href="#contact"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-hover-white"
+          >Contact</a
         >
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<!-- Top menu on small screens -->
-<header
-        class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding"
->
-    <a
-            href="javascript:void(0)"
-            class="w3-button w3-red w3-margin-right"
-            onclick="w3_open()"
-    >☰</a
+    <!-- Top menu on small screens -->
+    <header
+      class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding"
     >
-    <img th:src="@{images/logo-top.png}" style="height: 50px" />
-    <!-- <img src="../static/images/logo-top.PNG" style="height: 50px" /> -->
-</header>
+      <a
+        href="javascript:void(0)"
+        class="w3-button w3-red w3-margin-right"
+        onclick="w3_open()"
+        >☰</a
+      >
+      <img th:src="@{images/logo-top.png}" style="height: 50px;" />
+      <!-- <img src="../static/images/logo-top.PNG" style="height: 50px" /> -->
+    </header>
 
-<!-- Overlay effect when opening sidebar on small screens -->
-<div
-        class="w3-overlay w3-hide-large"
-        onclick="w3_close()"
-        style="cursor:pointer"
-        title="close side menu"
-        id="myOverlay"
-></div>
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div
+      class="w3-overlay w3-hide-large"
+      onclick="w3_close()"
+      style="cursor: pointer;"
+      title="close side menu"
+      id="myOverlay"
+    ></div>
 
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:240px;margin-right:40px">
-    <!-- Header -->
-    <div class="w3-container" style="margin-top:40px" id="showcase">
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left: 240px; margin-right: 40px;">
+      <!-- Header -->
+      <div class="w3-container" style="margin-top: 40px;" id="showcase">
         <h1 class="w3-jumbo"><b class="paragraph-title">Upload photos.</b></h1>
+      </div>
 
-<!--    PHOTO UPLOAD -->
-    <div>
-        <div>
-            <label class="switch">
-                <input class="slider-switch" type="checkbox" onchange="slide()">
-                <span class="slider round"></span>
-            </label>
+      <!--    PHOTO UPLOAD -->
+      <div>
+        <div class="w3-container">
+          <label class="switch">
+            <input class="slider-switch" type="checkbox" onclick="slide()" />
+            <span class="slider round"></span>
+          </label>
         </div>
         <div>
-            <div class="file upload">
-                <h1 class="w3-xxxlarge w3-text-red"><b class="paragraph-title">File.</b></h1>
-                <hr style="width:50px;border:5px solid #f44336" class="w3-round" />
-                <form method="post" th:action="@{/upload-photo-with-url}"  th:object="${photoWithUrlDTO}" >
-                    <input type="text" placeholder="url" th:field="*{url}">
-                    <span th:if="${#fields.hasErrors('url')}" th:errors="*{url}">message</span>
-                    <input class="tag-holder" type="text" placeholder="tags" th:field="*{tagsAsString}">
-                    <span th:if="${#fields.hasErrors('tagsAsString')}" th:errors="*{tagsAsString}">message</span>
-                    <input type="submit" value="Add Photo">
-                </form>
-            </div>
+          <div class="file upload">
+            <h1 class="w3-xxxlarge w3-text-red">
+              <b class="paragraph-title">File.</b>
+            </h1>
+            <hr
+              style="width: 50px; border: 5px solid #f44336;"
+              class="w3-round"
+            />
+              <form
+                      method="post"
+                      enctype="multipart/form-data"
+                      th:action="@{/upload-photo-with-file}"
+                      th:object="${photoWithFileDTO}"
+              >
+                  <input hidden class="file-dialogue" type="file" th:field="*{multipartFile}" />
+                  <button class="file-input w3-button w3-block w3-padding-large w3-red w3-margin-bottom" type="button" onclick="clickDialogue()">Select file</button>
+                  <span
+                          th:if="${#fields.hasErrors('multipartFile')}"
+                          th:errors="*{multipartFile}"
+                  >message</span
+                  >
+                  <input
+                          hidden
+                          class="tag-holder2"
+                          type="text"
+                          placeholder="tags"
+                          th:field="*{tagsAsString}"
+                  />
+                  <span
+                          th:if="${#fields.hasErrors('tagsAsString')}"
+                          th:errors="*{tagsAsString}"
+                  >message</span
+                  >
+                  <input hidden
+                         type="submit"
+                         value="Add Photo"
+                  />
+              </form>
 
-            <div class="url upload">
-                <h1 class="w3-xxxlarge"><b class="paragraph-title navy">Url.</b></h1>
-                <hr style="width:50px;border:5px solid #3b3b6b" class="w3-round" />
-                <form method="post" enctype="multipart/form-data" th:action="@{/upload-photo-with-file}" th:object="${photoWithFileDTO}">
-                    <input type="file" th:field="*{multipartFile}">
-                    <span th:if="${#fields.hasErrors('multipartFile')}" th:errors="*{multipartFile}">message</span>
-                    <input class="tag-holder2" type="text" placeholder="tags" th:field="*{tagsAsString}">
-                    <span th:if="${#fields.hasErrors('tagsAsString')}" th:errors="*{tagsAsString}">message</span>
-                    <input type="submit" value="Add Photo">
-                </form>
-            </div>
+          </div>
+
+          <div class="url upload">
+            <h1 class="w3-xxxlarge">
+              <b class="paragraph-title navy">Url.</b>
+            </h1>
+            <hr
+              style="width: 50px; border: 5px solid #3b3b6b;"
+              class="w3-round"
+            />
+              <form
+                      method="post"
+                      th:action="@{/upload-photo-with-url}"
+                      th:object="${photoWithUrlDTO}"
+              >
+                  <input
+                          disabled
+                          class="url-input w3-input w3-border"
+                          type="text"
+                          placeholder="url"
+                          th:field="*{url}"
+                  />
+                  <span th:if="${#fields.hasErrors('url')}" th:errors="*{url}"
+                  >message</span
+                  >
+                  <input
+                          hidden
+                          class="tag-holder"
+                          type="text"
+                          placeholder="tags"
+                          th:field="*{tagsAsString}"
+                  />
+                  <span
+                          th:if="${#fields.hasErrors('tagsAsString')}"
+                          th:errors="*{tagsAsString}"
+                  >message</span
+                  >
+                  <input
+                          hidden
+                          type="submit"
+                          value="Add Photo"
+                  />
+              </form>
+          </div>
         </div>
 
         <div class="container w3-container">
-            <div class="tag-container">
-                <input class="tag-input" />
-            </div>
+          <div class="tag-container">
+            <input class="tag-input" />
+          </div>
         </div>
-        <script th:src="@{script.js}"></script>
-    </div>
+        <div class="w3-container">
+            <button class="add-photo-button w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Add photo</button>
+        </div>
 
-    <!-- Contact -->
-    <div class="w3-container" id="contact" style="margin-top:75px">
-        <h1 class="w3-xxxlarge w3-text-red"><b class="paragraph-title">Contact.</b></h1>
-        <hr style="width:50px;border:5px solid red" class="w3-round" />
+        <script th:src="@{script.js}"></script>
+          <script th:src="@{slider-script.js}"></script>
+          <script th:src="@{file-button.js}"></script>
+      </div>
+
+      <!-- Contact -->
+      <div class="w3-container" id="contact" style="margin-top: 75px;">
+        <h1 class="w3-xxxlarge w3-text-red">
+          <b class="paragraph-title">Contact.</b>
+        </h1>
+        <hr style="width: 50px; border: 5px solid red;" class="w3-round" />
         <p>
-            Do you want us to style your home? Fill out the form and fill me in
-            with the details :) We love meeting new people!
+          Do you want us to style your home? Fill out the form and fill me in
+          with the details :) We love meeting new people!
         </p>
         <form action="/action_page.php" target="_blank">
-            <div class="w3-section">
-                <label>Name</label>
-                <input
-                        class="w3-input w3-border"
-                        type="text"
-                        name="Name"
-                        required
-                />
-            </div>
-            <div class="w3-section">
-                <label>Email</label>
-                <input
-                        class="w3-input w3-border"
-                        type="text"
-                        name="Email"
-                        required
-                />
-            </div>
-            <div class="w3-section">
-                <label>Message</label>
-                <input
-                        class="w3-input w3-border"
-                        type="text"
-                        name="Message"
-                        required
-                />
-            </div>
-            <button
-                    type="submit"
-                    class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom"
-            >
-                Send Message
-            </button>
+          <div class="w3-section">
+            <label>Name</label>
+            <input
+              class="w3-input w3-border"
+              type="text"
+              name="Name"
+              required
+            />
+          </div>
+          <div class="w3-section">
+            <label>Email</label>
+            <input
+              class="w3-input w3-border"
+              type="text"
+              name="Email"
+              required
+            />
+          </div>
+          <div class="w3-section">
+            <label>Message</label>
+            <input
+              class="w3-input w3-border"
+              type="text"
+              name="Message"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom"
+          >
+            Send Message
+          </button>
         </form>
+      </div>
+
+      <!-- End page content -->
     </div>
 
-    <!-- End page content -->
-</div>
-
-<!-- W3.CSS Container -->
-<div
-        class="w3-light-grey w3-container w3-padding-32"
-        style="margin-top:75px;padding-right:58px"
->
-    <p class="w3-right">
+    <!-- W3.CSS Container -->
+    <div
+      class="w3-light-grey w3-container w3-padding-32"
+      style="margin-top: 75px; padding-right: 58px;"
+    >
+      <p class="w3-right">
         Powered by
         <a
-                href="https://www.w3schools.com/w3css/default.asp"
-                title="W3.CSS"
-                target="_blank"
-                class="w3-hover-opacity"
-        >w3.css</a
+          href="https://www.w3schools.com/w3css/default.asp"
+          title="W3.CSS"
+          target="_blank"
+          class="w3-hover-opacity"
+          >w3.css</a
         >
-    </p>
-</div>
+      </p>
+    </div>
 
-<script>
-    // Script to open and close sidebar
-    function w3_open() {
+    <script>
+      // Script to open and close sidebar
+      function w3_open() {
         document.getElementById("mySidebar").style.display = "block";
         document.getElementById("myOverlay").style.display = "block";
-    }
+      }
 
-    function w3_close() {
+      function w3_close() {
         document.getElementById("mySidebar").style.display = "none";
         document.getElementById("myOverlay").style.display = "none";
-    }
+      }
 
-    // Modal Image Gallery
-    function onClick(element) {
+      // Modal Image Gallery
+      function onClick(element) {
         document.getElementById("img01").src = element.src;
         document.getElementById("modal01").style.display = "block";
         var captionText = document.getElementById("caption");
 
-        let tags = element.alt.replace('[', '').replace(']', '').replace(/,/g, ' ');
+        let tags = element.alt
+          .replace("[", "")
+          .replace("]", "")
+          .replace(/,/g, " ");
 
         captionText.innerHTML = tags;
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>
