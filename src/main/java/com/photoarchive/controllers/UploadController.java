@@ -2,7 +2,7 @@ package com.photoarchive.controllers;
 
 import com.photoarchive.models.PhotoWithFileDTO;
 import com.photoarchive.models.PhotoWithUrlDTO;
-import com.photoarchive.services.PhotoAddingService;
+import com.photoarchive.services.UploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,14 +11,16 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
 @Controller
 @Slf4j
-public class AddingController {
+@RequestMapping("/upload")
+public class UploadController {
 
-    private PhotoAddingService photoAddingService;
+    private UploadService uploadService;
 
     @ModelAttribute(name = "photoWithUrlDTO")
     private PhotoWithUrlDTO photoWithUrlDTO(){
@@ -31,30 +33,30 @@ public class AddingController {
     }
 
     @Autowired
-    public AddingController(PhotoAddingService photoAddingService) {
-        this.photoAddingService = photoAddingService;
+    public UploadController(UploadService uploadService) {
+        this.uploadService = uploadService;
     }
 
-    @GetMapping("/adding")
+    @GetMapping
     public String show(Model model){
-        return "adding";
+        return "upload";
     }
 
-    @PostMapping("/upload-photo-with-url")
+    @PostMapping("/photo-with-url")
     public String processPostWithUrl(@Valid PhotoWithUrlDTO photoWithUrlDTO, Errors errors){
         if (errors.hasErrors()){
-            return "adding";
+            return "upload";
         }
-        photoAddingService.addPhoto(photoWithUrlDTO);
-        return "redirect:/adding";
+        uploadService.addPhoto(photoWithUrlDTO);
+        return "redirect:/upload";
     }
 
-    @PostMapping("/upload-photo-with-file")
+    @PostMapping("/photo-with-file")
     public String processPostWithFile(@Valid PhotoWithFileDTO photoWithFileDTO, Errors errors){
         if (errors.hasErrors()){
-            return "adding";
+            return "upload";
         }
-            photoAddingService.addPhoto(photoWithFileDTO);
-            return "redirect:/adding";
+            uploadService.addPhoto(photoWithFileDTO);
+            return "redirect:/upload";
     }
 }

@@ -13,16 +13,16 @@ import javax.transaction.Transactional;
 
 @Service
 @Slf4j
-public class PhotoAddingService {
+public class UploadService {
 
     private PhotoRepository photoRepository;
     private TagRepository tagRepository;
     private PhotoFieldsSetUpService photoFieldsSetUpService;
 
     @Autowired
-    public PhotoAddingService(PhotoRepository photoRepository,
-                              TagRepository tagRepository,
-                              PhotoFieldsSetUpService photoFieldsSetUpService) {
+    public UploadService(PhotoRepository photoRepository,
+                         TagRepository tagRepository,
+                         PhotoFieldsSetUpService photoFieldsSetUpService) {
         this.photoRepository = photoRepository;
         this.tagRepository = tagRepository;
         this.photoFieldsSetUpService = photoFieldsSetUpService;

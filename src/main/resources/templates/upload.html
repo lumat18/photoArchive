@@ -152,7 +152,7 @@
               <form
                       method="post"
                       enctype="multipart/form-data"
-                      th:action="@{/upload-photo-with-file}"
+                      th:action="@{/upload/photo-with-file}"
                       th:object="${photoWithFileDTO}"
               >
                   <input hidden class="file-dialogue" type="file" th:field="*{multipartFile}" />
@@ -195,7 +195,7 @@
             />
               <form
                       method="post"
-                      th:action="@{/upload-photo-with-url}"
+                      th:action="@{/upload/photo-with-url}"
                       th:object="${photoWithUrlDTO}"
               >
                   <input
