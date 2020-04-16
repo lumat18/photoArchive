@@ -125,3 +125,21 @@ body {
   margin-right: auto;
   color: #f44336;
 }
+
+.register-form{
+  margin: 0px 15%;
+}
+.register-input{
+  margin: 5px 0px;
+}
+.register-title{
+  font-family: 'Saira Semi Condensed', sans-serif;
+  font-weight: 400;
+  margin-top: 20%;
+  margin-left: 15%;
+  text-align: left;
+}
+.alt-link{
+  margin-top: 22px;
+  display: inline-block;
+}

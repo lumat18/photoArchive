@@ -63,12 +63,12 @@ html, body
     margin-left: 15%;
     text-align: left;
 }
-.footer{
-    margin-top: 15%;
+.welcome-content{
+    margin-bottom: 15%;
 }
-
-
-
+.register-content{
+    margin-bottom: 10%;
+}
 .arrow {
     font-size: 20px;
   text-align: center;
