@@ -5,8 +5,21 @@ spring:
     password: pass
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
   jpa:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL57Dialect
     generate-ddl: true
+
+
+management:
+  endpoint:
+    mappings:
+      enabled: true
+
+
+  endpoints:
+    web:
+      exposure:
+        include: mappings

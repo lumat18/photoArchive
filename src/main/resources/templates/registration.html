@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" th:href="@{welcome-page.css}" />
+<body>
+
+<!-- First Grid: Logo & About -->
+<div class="w3-row" style="height: 100%; width: 100%;">
+    <div class="w3-half w3-red w3-container" style="height:100%; min-height: 750px;">
+        <div class="w3-padding-64 w3-center">
+            <img class="logo w3-margin" th:src="@{images/logo.PNG}" alt="Person">
+        </div>
+    </div>
+    <div class="w3-half w3-container w3-center right-side" style="height:100%; min-height: 750px;">
+
+
+        <div class="top-bar">
+
+            <a href="#" class="  bar-element">
+                HOME
+            </a>
+            <a href="#" class="  bar-element">
+                ABOUT
+            </a>
+            <a href="#" class=" bar-element">
+                CONTACT
+            </a>
+
+        </div>
+
+        <div>
+            <h1 class="title">Register.</h1>
+            <form method="post" th:action="@{/register}" th:object="${registrationFormData}">
+                <input
+                        class="w3-input w3-border"
+                        type="text"
+                        placeholder="Username"
+                        th:field="*{username}"
+                />
+                <input
+                        class="w3-input w3-border"
+                        type="text"
+                        placeholder="Email"
+                        th:field="*{email}"
+                />
+                <input
+                        class="w3-input w3-border"
+                        type="text"
+                        placeholder="First Name"
+                        th:field="*{firstName}"
+                />
+                <input
+                        class="w3-input w3-border"
+                        type="text"
+                        placeholder="Surname"
+                        th:field="*{surname}"
+                />
+                <input
+                        class="w3-input w3-border"
+                        type="text"
+                        placeholder="Password"
+                        th:field="*{password}"
+                />
+                <input
+                        class="w3-input w3-border"
+                        type="text"
+                        placeholder="Confirm Password"
+                />
+                <input
+                        id="search-button"
+                        class="w3-button w3-padding-large w3-red w3-margin-bottom"
+                        type="submit"
+                        value="SIGN UP"
+                />
+            </form>
+        </div>
+        <footer class="footer">
+            <div class="desc">
+                photoarchapp@gmail.com
+            </div>
+            <div class="w3-xlarge w3-section desc">
+                <i class="fa fa-facebook-official w3-hover-opacity small-icon"></i>
+                <i class="fa fa-instagram w3-hover-opacity small-icon"></i>
+                <i class="fa fa-github w3-hover-opacity small-icon"></i>
+            </div>
+        </footer>
+
+    </div>
+</div>
+</body>
+</html>

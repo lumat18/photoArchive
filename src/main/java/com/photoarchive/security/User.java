@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String firstName;
     private String surname;
     private String password;
-    private boolean isEnabled = true;
+    private boolean isEnabled;
 
     public User(Long id, String username, String email, String firstName, String surname, String password, boolean isEnabled) {
         this.id = id;
