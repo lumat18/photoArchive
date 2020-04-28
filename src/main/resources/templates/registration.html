@@ -39,6 +39,9 @@
         <div class="register-content">
             <h1 class="register-title">Create New Account.</h1>
             <div class="register-form">
+                <div th:if="${userAlreadyExists != null}">
+                   <span th:text="${userAlreadyExists}"></span>
+                </div>
                 <form method="post" th:action="@{/register}" th:object="${registrationFormData}">
                     <input
                             class="register-input w3-input w3-border"
