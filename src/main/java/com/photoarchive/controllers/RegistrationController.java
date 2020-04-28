@@ -1,5 +1,6 @@
 package com.photoarchive.controllers;
 
+import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.models.RegistrationFormData;
 import com.photoarchive.security.User;
 import com.photoarchive.security.UserService;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/register")
 public class RegistrationController {
 
-    private static final String USER_ALREADY_EXISTS_MESSAGE = "User with this username already exists!";
 
     private UserService userService;
     private PasswordEncoder passwordEncoder;
@@ -40,9 +40,10 @@ public class RegistrationController {
     @PostMapping
     public String register(RegistrationFormData data, Model model){
         User user = data.toUser(passwordEncoder);
-        boolean registered = userService.register(user);
-        if (!registered){
-            model.addAttribute("userAlreadyExists", USER_ALREADY_EXISTS_MESSAGE);
+        try {
+            userService.register(user);
+        } catch (UserAlreadyExistsException e) {
+            model.addAttribute("userAlreadyExists", e.getMessage());
             return "registration";
         }
         return "redirect:/login";
