@@ -1,4 +1,4 @@
-package com.photoarchive.security;
+package com.photoarchive.services;
 
 import org.springframework.stereotype.Service;
 
