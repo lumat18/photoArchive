@@ -13,8 +13,7 @@ spring:
     properties:
       mail.smpt.auth: true
       mail.smpt.starttls.enable: true
-      mail.smpt.starttls.required: true
-      mail.smpt.ssl.trust: smtp.gmail.com
+      mail.smpt.sll.trust: smtp.gmail.com
 
 
   jpa:

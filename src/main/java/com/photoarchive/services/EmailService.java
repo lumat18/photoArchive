@@ -33,10 +33,10 @@ public class EmailService {
         message.setText("In order to validate your account, please click the link below: \n" + createActivationLink(user));
         return message;
     }
-    
+
     private String createActivationLink(User user){
         Token token = tokenService.createToken(user);
-        return "http://localhost:8080/token?value=" + token.getValue();
+        return "http://localhost:8080/register/token?value=" + token.getValue();
     }
 
 

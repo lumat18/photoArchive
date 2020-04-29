@@ -19,7 +19,7 @@ public class RegistrationFormData {
                 .firstName(firstName)
                 .surname(surname)
                 .password(encoder.encode(password))
-                .isEnabled(true) //to do: email verification
+                .isEnabled(false)
                 .build();
     }
 

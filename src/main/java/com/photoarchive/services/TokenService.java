@@ -6,6 +6,7 @@ import com.photoarchive.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,5 +25,8 @@ public class TokenService {
         token.setValue(value);
         token.setUser(user);
         return tokenRepository.save(token);
+    }
+    public Optional<Token> findTokenByValue(String value){
+        return tokenRepository.findByValue(value);
     }
 }

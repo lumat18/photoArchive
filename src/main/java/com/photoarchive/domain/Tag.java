@@ -26,10 +26,6 @@ public class Tag {
     @JsonIgnore
     private Set<Photo> photos = new HashSet<>();
 
-    public void addPhotoToTag(Photo photo){
-        this.photos.add(photo);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

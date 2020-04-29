@@ -1,13 +1,18 @@
 package com.photoarchive.security;
 
+import com.photoarchive.domain.Token;
+import com.photoarchive.exceptions.TokenNotFoundException;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.services.EmailService;
+import com.photoarchive.services.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -20,11 +25,13 @@ public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
     private EmailService emailService;
+    private TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, EmailService emailService) {
+    public UserService(UserRepository userRepository, EmailService emailService, TokenService tokenService) {
         this.userRepository = userRepository;
         this.emailService = emailService;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -55,5 +62,13 @@ public class UserService implements UserDetailsService {
     }
     private boolean emailExists(String email){
         return userRepository.findByEmail(email) != null;
+    }
+
+    public void activate(String tokenValue) throws TokenNotFoundException {
+        Token token = tokenService.findTokenByValue(tokenValue)
+                .orElseThrow(TokenNotFoundException::new);
+        User user = token.getUser();
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }
