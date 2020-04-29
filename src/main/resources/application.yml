@@ -7,13 +7,13 @@ spring:
 
   mail:
     host: smtp.gmail.com
-    username: photoarchiveapp@gmail.com
+    username: photoarchapp@gmail.com
     password: photo123!
     port: 587
     properties:
-      mail.smpt.auth: true
-      mail.smpt.starttls.enable: true
-      mail.smpt.sll.trust: smtp.gmail.com
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.trust: smtp.gmail.com
 
 
   jpa:
