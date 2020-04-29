@@ -5,6 +5,17 @@ spring:
     password: pass
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  mail:
+    host: smtp.gmail.com
+    username: photoarchiveapp@gmail.com
+    password: photo123!
+    port: 587
+    properties: 
+      mail.smpt.auth: true
+      mail.smpt.starttls.enable: true
+      mail.smpt.starttls.required: true
+      mail.smpt.ssl.trust: smtp.gmail.com
+
 
   jpa:
     hibernate:
