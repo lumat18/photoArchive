@@ -70,5 +70,6 @@ public class UserService implements UserDetailsService {
         User user = token.getUser();
         user.setEnabled(true);
         userRepository.save(user);
+        log.info("User " + user.getUsername() + " was activated");
     }
 }

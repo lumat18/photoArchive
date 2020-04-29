@@ -39,8 +39,8 @@
         <div class="register-content">
             <h1 class="register-title">Log in.</h1>
             <div class="register-form">
-                <div th:if="${userAlreadyExists != null}">
-                    <span th:text="${userAlreadyExists}"></span>
+                <div th:if="${loginErrorMessage != null }">
+                    <span th:text="${loginErrorMessage}"></span>
                 </div>
                 <form method="post" th:action="@{/login}">
                     <input
