@@ -1,14 +1,13 @@
 package com.photoarchive.security;
 
 import com.photoarchive.exceptions.UserAlreadyExistsException;
+import com.photoarchive.services.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -20,10 +19,12 @@ public class UserService implements UserDetailsService {
 
 
     private UserRepository userRepository;
+    private EmailService emailService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, EmailService emailService) {
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -45,6 +46,7 @@ public class UserService implements UserDetailsService {
             throw new UserAlreadyExistsException(EMAIL_ALREADY_EXISTS_MESSAGE);
         }
         userRepository.save(user);
+        emailService.sendVerificationEmail(user);
         log.info("User "+user.getUsername()+" saved to database");
     }
 
