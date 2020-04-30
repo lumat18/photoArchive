@@ -1,3 +1,3 @@
-![login](https://i.ibb.co/6tbF7NL/login.jpg)
-![search](https://i.ibb.co/sPjY0cW/search.jpg)
-![upload](https://i.ibb.co/1M4Y6qv/upload.jpg)
+![login](https://i.ibb.co/kqLKdwP/login.jpg)
+![search](https://i.ibb.co/HnmfNw7/search.jpg)
+![upload](https://i.ibb.co/ts6nZ3n/upload.jpg)
