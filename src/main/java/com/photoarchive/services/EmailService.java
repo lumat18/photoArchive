@@ -1,7 +1,7 @@
 package com.photoarchive.services;
 
 import com.photoarchive.domain.Token;
-import com.photoarchive.security.User;
+import com.photoarchive.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

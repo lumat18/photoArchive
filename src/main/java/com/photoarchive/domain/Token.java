@@ -1,6 +1,5 @@
 package com.photoarchive.domain;
 
-import com.photoarchive.security.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

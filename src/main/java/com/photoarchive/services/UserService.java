@@ -1,8 +1,10 @@
-package com.photoarchive.security;
+package com.photoarchive.services;
 
 import com.photoarchive.domain.Token;
+import com.photoarchive.domain.User;
 import com.photoarchive.exceptions.TokenNotFoundException;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
+import com.photoarchive.repositories.UserRepository;
 import com.photoarchive.services.EmailService;
 import com.photoarchive.services.TokenService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static java.util.Objects.isNull;
 

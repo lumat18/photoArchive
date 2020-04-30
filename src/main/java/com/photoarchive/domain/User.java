@@ -1,4 +1,4 @@
-package com.photoarchive.security;
+package com.photoarchive.domain;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.photoarchive.models;
 
-import com.photoarchive.security.User;
+import com.photoarchive.domain.User;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

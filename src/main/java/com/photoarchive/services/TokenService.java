@@ -2,7 +2,7 @@ package com.photoarchive.services;
 
 import com.photoarchive.domain.Token;
 import com.photoarchive.repositories.TokenRepository;
-import com.photoarchive.security.User;
+import com.photoarchive.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
