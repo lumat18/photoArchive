@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = PhotoURLValidator.class)
 public @interface PhotoURL {
 
-    String message() default "Invalid URL - not a photo";
+    String message() default "Invalid url - not a photo";
 
     Class<?>[] groups() default {};
 
