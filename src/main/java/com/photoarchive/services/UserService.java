@@ -2,11 +2,10 @@ package com.photoarchive.services;
 
 import com.photoarchive.domain.Token;
 import com.photoarchive.domain.User;
+import com.photoarchive.messageCreators.MessageType;
 import com.photoarchive.exceptions.TokenNotFoundException;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.repositories.UserRepository;
-import com.photoarchive.services.EmailService;
-import com.photoarchive.services.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,23 +43,24 @@ public class UserService implements UserDetailsService {
     }
 
     public void register(User user) throws UserAlreadyExistsException {
-        if (usernameExists(user.getUsername())){
-            log.warn("User "+user.getUsername()+" already exists");
+        if (usernameExists(user.getUsername())) {
+            log.warn("User " + user.getUsername() + " already exists");
             throw new UserAlreadyExistsException(USERNAME_ALREADY_EXISTS_MESSAGE);
         }
-        if (emailExists(user.getEmail())){
-            log.warn("User "+user.getEmail()+" already exists");
+        if (emailExists(user.getEmail())) {
+            log.warn("User " + user.getEmail() + " already exists");
             throw new UserAlreadyExistsException(EMAIL_ALREADY_EXISTS_MESSAGE);
         }
         userRepository.save(user);
-        emailService.sendVerificationEmail(user);
-        log.info("User "+user.getUsername()+" saved to database");
+        emailService.sendEmail(user, MessageType.ACTIVATION);
+        log.info("User " + user.getUsername() + " saved to database");
     }
 
-    private boolean usernameExists(String username){
+    private boolean usernameExists(String username) {
         return userRepository.findByUsername(username) != null;
     }
-    private boolean emailExists(String email){
+
+    private boolean emailExists(String email) {
         return userRepository.findByEmail(email) != null;
     }
 
