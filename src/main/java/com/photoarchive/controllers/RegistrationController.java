@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/register")
@@ -46,8 +49,11 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String register(UserDTO data, Model model){
-        User user = data.toUser(passwordEncoder);
+    public String register(@Valid UserDTO userDTO, Errors errors, Model model){
+        if (errors.hasErrors()){
+            return "registration";
+        }
+        User user = userDTO.toUser(passwordEncoder);
         try {
             userService.register(user);
         } catch (UserAlreadyExistsException e) {

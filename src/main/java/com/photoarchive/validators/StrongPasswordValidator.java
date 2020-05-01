@@ -8,6 +8,8 @@ import javax.validation.ConstraintValidatorContext;
 public class StrongPasswordValidator implements ConstraintValidator<StrongPassword, String> {
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return s.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.{5,15}$)");
+        boolean matches = s.matches("^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{5,15}$");
+        System.out.println("matches = " + matches);
+        return matches;
     }
 }

@@ -8,7 +8,14 @@ import javax.validation.ConstraintValidatorContext;
 
 public class MatchingPasswordValidator implements ConstraintValidator<MatchingPassword, UserDTO> {
     @Override
-    public boolean isValid(UserDTO userDTO, ConstraintValidatorContext constraintValidatorContext) {
-        return userDTO.getPassword().equals(userDTO.getMatchingPassword());
+    public boolean isValid(UserDTO userDTO, ConstraintValidatorContext context) {
+        boolean isValid = userDTO.getPassword().equals(userDTO.getMatchingPassword());
+        if (!isValid) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                    .addPropertyNode("matchingPassword").addConstraintViolation();
+        }
+        return isValid;
     }
+
 }

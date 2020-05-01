@@ -57,6 +57,12 @@
                             required
                             th:field="*{email}"
                     />
+                    <span
+                            class="error-span"
+                            th:if="${#fields.hasErrors('email')}"
+                            th:errors="*{email}">
+                      message
+                    </span>
                     <input
                             class="register-input w3-input w3-border"
                             type="text"
@@ -78,6 +84,12 @@
                             required
                             th:field="*{password}"
                     />
+                    <span
+                            class="error-span"
+                            th:if="${#fields.hasErrors('password')}"
+                            th:errors="*{password}">
+                      message
+                    </span>
                     <input
                             class="register-input w3-input w3-border"
                             type="password"
@@ -85,6 +97,12 @@
                             required
                             th:field="*{matchingPassword}"
                     />
+                    <span
+                            class="error-span"
+                            th:if="${#fields.errors('matchingPassword')}"
+                            th:errors="*{matchingPassword}">
+                      message
+                    </span>
                     <div class="alt-link">Have an account already? <a href="/login">Log in here!</a></div>
                     <input
                             id="search-button"

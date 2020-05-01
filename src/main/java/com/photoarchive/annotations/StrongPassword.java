@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = StrongPasswordValidator.class)
 public @interface StrongPassword {
 
-    String message() default "Password length must be 5-8 characters & must contain a letter and a digit. ";
+    String message() default "Password length must be between 5-15 characters. It must contain at least one letter and one digit. ";
 
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
