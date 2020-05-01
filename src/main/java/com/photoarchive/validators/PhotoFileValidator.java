@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 
-public class PhotoValidator implements ConstraintValidator<PhotoFile, MultipartFile>{
+public class PhotoFileValidator implements ConstraintValidator<PhotoFile, MultipartFile>{
 
     @Override
     public boolean isValid(MultipartFile multipartFile, ConstraintValidatorContext constraintValidatorContext) {

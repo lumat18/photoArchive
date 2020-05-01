@@ -1,16 +1,23 @@
 package com.photoarchive.models;
 
+import com.photoarchive.annotations.Email;
+import com.photoarchive.annotations.MatchingPassword;
+import com.photoarchive.annotations.StrongPassword;
 import com.photoarchive.domain.User;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
-public class RegistrationFormData {
+@MatchingPassword
+public class UserDTO {
     private String username;
+    @Email
     private String email;
     private String firstName;
     private String surname;
+    @StrongPassword
     private String password;
+    private String matchingPassword;
 
     public User toUser(PasswordEncoder encoder){
         return User.builder()
