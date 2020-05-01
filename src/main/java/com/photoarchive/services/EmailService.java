@@ -23,11 +23,11 @@ public class EmailService {
         this.beanFactory = beanFactory;
     }
 
-    public void sendEmail(User user, MessageType messageType) {
+    public void sendEmail(String email, MessageType messageType) {
         final MessageCreator messageCreator = chooseMessageCreator(messageType);
-        SimpleMailMessage message = messageCreator.createMessage(user);
+        SimpleMailMessage message = messageCreator.createMessage(email);
         javaMailSender.send(message);
-        log.info("Email send to " + user.getEmail());
+        log.info("Email send to " + email);
     }
 
     private MessageCreator chooseMessageCreator(MessageType messageType) {

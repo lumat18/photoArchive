@@ -1,10 +1,6 @@
 package com.photoarchive.services;
 
-import com.photoarchive.domain.Token;
 import com.photoarchive.domain.User;
-import com.photoarchive.messageCreators.MessageType;
-import com.photoarchive.exceptions.TokenNotFoundException;
-import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +14,12 @@ import static java.util.Objects.isNull;
 @Service
 @Slf4j
 public class UserService implements UserDetailsService {
-    private static final String USERNAME_ALREADY_EXISTS_MESSAGE = "User with this username already exists!";
-    private static final String EMAIL_ALREADY_EXISTS_MESSAGE = "User with this email already exists!";
-
 
     private UserRepository userRepository;
-    private EmailService emailService;
-    private TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, EmailService emailService, TokenService tokenService) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.emailService = emailService;
-        this.tokenService = tokenService;
     }
 
     @Override
@@ -42,34 +31,19 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void register(User user) throws UserAlreadyExistsException {
-        if (usernameExists(user.getUsername())) {
-            log.warn("User " + user.getUsername() + " already exists");
-            throw new UserAlreadyExistsException(USERNAME_ALREADY_EXISTS_MESSAGE);
-        }
-        if (emailExists(user.getEmail())) {
-            log.warn("User " + user.getEmail() + " already exists");
-            throw new UserAlreadyExistsException(EMAIL_ALREADY_EXISTS_MESSAGE);
-        }
+    public User loadUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public void saveUser(User user) {
         userRepository.save(user);
-        emailService.sendEmail(user, MessageType.ACTIVATION);
-        log.info("User " + user.getUsername() + " saved to database");
     }
 
-    private boolean usernameExists(String username) {
-        return userRepository.findByUsername(username) != null;
+    public boolean usernameExists(String username) {
+        return userRepository.existsByUsername(username);
     }
 
-    private boolean emailExists(String email) {
-        return userRepository.findByEmail(email) != null;
-    }
-
-    public void activate(String tokenValue) throws TokenNotFoundException {
-        Token token = tokenService.findTokenByValue(tokenValue)
-                .orElseThrow(TokenNotFoundException::new);
-        User user = token.getUser();
-        user.setEnabled(true);
-        userRepository.save(user);
-        log.info("User " + user.getUsername() + " was activated");
+    public boolean emailExists(String email) {
+        return userRepository.existsByEmail(email);
     }
 }
