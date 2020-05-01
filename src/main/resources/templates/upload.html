@@ -13,8 +13,8 @@
     href="https://fonts.googleapis.com/css?family=Poppins"
   />
   <!-- <link rel="stylesheet" type="text/css" href="../static/style.css" /> -->
-  <link rel="stylesheet" type="text/css" th:href="@{style.css}" />
-  <link rel="stylesheet" type="text/css" th:href="@{slider.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/slider.css}" />
   <style>
     body,
     h1,
@@ -54,7 +54,7 @@
       >
       <div class="w3-container">
         <h3 class="w3-padding-32">
-          <img th:src="@{images/logo-small-name.png}" style="width: 130px;" />
+          <img th:src="@{/images/logo-small-name.png}" style="width: 130px;" />
           <!-- <img
               src="../static/images/logo-small-name.PNG"
               style="width: 130px"
@@ -111,7 +111,7 @@
         onclick="w3_open()"
         >☰</a
       >
-      <img th:src="@{images/logo-top.png}" style="height: 50px;" />
+      <img th:src="@{/images/logo-top.png}" style="height: 50px;" />
       <!-- <img src="../static/images/logo-top.PNG" style="height: 50px" /> -->
     </header>
 
@@ -240,10 +240,10 @@
             <button class="add-photo-button w3-button w3-padding-large w3-red w3-margin-bottom" onclick="clickCorrectButton()">Add photo</button>
         </div>
 
-        <script th:src="@{script.js}"></script>
-          <script th:src="@{slider-script.js}"></script>
-          <script th:src="@{file-button.js}"></script>
-          <script th:src="@{add-photo-button.js}"></script>
+        <script th:src="@{/script.js}"></script>
+          <script th:src="@{/slider-script.js}"></script>
+          <script th:src="@{/file-button.js}"></script>
+          <script th:src="@{/add-photo-button.js}"></script>
 
       </div>
 

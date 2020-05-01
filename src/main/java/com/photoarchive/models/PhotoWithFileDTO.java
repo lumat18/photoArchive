@@ -1,6 +1,6 @@
 package com.photoarchive.models;
 
-import com.photoarchive.annotations.Image;
+import com.photoarchive.annotations.PhotoFile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class PhotoWithFileDTO {
 
-    @Image
+    @PhotoFile
     private MultipartFile multipartFile;
     @NotBlank(message = "Please set minimum 1 tag")
     private String tagsAsString;
