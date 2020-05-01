@@ -2,7 +2,7 @@ package com.photoarchive.controllers;
 
 import com.photoarchive.exceptions.TokenNotFoundException;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
-import com.photoarchive.models.RegistrationFormData;
+import com.photoarchive.models.UserDTO;
 import com.photoarchive.domain.User;
 import com.photoarchive.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,9 @@ public class RegistrationController {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
 
-    @ModelAttribute(name = "registrationFormData")
-    private RegistrationFormData registrationFormData(){
-        return new RegistrationFormData();
+    @ModelAttribute(name = "userDTO")
+    private UserDTO userDTO(){
+        return new UserDTO();
     }
 
     @Autowired
@@ -46,7 +46,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String register(RegistrationFormData data, Model model){
+    public String register(UserDTO data, Model model){
         User user = data.toUser(passwordEncoder);
         try {
             userService.register(user);
