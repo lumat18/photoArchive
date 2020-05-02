@@ -4,6 +4,7 @@ import com.photoarchive.domain.User;
 import com.photoarchive.exceptions.TokenNotFoundException;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.models.UserDTO;
+import com.photoarchive.services.ActivationService;
 import com.photoarchive.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,17 +36,6 @@ public class RegistrationController {
     @GetMapping
     public String showRegistrationPage() {
         return "registration";
-    }
-
-    @GetMapping("/token")
-    public String processAccountActivation(@RequestParam(name = "value") String token, Model model) {
-        try {
-            registrationService.activate(token);
-        } catch (TokenNotFoundException e) {
-            model.addAttribute("invalidToken", e.getMessage());
-            return "registration";
-        }
-        return "redirect:/login";
     }
 
     @PostMapping

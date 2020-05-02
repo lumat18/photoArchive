@@ -1,4 +1,7 @@
-package com.photoarchive.messageCreators;
+package com.photoarchive.messageCreation;
+
+import com.photoarchive.messageCreation.creators.ActivationMessageCreator;
+import com.photoarchive.messageCreation.creators.ResetPasswordMessageCreator;
 
 public enum MessageType {
     ACTIVATION {

@@ -1,6 +1,6 @@
 package com.photoarchive.security;
 
-import com.photoarchive.services.UserService;
+import com.photoarchive.managers.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    private UserService userDetailsService;
+    private UserManager userDetailsService;
 
     @Autowired
-    public SecurityConfig(UserService userDetailsService) {
+    public SecurityConfig(UserManager userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

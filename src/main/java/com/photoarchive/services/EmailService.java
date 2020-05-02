@@ -1,7 +1,8 @@
 package com.photoarchive.services;
 
-import com.photoarchive.messageCreators.MessageCreator;
-import com.photoarchive.messageCreators.MessageType;
+import com.photoarchive.exceptions.EmailNotFoundException;
+import com.photoarchive.messageCreation.MessageCreator;
+import com.photoarchive.messageCreation.MessageType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class EmailService {
         this.beanFactory = beanFactory;
     }
 
-    public void sendEmail(String email, MessageType messageType) {
+    public void sendEmail(String email, MessageType messageType) throws EmailNotFoundException {
         final MessageCreator messageCreator = chooseMessageCreator(messageType);
         SimpleMailMessage message = messageCreator.createMessage(email);
         javaMailSender.send(message);

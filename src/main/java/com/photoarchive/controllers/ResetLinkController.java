@@ -1,11 +1,11 @@
 package com.photoarchive.controllers;
 
-import com.photoarchive.messageCreators.MessageType;
+import com.photoarchive.exceptions.EmailNotFoundException;
+import com.photoarchive.messageCreation.MessageType;
 import com.photoarchive.services.EmailService;
-import com.photoarchive.services.TokenService;
-import com.photoarchive.services.UserService;
+import com.photoarchive.services.ResetCodeService;
+import com.photoarchive.managers.TokenManager;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Base64;
 
 @Controller
 @RequestMapping("/reset")
@@ -31,38 +29,38 @@ public class ResetLinkController {
     private static final String EXPIRED_LINK_MESSAGE = "Link has expired";
 
     private EmailService emailService;
-    private UserService userService;
-    private TokenService tokenService;
+    private TokenManager tokenManager;
+    private ResetCodeService resetCodeService;
 
     @Autowired
-    public ResetLinkController(EmailService emailService, UserService userService, TokenService tokenService) {
+    public ResetLinkController(EmailService emailService, TokenManager tokenManager, ResetCodeService resetCodeService) {
         this.emailService = emailService;
-        this.userService = userService;
-        this.tokenService = tokenService;
+        this.tokenManager = tokenManager;
+        this.resetCodeService = resetCodeService;
     }
+
     @GetMapping
-    public String showEmailInput(){
+    public String showEmailInput() {
         return "email-input";
     }
 
     @GetMapping("/process")
-    public String processPasswordReset(@RequestParam("value") String resetCode, Model model, RedirectAttributes redirectAttributes){
-        byte[] decodedBytes = Base64.getDecoder().decode(resetCode);
-        String decodedLink = new String(decodedBytes);
-        String tokenValue = StringUtils.substringBefore(decodedLink, "_");
+    public String processPasswordReset(@RequestParam("value") String resetCode, Model model, RedirectAttributes redirectAttributes) {
+
+        String tokenValue = resetCodeService.extractTokenValue(resetCode);
         LocalDateTime expirationDate;
         try {
-            expirationDate = LocalDateTime.parse(StringUtils.substringAfter(decodedLink, "_"));
-        }catch (DateTimeException e){
+            expirationDate = resetCodeService.extractExpirationDate(resetCode);
+        } catch (DateTimeException e) {
             model.addAttribute("message", INVALID_LINK_MESSAGE);
             log.warn(e.getMessage());
             return "email-input";
         }
-        if (!tokenService.existsByValue(tokenValue)){
+        if (!tokenManager.existsByValue(tokenValue)) {
             model.addAttribute("message", INVALID_LINK_MESSAGE);
             return "email-input";
         }
-        if (expirationDate.isBefore(LocalDateTime.now())){
+        if (expirationDate.isBefore(LocalDateTime.now())) {
             model.addAttribute("message", EXPIRED_LINK_MESSAGE);
             return "email-input";
         }
@@ -71,11 +69,12 @@ public class ResetLinkController {
     }
 
     @PostMapping
-    public String sendResetLink(@RequestParam String email, Model model){
-        if (userService.emailExists(email)){
+    public String sendResetLink(@RequestParam String email, Model model) {
+        try {
             emailService.sendEmail(email, MessageType.RESET);
             model.addAttribute("message", POSITIVE_MESSAGE);
-        }else {
+        } catch (EmailNotFoundException e) {
+            log.warn(e.getMessage() + " Email was not sent");
             model.addAttribute("message", NEGATIVE_MESSAGE);
         }
         return "email-input";
