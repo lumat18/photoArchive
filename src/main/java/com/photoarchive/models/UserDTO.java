@@ -4,12 +4,13 @@ import com.photoarchive.annotations.Email;
 import com.photoarchive.annotations.MatchingPassword;
 import com.photoarchive.annotations.StrongPassword;
 import com.photoarchive.domain.User;
+import com.photoarchive.validators.MatchablePasswords;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @MatchingPassword
-public class UserDTO {
+public class UserDTO implements MatchablePasswords {
     private String username;
     @Email
     private String email;

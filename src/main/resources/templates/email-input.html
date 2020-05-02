@@ -9,7 +9,10 @@
     <title>PhotoARCHive - Image service for architects</title>
 </head>
 <body>
-    <form method="post" th:action="@{/reset-password}">
+<div th:if="${message !=null}">
+    <span th:text="${message}"></span>
+</div>
+    <form method="post" th:action="@{/reset}">
         <input type="text" name="email" placeholder="Enter your email"/>
         <input type="submit" value="Send">
     </form>

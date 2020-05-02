@@ -33,9 +33,8 @@ public class ResetPasswordMessageCreator implements MessageCreator {
         return message;
     }
     private String createResetLink(String email){
-        String stringBuilder = "http://localhost:8080/change-password?value=" +
+        return "http://localhost:8080/reset/process?value=" +
                 getPasswordResetCode(email, getExpirationDate());
-        return stringBuilder;
     }
     private String getExpirationDate(){
         return LocalDateTime.now().plusHours(24).toString();

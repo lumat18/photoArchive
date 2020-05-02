@@ -1,15 +1,14 @@
 package com.photoarchive.validators;
 
 import com.photoarchive.annotations.MatchingPassword;
-import com.photoarchive.models.UserDTO;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class MatchingPasswordValidator implements ConstraintValidator<MatchingPassword, UserDTO> {
+public class MatchingPasswordValidator implements ConstraintValidator<MatchingPassword, MatchablePasswords> {
     @Override
-    public boolean isValid(UserDTO userDTO, ConstraintValidatorContext context) {
-        boolean isValid = userDTO.getPassword().equals(userDTO.getMatchingPassword());
+    public boolean isValid(MatchablePasswords passwords, ConstraintValidatorContext context) {
+        boolean isValid = passwords.getPassword().equals(passwords.getMatchingPassword());
         if (!isValid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
