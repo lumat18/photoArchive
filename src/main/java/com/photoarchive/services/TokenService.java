@@ -29,4 +29,10 @@ public class TokenService {
     public Optional<Token> findTokenByValue(String value){
         return tokenRepository.findByValue(value);
     }
+    public Optional<Token> findTokenByUsersEmail(String email){
+        return tokenRepository.findByUser_Email(email);
+    }
+    public boolean existsByValue(String value){
+        return tokenRepository.existsByValue(value);
+    }
 }

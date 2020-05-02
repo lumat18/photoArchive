@@ -15,12 +15,12 @@ public enum MessageType {
     RESET {
         @Override
         public String getComponentName() {
-            return null;
+            return "reset";
         }
 
         @Override
         public Class<? extends MessageCreator> getComponentClass() {
-            return null;
+            return ResetPasswordMessageCreator.class;
         }
     };
 

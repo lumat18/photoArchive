@@ -17,29 +17,29 @@ public class UploadService {
 
     private PhotoRepository photoRepository;
     private TagRepository tagRepository;
-    private PhotoFieldsSetUpService photoFieldsSetUpService;
+    private PhotoSetUpService photoSetUpService;
 
     @Autowired
     public UploadService(PhotoRepository photoRepository,
                          TagRepository tagRepository,
-                         PhotoFieldsSetUpService photoFieldsSetUpService) {
+                         PhotoSetUpService photoSetUpService) {
         this.photoRepository = photoRepository;
         this.tagRepository = tagRepository;
-        this.photoFieldsSetUpService = photoFieldsSetUpService;
+        this.photoSetUpService = photoSetUpService;
     }
 
     public Photo addPhoto(final PhotoWithUrlDTO photoWithUrlDTO) {
         Photo photo = new Photo();
         photo.setUrl(photoWithUrlDTO.getUrl());
-        photoFieldsSetUpService.setCorrectTags(photo, photoWithUrlDTO.getTagsAsString());
+        photoSetUpService.setCorrectTags(photo, photoWithUrlDTO.getTagsAsString());
 
         return saveToDB(photo);
     }
 
     public Photo addPhoto(final PhotoWithFileDTO photoWithFileDTO) {
         Photo photo = new Photo();
-        photoFieldsSetUpService.setCorrectUrl(photo, photoWithFileDTO.getMultipartFile());
-        photoFieldsSetUpService.setCorrectTags(photo, photoWithFileDTO.getTagsAsString());
+        photoSetUpService.setCorrectUrl(photo, photoWithFileDTO.getMultipartFile());
+        photoSetUpService.setCorrectTags(photo, photoWithFileDTO.getTagsAsString());
 
         return saveToDB(photo);
     }
