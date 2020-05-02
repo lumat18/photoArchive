@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class ActivationMessageCreator implements MessageCreator {
 
     private static final String SUBJECT = "PhotoARCHive activation email";
+    private static final String TEXT = "In order to activate your account, please click the link below: \n";
 
     private TokenService tokenService;
     private UserService userService;
@@ -27,7 +28,7 @@ public class ActivationMessageCreator implements MessageCreator {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject(SUBJECT);
         message.setTo(email);
-        message.setText("In order to activate your account, please click the link below: \n" + createActivationLink(userService.loadUserByEmail(email)));
+        message.setText(TEXT + createActivationLink(userService.loadUserByEmail(email)));
         return message;
     }
 

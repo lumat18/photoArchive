@@ -1,6 +1,5 @@
 package com.photoarchive.services;
 
-import com.photoarchive.domain.User;
 import com.photoarchive.messageCreators.MessageCreator;
 import com.photoarchive.messageCreators.MessageType;
 import lombok.extern.slf4j.Slf4j;

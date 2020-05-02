@@ -27,19 +27,26 @@ public class RegistrationService {
         this.tokenService = tokenService;
     }
 
-
     public void register(User user) throws UserAlreadyExistsException {
-        if (userService.usernameExists(user.getUsername())) {
-            log.warn("User " + user.getUsername() + " already exists");
-            throw new UserAlreadyExistsException(USERNAME_ALREADY_EXISTS_MESSAGE);
-        }
-        if (userService.emailExists(user.getEmail())) {
-            log.warn("User " + user.getEmail() + " already exists");
-            throw new UserAlreadyExistsException(EMAIL_ALREADY_EXISTS_MESSAGE);
-        }
+        checkUserName(user.getUsername());
+        checkEmail(user.getEmail());
         userService.saveUser(user);
         emailService.sendEmail(user.getEmail(), MessageType.ACTIVATION);
         log.info("User " + user.getUsername() + " saved to database");
+    }
+
+    private void checkUserName(String username) throws UserAlreadyExistsException {
+        if (userService.usernameExists(username)) {
+            log.warn("User " + username + " already exists");
+            throw new UserAlreadyExistsException(USERNAME_ALREADY_EXISTS_MESSAGE);
+        }
+    }
+
+    private void checkEmail(String email) throws UserAlreadyExistsException {
+        if (userService.emailExists(email)) {
+            log.warn("User " + email + " already exists");
+            throw new UserAlreadyExistsException(EMAIL_ALREADY_EXISTS_MESSAGE);
+        }
     }
 
     public void activate(String tokenValue) throws TokenNotFoundException {
