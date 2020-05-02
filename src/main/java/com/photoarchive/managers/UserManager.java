@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,14 +17,10 @@ import org.springframework.stereotype.Service;
 public class UserManager implements UserDetailsService {
 
     private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private TokenManager tokenManager;
 
     @Autowired
-    public UserManager(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenManager tokenManager) {
+    public UserManager(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.tokenManager = tokenManager;
     }
 
     @Override
@@ -42,14 +37,13 @@ public class UserManager implements UserDetailsService {
     }
 
     public User loadUserByToken(String tokenValue) throws TokenNotFoundException {
-        return tokenManager
-                .findTokenByValue(tokenValue)
-                .orElseThrow(TokenNotFoundException::new)
-                .getUser();
+        return userRepository
+                .findByToken(tokenValue)
+                .orElseThrow(TokenNotFoundException::new);
     }
 
     public void saveUser(User user) throws UserAlreadyExistsException {
-        if(existsByUsername(user.getUsername()) || existsByEmail(user.getEmail())){
+        if (existsByUsername(user.getUsername()) || existsByEmail(user.getEmail())) {
             throw new UserAlreadyExistsException();
         }
         userRepository.save(user);
@@ -63,17 +57,17 @@ public class UserManager implements UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
-    public void enableUser(User user){
+    public void enableUser(User user) {
         user.setEnabled(true);
         updateUser(user);
     }
 
     public void setNewPassword(User user, String newPassword) {
-        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setPassword(newPassword);
         updateUser(user);
     }
 
-    private void updateUser(User user){
+    private void updateUser(User user) {
         userRepository.save(user);
     }
 }

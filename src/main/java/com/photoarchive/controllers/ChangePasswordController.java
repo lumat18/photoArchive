@@ -7,6 +7,7 @@ import com.photoarchive.services.ResetCodeService;
 import com.photoarchive.managers.UserManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -24,6 +25,7 @@ public class ChangePasswordController {
 
     private UserManager userManager;
     private ResetCodeService resetCodeService;
+    private PasswordEncoder passwordEncoder;
 
     @ModelAttribute(name = "changePasswordDTO")
     private ChangePasswordDTO changePasswordDTO() {
@@ -31,9 +33,10 @@ public class ChangePasswordController {
     }
 
     @Autowired
-    public ChangePasswordController(UserManager userManager, ResetCodeService resetCodeService) {
+    public ChangePasswordController(UserManager userManager, ResetCodeService resetCodeService, PasswordEncoder passwordEncoder) {
         this.userManager = userManager;
         this.resetCodeService = resetCodeService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -48,7 +51,7 @@ public class ChangePasswordController {
         String newPassword = changePasswordDTO.getPassword();
         try {
             User user = userManager.loadUserByToken(tokenValue);
-            userManager.setNewPassword(user, newPassword);
+            userManager.setNewPassword(user, passwordEncoder.encode(newPassword));
         } catch (TokenNotFoundException e) {
             e.printStackTrace();
         }
