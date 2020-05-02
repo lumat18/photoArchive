@@ -52,8 +52,9 @@ public class ChangePasswordController {
         try {
             User user = userManager.loadUserByToken(tokenValue);
             userManager.setNewPassword(user, passwordEncoder.encode(newPassword));
+            log.info("Password for user " + user.getUsername() + " was changed");
         } catch (TokenNotFoundException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage());
         }
         return "login";
     }
