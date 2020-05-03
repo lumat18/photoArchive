@@ -1,6 +1,7 @@
 package com.photoarchive.controllers;
 
-import com.photoarchive.exceptions.EmailNotFoundException;
+import com.photoarchive.domain.User;
+import com.photoarchive.managers.UserManager;
 import com.photoarchive.messageCreation.MessageType;
 import com.photoarchive.services.EmailService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/reset")
 @Slf4j
@@ -21,11 +24,12 @@ public class ResetLinkController {
     private static final String LINK_NOT_SENT_MESSAGE = "No user with such an email found";
 
     private EmailService emailService;
-
+    private UserManager userManager;
 
     @Autowired
-    public ResetLinkController(EmailService emailService) {
+    public ResetLinkController(EmailService emailService, UserManager userManager) {
         this.emailService = emailService;
+        this.userManager = userManager;
     }
 
     @GetMapping
@@ -35,37 +39,14 @@ public class ResetLinkController {
 
     @PostMapping
     public String sendResetLink(@RequestParam String email, Model model) {
-        try {
-            emailService.sendEmail(email, MessageType.RESET);
+        Optional<User> user = userManager.loadUserByEmail(email);
+        if (user.isPresent()){
+            emailService.sendEmail(user.get(), MessageType.RESET);
             model.addAttribute("message", LINK_SENT_MESSAGE);
-        } catch (EmailNotFoundException e) {
-            log.warn(e.getMessage() + " Email was not sent");
+        }else {
+            log.warn("User does not exist. Email was not sent");
             model.addAttribute("message", LINK_NOT_SENT_MESSAGE);
         }
         return "info-page";
     }
-
-//    @GetMapping("/process")
-//    public String processPasswordReset(@RequestParam("value") String resetCode, Model model, HttpSession session) {
-//
-//        String tokenValue = resetCodeService.extractTokenValue(resetCode);
-//        LocalDateTime expirationDate;
-//        try {
-//            expirationDate = resetCodeService.extractExpirationDate(resetCode);
-//        } catch (DateTimeException e) {
-//            model.addAttribute("message", INVALID_LINK_MESSAGE);
-//            log.warn(e.getMessage());
-//            return "email-input";
-//        }
-//        if (!tokenManager.existsByValue(tokenValue)) {
-//            model.addAttribute("message", INVALID_LINK_MESSAGE);
-//            return "email-input";
-//        }
-//        if (expirationDate.isBefore(LocalDateTime.now())) {
-//            model.addAttribute("message", EXPIRED_LINK_MESSAGE);
-//            return "email-input";
-//        }
-//        session.setAttribute("resetCode", resetCode);
-//        return "redirect:/change";
-//    }
 }

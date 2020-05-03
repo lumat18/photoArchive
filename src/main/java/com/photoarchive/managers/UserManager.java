@@ -1,8 +1,6 @@
 package com.photoarchive.managers;
 
 import com.photoarchive.domain.User;
-import com.photoarchive.exceptions.EmailNotFoundException;
-import com.photoarchive.exceptions.TokenNotFoundException;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -30,16 +30,14 @@ public class UserManager implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
     }
 
-    public User loadUserByEmail(String email) throws EmailNotFoundException {
+    public Optional<User> loadUserByEmail(String email) {
         return userRepository
-                .findByEmail(email)
-                .orElseThrow(EmailNotFoundException::new);
+                .findByEmail(email);
     }
 
-    public User loadUserByToken(String tokenValue) throws TokenNotFoundException {
+    public Optional<User> loadUserByToken(String tokenValue) {
         return userRepository
-                .findByToken(tokenValue)
-                .orElseThrow(TokenNotFoundException::new);
+                .findByToken(tokenValue);
     }
 
     public void saveUser(User user) throws UserAlreadyExistsException {
@@ -55,10 +53,6 @@ public class UserManager implements UserDetailsService {
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
-    }
-
-    public boolean existsByTokenValue(String tokenValue) {
-        return userRepository.existsByTokenValue(tokenValue);
     }
 
     public void enableUser(User user) {

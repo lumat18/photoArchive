@@ -1,6 +1,7 @@
 package com.photoarchive.messageCreation.creators;
 
-import com.photoarchive.exceptions.EmailNotFoundException;
+import com.photoarchive.domain.Token;
+import com.photoarchive.domain.User;
 import com.photoarchive.messageCreation.MessageCreator;
 import com.photoarchive.services.ResetCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,16 @@ public class ResetPasswordMessageCreator implements MessageCreator {
     }
 
     @Override
-    public SimpleMailMessage createMessage(String email) throws EmailNotFoundException {
+    public SimpleMailMessage createMessage(User user) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject(SUBJECT);
-        message.setTo(email);
-        message.setText(TEXT + createResetLink(email));
+        message.setTo(user.getEmail());
+        message.setText(TEXT + createResetLink(user.getToken()));
         return message;
     }
 
-    private String createResetLink(String email) throws EmailNotFoundException {
+    private String createResetLink(Token token){
         return "http://localhost:8080/change?value=" +
-                resetCodeService.createResetCode(email);
+                resetCodeService.createResetCode(token);
     }
 }

@@ -3,7 +3,6 @@ package com.photoarchive.domain;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +29,10 @@ public class User implements UserDetails {
     private String password;
     private boolean isEnabled;
 
-    public User(Long id, String username, String email, String firstName, String surname, String password, boolean isEnabled) {
+    @OneToOne(mappedBy = "user")
+    private Token token;
+
+    public User(Long id, String username, String email, String firstName, String surname, String password, boolean isEnabled, Token token) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -38,6 +40,7 @@ public class User implements UserDetails {
         this.surname = surname;
         this.password = password;
         this.isEnabled = isEnabled;
+        this.token = token;
     }
 
     public User(String username, String email, String firstName, String surname, String password, boolean isEnabled) {

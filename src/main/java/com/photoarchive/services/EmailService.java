@@ -1,6 +1,6 @@
 package com.photoarchive.services;
 
-import com.photoarchive.exceptions.EmailNotFoundException;
+import com.photoarchive.domain.User;
 import com.photoarchive.messageCreation.MessageCreator;
 import com.photoarchive.messageCreation.MessageType;
 import lombok.extern.slf4j.Slf4j;
@@ -33,13 +33,13 @@ public class EmailService {
         this.beanFactory = beanFactory;
     }
 
-    public void sendEmail(String email, MessageType messageType) throws EmailNotFoundException {
+    public void sendEmail(User user,  MessageType messageType){
         final MessageCreator messageCreator = chooseMessageCreator(messageType);
-        SimpleMailMessage message = messageCreator.createMessage(email);
+        SimpleMailMessage message = messageCreator.createMessage(user);
 
         threadPoolExecutor().execute(() -> {
             javaMailSender.send(message);
-            log.info("Email send to " + email);
+            log.info("Email send to " + user.getEmail());
         });
     }
 

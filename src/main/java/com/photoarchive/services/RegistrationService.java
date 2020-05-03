@@ -1,7 +1,6 @@
 package com.photoarchive.services;
 
 import com.photoarchive.domain.User;
-import com.photoarchive.exceptions.EmailNotFoundException;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.managers.UserManager;
 import com.photoarchive.messageCreation.MessageType;
@@ -24,11 +23,7 @@ public class RegistrationService {
 
     public void register(User user) throws UserAlreadyExistsException {
         userManager.saveUser(user);
-        try {
-            emailService.sendEmail(user.getEmail(), MessageType.ACTIVATION);
-        } catch (EmailNotFoundException e) {
-            log.warn(e.getMessage());
-        }
+        emailService.sendEmail(user, MessageType.ACTIVATION);
         log.info("User " + user.getUsername() + " saved to database");
     }
 }

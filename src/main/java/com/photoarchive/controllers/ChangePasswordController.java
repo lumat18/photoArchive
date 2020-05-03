@@ -1,7 +1,6 @@
 package com.photoarchive.controllers;
 
 import com.photoarchive.domain.User;
-import com.photoarchive.exceptions.TokenNotFoundException;
 import com.photoarchive.managers.TokenManager;
 import com.photoarchive.managers.UserManager;
 import com.photoarchive.models.ChangePasswordDTO;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import javax.validation.Valid;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/change")
@@ -79,20 +79,18 @@ public class ChangePasswordController {
     @PostMapping
     public String processPasswordChange(@Valid ChangePasswordDTO changePasswordDTO, Errors errors, @ModelAttribute(name = "resetCode") String resetCode, SessionStatus status, Model model) {
         String tokenValue = resetCodeService.extractTokenValue(resetCode);
-        System.out.println("tokenValue = " + tokenValue);
 
         String newPassword = changePasswordDTO.getPassword();
         if (errors.hasErrors()){
             return "new-password-input";
         }
-        try {
-            User user = userManager.loadUserByToken(tokenValue);
-            userManager.setNewPassword(user, passwordEncoder.encode(newPassword));
-            log.info("Password for user " + user.getUsername() + " was changed");
-        } catch (TokenNotFoundException e) {
-            log.warn(e.getMessage());
-            //token is always found here because we check it before
+
+        Optional<User> user = userManager.loadUserByToken(tokenValue);
+        if(user.isPresent()){
+            userManager.setNewPassword(user.get(), passwordEncoder.encode(newPassword));
+            log.info("Password for user " + user.get().getUsername() + " was changed");
         }
+
         status.setComplete();
         model.addAttribute("message", PASSWORD_CHANGED_MESSAGE);
         return "login";
