@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class LoginController {
 
+    private static final String USER_NOT_ACTIVE_MESSAGE = "User account is not active";
+    private static final String BAD_CREDENTIALS_MESSAGE = "Wrong username or password";
+
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
@@ -32,12 +35,12 @@ public class LoginController {
 
     private void setProperAttributeMessage(Exception exception, Model model){
         if (exception instanceof DisabledException) {
-            log.warn("Login error. User not active");
-            model.addAttribute("message", "User account is not active");
+            log.warn("Login error."+USER_NOT_ACTIVE_MESSAGE);
+            model.addAttribute("message", USER_NOT_ACTIVE_MESSAGE);
         }
         if (exception instanceof BadCredentialsException) {
-            log.warn("Login error. Bad credentials used");
-            model.addAttribute("message", "Wrong username or password");
+            log.warn("Login error."+BAD_CREDENTIALS_MESSAGE);
+            model.addAttribute("message", BAD_CREDENTIALS_MESSAGE);
         }
     }
 }
