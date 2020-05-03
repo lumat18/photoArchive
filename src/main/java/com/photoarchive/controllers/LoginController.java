@@ -33,11 +33,11 @@ public class LoginController {
     private void setProperAttributeMessage(Exception exception, Model model){
         if (exception instanceof DisabledException) {
             log.warn("Login error. User not active");
-            model.addAttribute("loginErrorMessage", "User account is not active");
+            model.addAttribute("message", "User account is not active");
         }
         if (exception instanceof BadCredentialsException) {
             log.warn("Login error. Bad credentials used");
-            model.addAttribute("loginErrorMessage", "Wrong username or password");
+            model.addAttribute("message", "Wrong username or password");
         }
     }
 }

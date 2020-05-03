@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/activate")
 @Slf4j
 public class ActivationController {
+    private static final String ACCOUNT_ACTIVATED_MESSAGE = "Account is activated!";
+    private static final String ACCOUNT_NOT_ACTIVATED = "Failed to activate account";
+
     private ActivationService activationService;
 
     @Autowired
@@ -27,10 +30,11 @@ public class ActivationController {
             activationService.activate(token);
             log.info("User account activated");
         } catch (TokenNotFoundException e) {
-            model.addAttribute("invalidToken", e.getMessage());
-            log.warn("Invalid token");
-            return "registration";
+            model.addAttribute("message", ACCOUNT_NOT_ACTIVATED);
+            log.warn(e.getMessage());
+            return "info-page";
         }
-        return "redirect:/login";
+        model.addAttribute("message", ACCOUNT_ACTIVATED_MESSAGE);
+        return "login";
     }
 }

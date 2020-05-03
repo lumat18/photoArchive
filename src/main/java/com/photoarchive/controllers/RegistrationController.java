@@ -1,23 +1,25 @@
 package com.photoarchive.controllers;
 
 import com.photoarchive.domain.User;
-import com.photoarchive.exceptions.TokenNotFoundException;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.models.UserDTO;
-import com.photoarchive.services.ActivationService;
 import com.photoarchive.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
+    private static final String ACTIVATION_LINK_SENT_MESSAGE = "Activation link was sent, check your email";
 
     private RegistrationService registrationService;
     private PasswordEncoder passwordEncoder;
@@ -50,6 +52,7 @@ public class RegistrationController {
             model.addAttribute("userAlreadyExists", e.getMessage());
             return "registration";
         }
-        return "redirect:/login";
+        model.addAttribute("message", ACTIVATION_LINK_SENT_MESSAGE);
+        return "info-page";
     }
 }
