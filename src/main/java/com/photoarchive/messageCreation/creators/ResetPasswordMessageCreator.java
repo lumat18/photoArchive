@@ -31,7 +31,7 @@ public class ResetPasswordMessageCreator implements MessageCreator {
     }
 
     private String createResetLink(String email) throws EmailNotFoundException {
-        return "http://localhost:8080/reset/process?value=" +
+        return "http://localhost:8080/change?value=" +
                 resetCodeService.createResetCode(email);
     }
 }

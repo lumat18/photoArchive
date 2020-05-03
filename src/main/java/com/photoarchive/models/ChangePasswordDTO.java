@@ -11,5 +11,4 @@ public class ChangePasswordDTO implements MatchablePasswords {
     @StrongPassword
     private String password;
     private String matchingPassword;
-    private String resetCode;
 }

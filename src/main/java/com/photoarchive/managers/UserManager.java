@@ -57,6 +57,10 @@ public class UserManager implements UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
+    public boolean existsByTokenValue(String tokenValue) {
+        return userRepository.existsByTokenValue(tokenValue);
+    }
+
     public void enableUser(User user) {
         user.setEnabled(true);
         updateUser(user);

@@ -27,18 +27,18 @@ public class ResetCodeService {
                 .orElseThrow(EmailNotFoundException::new);
 
         return Base64.getEncoder()
-                .encodeToString((token.getValue() + "_" + getExpirationDate()).getBytes());
+                .encodeToString((token.getValue() + "_" + getTokenCreationDate()).getBytes());
     }
 
-    private String getExpirationDate() {
-        return LocalDateTime.now().plusHours(24).toString();
+    private String getTokenCreationDate() {
+        return LocalDateTime.now().toString();
     }
 
     public String extractTokenValue(String resetCode){
         return StringUtils.substringBefore(decode(resetCode), "_");
     }
 
-    public LocalDateTime extractExpirationDate(String resetCode) throws DateTimeException {
+    public LocalDateTime extractTokenCreationDate(String resetCode) throws DateTimeException {
         return LocalDateTime.parse(StringUtils.substringAfter(decode(resetCode), "_"));
     }
 

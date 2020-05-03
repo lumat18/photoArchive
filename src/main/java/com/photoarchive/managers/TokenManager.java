@@ -6,11 +6,14 @@ import com.photoarchive.repositories.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class TokenManager {
+
+    private static final Integer TOKEN_EXPIRATION_TIME_IN_HOURS=24;
 
     private TokenRepository tokenRepository;
     private UserManager userManager;
@@ -39,5 +42,9 @@ public class TokenManager {
 
     public boolean existsByValue(String value) {
         return tokenRepository.existsByValue(value);
+    }
+
+    public boolean hasExpired(LocalDateTime tokenCreationDate) {
+        return tokenCreationDate.isBefore(LocalDateTime.now().minusSeconds(TOKEN_EXPIRATION_TIME_IN_HOURS));
     }
 }
