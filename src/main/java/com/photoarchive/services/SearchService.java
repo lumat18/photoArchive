@@ -25,7 +25,7 @@ public class SearchService {
         this.tagParsingService = tagParsingService;
     }
 
-    public Set<Photo> getPhotosByTags(String tagsAsString){
+    public Set<Photo> getPhotosByTags(String tagsAsString) {
         final Set<Tag> incomingTagSet = tagParsingService.parseTagSet(tagsAsString);
         Set<Tag> queryTagSet = new HashSet<>();
 
@@ -34,6 +34,6 @@ public class SearchService {
             tagOptional.ifPresent(queryTagSet::add);
         });
 
-        return photoRepository.findByTagsIn(queryTagSet);
+        return photoRepository.findDistinctByTagsIn(queryTagSet, (long) queryTagSet.size());
     }
 }
