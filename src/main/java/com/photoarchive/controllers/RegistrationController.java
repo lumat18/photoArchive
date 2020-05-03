@@ -19,6 +19,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
+
     private static final String ACTIVATION_LINK_SENT_MESSAGE = "Activation link was sent, check your email";
 
     private RegistrationService registrationService;

@@ -23,10 +23,10 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ResetLinkController {
 
-    private static final String POSITIVE_MESSAGE = "Reset link was sent";
-    private static final String NEGATIVE_MESSAGE = "No user with such an email found";
-    private static final String INVALID_LINK_MESSAGE = "Something went wrong. Your link is not valid.";
-    private static final String EXPIRED_LINK_MESSAGE = "Link has expired";
+    private static final String LINK_SENT_MESSAGE = "Reset link was sent";
+    private static final String LINK_NOT_SENT_MESSAGE = "No user with such an email found";
+    private static final String INVALID_LINK_MESSAGE = "Something went wrong. Your link is not valid. Try again";
+    private static final String EXPIRED_LINK_MESSAGE = "Link has expired. Try Again";
 
     private EmailService emailService;
     private TokenManager tokenManager;
@@ -42,6 +42,18 @@ public class ResetLinkController {
     @GetMapping
     public String showEmailInput() {
         return "email-input";
+    }
+
+    @PostMapping
+    public String sendResetLink(@RequestParam String email, Model model) {
+        try {
+            emailService.sendEmail(email, MessageType.RESET);
+            model.addAttribute("message", LINK_SENT_MESSAGE);
+        } catch (EmailNotFoundException e) {
+            log.warn(e.getMessage() + " Email was not sent");
+            model.addAttribute("message", LINK_NOT_SENT_MESSAGE);
+        }
+        return "info-page";
     }
 
     @GetMapping("/process")
@@ -66,17 +78,5 @@ public class ResetLinkController {
         }
         redirectAttributes.addFlashAttribute("value", resetCode);
         return "redirect:/change";
-    }
-
-    @PostMapping
-    public String sendResetLink(@RequestParam String email, Model model) {
-        try {
-            emailService.sendEmail(email, MessageType.RESET);
-            model.addAttribute("message", POSITIVE_MESSAGE);
-        } catch (EmailNotFoundException e) {
-            log.warn(e.getMessage() + " Email was not sent");
-            model.addAttribute("message", NEGATIVE_MESSAGE);
-        }
-        return "email-input";
     }
 }
