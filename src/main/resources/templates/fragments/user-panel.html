@@ -11,13 +11,37 @@
 </head>
 <body>
 <div th:fragment="user-panel">
-    <div>
-        <span sec:authentication="name"></span>
-        <a th:href="@{/logout}" class="w3-button w3-padding-large w3-red w3-margin-bottom">
-            LOGOUT
+
+
+    <div id="menuwrap">
+        <a href="#" id="menutoggle">
+            Signed as: <span sec:authentication="name"></span>
+            <i class="fa fa-user-circle" style="font-size: 30px"></i>
         </a>
+        <div id="menucontainer">
+            <a th:href="@{/logout}" class="w3-button w3-padding-large w3-red w3-margin-bottom">
+                LOGOUT
+            </a>
+        </div>
     </div>
+
+
+    <script src="http://code.jquery.com/jquery-1.7.min.js"></script>
+    <script>
+        $('html').click(function () {
+            $('#menucontainer').hide();
+        });
+
+        $('#menuwrap').click(function (event) {
+            event.stopPropagation();
+        });
+
+        $('#menutoggle').click(function (event) {
+            $('#menucontainer').slideToggle("slow");
+        });
+    </script>
 </div>
+
 
 </body>
 </html>
