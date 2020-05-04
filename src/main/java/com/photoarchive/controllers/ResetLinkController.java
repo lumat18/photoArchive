@@ -21,7 +21,7 @@ import java.util.Optional;
 public class ResetLinkController {
 
     private static final String LINK_SENT_MESSAGE = "Reset link was sent";
-    private static final String LINK_NOT_SENT_MESSAGE = "No user with such an email found";
+    private static final String LINK_NOT_SENT_MESSAGE = "Account does not exist or is not activated";
 
     private EmailService emailService;
     private UserManager userManager;
@@ -40,13 +40,30 @@ public class ResetLinkController {
     @PostMapping
     public String sendResetLink(@RequestParam String email, Model model) {
         Optional<User> user = userManager.loadUserByEmail(email);
-        if (user.isPresent()){
-            emailService.sendEmail(user.get(), MessageType.RESET);
-            model.addAttribute("message", LINK_SENT_MESSAGE);
-        }else {
-            log.warn("User does not exist. Email was not sent");
-            model.addAttribute("message", LINK_NOT_SENT_MESSAGE);
-        }
+
+        String message = sendEmailIfUserExists(user);
+
+        model.addAttribute("message", message);
         return "info-page";
     }
+
+    private String sendEmailIfUserExists(Optional<User> user){
+        if (user.isPresent()){
+            return sendEmailIfUserIsEnabled(user.get());
+        }else {
+            log.warn("User does not exist. Email was not sent");
+            return LINK_NOT_SENT_MESSAGE;
+        }
+    }
+
+    private String sendEmailIfUserIsEnabled(User user){
+        if (user.isEnabled()){
+            emailService.sendEmail(user, MessageType.RESET);
+            return LINK_SENT_MESSAGE;
+        }else {
+            log.warn("Request was made to sent reset link to user that is not enabled");
+            return LINK_NOT_SENT_MESSAGE;
+        }
+    }
+
 }
