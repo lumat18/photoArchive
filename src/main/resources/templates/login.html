@@ -14,7 +14,7 @@
 <body>
 <div class="w3-row" style="height: 100%; width: 100%;">
 <!--    left side  -->
-    <div class="w3-half w3-red w3-container">
+    <div class="w3-half w3-red w3-container left-side">
         <div class="w3-padding-64 w3-center">
             <img class="logo w3-margin" th:src="@{images/logo.PNG}" alt="Person">
         </div>
@@ -24,9 +24,9 @@
 <!--   right side  -->
     <div class="w3-half w3-container w3-center right-side">
 
-        <div th:insert="fragments/top-menu :: top-menu"></div>
-        <div th:insert="fragments/login-form :: login-form"></div>
-        <div th:insert="fragments/footer :: footer"></div>
+        <div th:insert="fragments/webpage/top-menu :: top-menu"></div>
+        <div th:insert="fragments/webpage/login-form :: login-form"></div>
+        <div th:insert="fragments/webpage/footer :: footer"></div>
 
     </div>
 <!-- end of right side   -->

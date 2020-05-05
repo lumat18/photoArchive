@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<div th:fragment="registration-form">
+    <div class="register-content">
+        <h1 class="register-title">Create New Account.</h1>
+        <div class="register-form">
+            <div th:if="${userAlreadyExists != null}">
+                <span th:text="${userAlreadyExists}"></span>
+            </div>
+            <form method="post" th:action="@{/register}" th:object="${userDTO}">
+                <input
+                        class="register-input w3-input w3-border"
+                        type="text"
+                        placeholder="Username"
+                        required
+                        th:field="*{username}"
+                />
+                <span
+                        class="error-span"
+                        th:if="${#fields.hasErrors('email')}"
+                        th:errors="*{email}">
+                      message
+                </span>
+                <input
+                        class="register-input w3-input w3-border"
+                        type="text"
+                        placeholder="Email"
+                        required
+                        th:field="*{email}"
+                />
+
+                <input
+                        class="register-input w3-input w3-border"
+                        type="text"
+                        placeholder="First Name"
+                        required
+                        th:field="*{firstName}"
+                />
+                <input
+                        class="register-input w3-input w3-border"
+                        type="text"
+                        placeholder="Surname"
+                        required
+                        th:field="*{surname}"
+                />
+                <span
+                        class="error-span"
+                        th:if="${#fields.hasErrors('password')}"
+                        th:errors="*{password}">
+                      message
+                    </span>
+                <input
+                        class="register-input w3-input w3-border"
+                        type="password"
+                        placeholder="Password"
+                        required
+                        th:field="*{password}"
+                />
+                <span
+                        class="error-span"
+                        th:if="${#fields.errors('matchingPassword')}"
+                        th:errors="*{matchingPassword}">
+                      message
+                    </span>
+                <input
+                        class="register-input w3-input w3-border"
+                        type="password"
+                        placeholder="Confirm Password"
+                        required
+                        th:field="*{matchingPassword}"
+                />
+
+                <div class="alt-link">Have an account already? <a href="/login">Log in here!</a></div>
+                <input
+                        id="submit-button"
+                        class="w3-button w3-padding-large w3-red w3-margin-bottom"
+                        type="submit"
+                        value="SIGN UP"
+                />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</html>

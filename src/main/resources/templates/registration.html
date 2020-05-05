@@ -11,120 +11,25 @@
 <link rel="stylesheet" type="text/css" th:href="@{webpage-style.css}"/>
 <body>
 
-<!-- First Grid: Logo & About -->
+
 <div class="w3-row" style="height: 100%; width: 100%;">
-    <div class="w3-half w3-red w3-container" style="height:100%; min-height: 750px;">
+<!--    left side   -->
+    <div class="w3-half w3-red w3-container left-side">
         <div class="w3-padding-64 w3-center">
             <img class="logo w3-margin" th:src="@{images/logo.PNG}" alt="Person">
         </div>
     </div>
-    <div class="w3-half w3-container w3-center right-side" style="height:100%; min-height: 750px;">
+    <!-- end of left side   -->
 
+<!--    right side    -->
+    <div class="w3-half w3-container w3-center right-side">
 
-        <div class="top-bar">
-
-            <a href="#" class="  bar-element">
-                HOME
-            </a>
-            <a href="#" class="  bar-element">
-                ABOUT
-            </a>
-            <a href="#" class=" bar-element">
-                CONTACT
-            </a>
-
-        </div>
-
-        <div class="register-content">
-            <h1 class="register-title">Create New Account.</h1>
-            <div class="register-form">
-                <div th:if="${userAlreadyExists != null}">
-                   <span th:text="${userAlreadyExists}"></span>
-                </div>
-                <form method="post" th:action="@{/register}" th:object="${userDTO}">
-                    <input
-                            class="register-input w3-input w3-border"
-                            type="text"
-                            placeholder="Username"
-                            required
-                            th:field="*{username}"
-                    />
-                    <input
-                            class="register-input w3-input w3-border"
-                            type="text"
-                            placeholder="Email"
-                            required
-                            th:field="*{email}"
-                    />
-                    <span
-                            class="error-span"
-                            th:if="${#fields.hasErrors('email')}"
-                            th:errors="*{email}">
-                      message
-                    </span>
-                    <input
-                            class="register-input w3-input w3-border"
-                            type="text"
-                            placeholder="First Name"
-                            required
-                            th:field="*{firstName}"
-                    />
-                    <input
-                            class="register-input w3-input w3-border"
-                            type="text"
-                            placeholder="Surname"
-                            required
-                            th:field="*{surname}"
-                    />
-                    <input
-                            class="register-input w3-input w3-border"
-                            type="password"
-                            placeholder="Password"
-                            required
-                            th:field="*{password}"
-                    />
-                    <span
-                            class="error-span"
-                            th:if="${#fields.hasErrors('password')}"
-                            th:errors="*{password}">
-                      message
-                    </span>
-                    <input
-                            class="register-input w3-input w3-border"
-                            type="password"
-                            placeholder="Confirm Password"
-                            required
-                            th:field="*{matchingPassword}"
-                    />
-                    <span
-                            class="error-span"
-                            th:if="${#fields.errors('matchingPassword')}"
-                            th:errors="*{matchingPassword}">
-                      message
-                    </span>
-                    <div class="alt-link">Have an account already? <a href="/login">Log in here!</a></div>
-                    <input
-                            id="submit-button"
-                            class="w3-button w3-padding-large w3-red w3-margin-bottom"
-                            type="submit"
-                            value="SIGN UP"
-                    />
-                </form>
-            </div>
-
-        </div>
-        <footer class="footer">
-            <div class="desc">
-                photoarchapp@gmail.com
-            </div>
-            <div class="w3-xlarge w3-section desc">
-                <i class="fa fa-facebook-official w3-hover-opacity small-icon"></i>
-                <i class="fa fa-instagram w3-hover-opacity small-icon"></i>
-                <i class="fa fa-github w3-hover-opacity small-icon"></i>
-            </div>
-        </footer>
+        <div th:insert="fragments/webpage/top-menu :: top-menu"></div>
+        <div th:insert="fragments/webpage/registration-form :: registration-form"></div>
+        <div th:insert="fragments/webpage/footer :: footer"></div>
 
     </div>
+<!--    end of right side    -->
 </div>
 </body>
 </html>
