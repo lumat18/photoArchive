@@ -13,29 +13,29 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
     <link rel="stylesheet" type="text/css" th:href="@{app-style.css}"/>
 </head>
-
 <body>
-<!-- Side menu on big screen -->
-<div th:insert="fragments/app/side-menu :: side-menu"></div>
 
-<!-- Top menu on small screens -->
-<div th:insert="fragments/app/top-menu :: top-menu"></div>
-
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:240px;margin-right:40px">
-
-    <div th:insert="fragments/app/user-panel :: user-panel"></div>
-
-    <div th:insert="fragments/app/search-panel :: search-panel"></div>
-
-    <div th:insert="fragments/app/photo-gallery :: photo-gallery"></div>
-
-    <div th:insert="fragments/app/contact-form :: contact-form"></div>
-
+<div th:fragment="footer">
+    <div
+            class="w3-light-grey w3-container w3-padding-32"
+            style="margin-top:75px;padding-right:58px"
+    >
+        <p class="w3-right">
+            Powered by
+            <a
+                    href="https://www.w3schools.com/w3css/default.asp"
+                    title="W3.CSS"
+                    target="_blank"
+                    class="w3-hover-opacity"
+            >w3.css</a
+            >
+        </p>
+    </div>
 </div>
-<!-- End page content -->
 
-<div th:insert="fragments/app/footer :: footer"></div>
 
 </body>
 </html>
+
+
+

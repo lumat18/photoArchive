@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title>PhotoARCHive - Image service for architects</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
+    <link rel="stylesheet" type="text/css" th:href="@{app-style.css}"/>
+</head>
+<body>
+
+<div th:fragment="search-panel">
+    <div class="w3-container" style="margin-top:40px" id="showcase">
+        <h1 class="w3-jumbo"><b class="paragraph-title">Search photos.</b></h1>
+
+        <div>
+            <div class="tag-container">
+                <input id="search-input-field" class="tag-input"/>
+            </div>
+
+            <form method="post" th:action="@{/search/find-photos}">
+                <input
+                        hidden
+                        class="tag-holder"
+                        type="text"
+                        name="tagString"
+                />
+                <input
+                        id="search-button"
+                        class="w3-button w3-padding-large w3-red w3-margin-bottom"
+                        type="submit"
+                        value="SEARCH"
+                />
+            </form>
+        </div>
+        <script th:src="@{search-panel-script.js}"></script>
+    </div>
+</div>
+
+
+</body>
+</html>
+
+
