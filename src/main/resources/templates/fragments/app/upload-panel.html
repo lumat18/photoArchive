@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title>PhotoARCHive - Image service for architects</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/app-style.css}"/>
+</head>
+<body>
+
+<div th:fragment="upload-panel">
+    <div class="w3-container" style="margin-top: 40px;" id="showcase">
+        <h1 class="w3-jumbo"><b class="paragraph-title">Upload photos.</b></h1>
+    </div>
+    <div class="w3-container">
+        <div>Use the slider to switch between available upload methods<br/><br/></div>
+        <label class="switch">
+            <input class="slider-switch" type="checkbox" onclick="slide()"/>
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <div>
+        <div class="file upload">
+            <h1 class="w3-xxxlarge w3-text-red">
+                <b class="paragraph-title">File.</b>
+            </h1>
+            <hr
+                    style="width: 50px; border: 5px solid #f44336;"
+                    class="w3-round"
+            />
+            <form
+                    method="post"
+                    enctype="multipart/form-data"
+                    th:action="@{/upload/photo-with-file}"
+                    th:object="${photoWithFileDTO}"
+            >
+                <input hidden class="file-dialogue" type="file" th:field="*{multipartFile}"/>
+                <button class="file-input w3-button w3-block w3-padding-large w3-red" type="button"
+                        onclick="clickDialogue()">Select file
+                </button>
+                <span
+                        class="error-span"
+                        th:if="${#fields.hasErrors('multipartFile')}"
+                        th:errors="*{multipartFile}"
+                >message</span
+                >
+                <input
+                        hidden
+                        class="tag-holder2"
+                        type="text"
+                        placeholder="tags"
+                        th:field="*{tagsAsString}"
+                />
+                <span
+                        class="error-span"
+                        th:if="${#fields.hasErrors('tagsAsString')}"
+                        th:errors="*{tagsAsString}"
+                >message</span
+                >
+                <input hidden
+                       class="file-button"
+                       type="submit"
+                       value="Add Photo"
+                />
+            </form>
+
+        </div>
+
+        <div class="url upload">
+            <h1 class="w3-xxxlarge">
+                <b class="paragraph-title navy">Url.</b>
+            </h1>
+            <hr
+                    style="width: 50px; border: 5px solid #3b3b6b;"
+                    class="w3-round"
+            />
+            <form
+                    method="post"
+                    th:action="@{/upload/photo-with-url}"
+                    th:object="${photoWithUrlDTO}">
+                <input
+                        disabled
+                        class="url-input w3-input w3-border"
+                        type="text"
+                        placeholder="url"
+                        th:field="*{url}"
+                />
+                <span
+                        class="error-span"
+                        th:if="${#fields.hasErrors('url')}"
+                        th:errors="*{url}">
+                      message
+                    </span>
+                <input
+                        hidden
+                        class="tag-holder"
+                        type="text"
+                        placeholder="tags"
+                        th:field="*{tagsAsString}"
+                />
+                <span
+                        class="error-span"
+                        th:if="${#fields.hasErrors('tagsAsString')}"
+                        th:errors="*{tagsAsString}">
+                      message
+                    </span>
+                <input
+                        hidden
+                        class="url-button"
+                        type="submit"
+                        value="Add Photo"
+                />
+            </form>
+        </div>
+    </div>
+    <div class="container w3-container">
+        <div class="tag-container">
+            <input id="search-input-field" class="tag-input"/>
+        </div>
+    </div>
+    <div class="w3-container">
+        <button class="add-photo-button w3-button w3-padding-large w3-red w3-margin-bottom"
+                onclick="clickCorrectButton()">Add photo
+        </button>
+    </div>
+    <script th:src="@{/script/tag-panel-script.js}"></script>
+    <script th:src="@{/script/slider-script.js}"></script>
+    <script th:src="@{/script/file-dialogue-script.js}"></script>
+    <script th:src="@{/script/add-photo-button.js}"></script>
+</div>
+</body>
+</html>
+
+
