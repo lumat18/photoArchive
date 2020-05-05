@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/app-style.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/slider.css}"/>
 </head>
+
 <body>
 <!-- Side menu on big screen -->
 <div th:insert="fragments/app/side-menu :: side-menu"></div>
@@ -22,11 +22,11 @@
 <div th:insert="fragments/app/top-menu :: top-menu"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left: 240px; margin-right: 40px;">
+<div class="w3-main" style="margin-left:240px;margin-right:40px">
 
     <div th:insert="fragments/app/user-panel :: user-panel"></div>
 
-    <div th:insert="fragments/app/upload-panel :: upload-panel"></div>
+    <div th:insert="fragments/app/contact-form :: contact-form"></div>
 
 </div>
 <!-- End page content -->
