@@ -90,7 +90,15 @@ html, body
 .right-side{
     font-family: 'Saira Semi Condensed', sans-serif;
     font-weight: 100 ;
-    height:100%; background: #3b3b6b; color: white
+    height:100% !important;
+    min-height: 750px !important;
+    background: #3b3b6b;
+    color: white;
+}
+
+.left-side{
+    height:100% !important;
+    min-height: 750px !important;
 }
 
 .small-icon{

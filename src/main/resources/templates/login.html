@@ -3,81 +3,33 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:th="http://www.thymeleaf.org"
 >
-<title>PhotoARCHive - Image service for architects</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" th:href="@{webpage-style.css}"/>
+<head>
+    <title>PhotoARCHive - Image service for architects</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{webpage-style.css}"/>
+</head>
 <body>
-
-<!-- First Grid: Logo & About -->
 <div class="w3-row" style="height: 100%; width: 100%;">
-    <div class="w3-half w3-red w3-container" style="height:100%; min-height: 750px;">
+<!--    left side  -->
+    <div class="w3-half w3-red w3-container">
         <div class="w3-padding-64 w3-center">
             <img class="logo w3-margin" th:src="@{images/logo.PNG}" alt="Person">
         </div>
     </div>
-    <div class="w3-half w3-container w3-center right-side" style="height:100%; min-height: 750px;">
+<!--    end of left side  -->
 
+<!--   right side  -->
+    <div class="w3-half w3-container w3-center right-side">
 
-        <div class="top-bar">
-
-            <a href="#" class="  bar-element">
-                HOME
-            </a>
-            <a href="#" class="  bar-element">
-                ABOUT
-            </a>
-            <a href="#" class=" bar-element">
-                CONTACT
-            </a>
-
-        </div>
-
-        <div class="register-content">
-            <h1 class="register-title">Log in.</h1>
-            <div class="register-form">
-                <div th:if="${message != null }">
-                    <span th:text="${message}"></span>
-                </div>
-                <form method="post" th:action="@{/login}">
-                    <input
-                            class="register-input w3-input w3-border"
-                            type="text"
-                            placeholder="Username"
-                            name="username"
-                    />
-                    <input
-                            class="register-input w3-input w3-border"
-                            type="password"
-                            placeholder="Password"
-                            name="password"
-                    />
-                    <div class="alt-link">Have no account yet? <a href="/register">Sign up here!</a></div>
-                    <div class="alt-link">Forgotten password? <a href="/reset">Click here!</a></div>
-                    <input
-                            id="submit-button"
-                            class="w3-button w3-padding-large w3-red w3-margin-bottom"
-                            type="submit"
-                            value="LOGIN"
-                    />
-                </form>
-            </div>
-
-        </div>
-        <footer class="footer">
-            <div class="desc">
-                photoarchapp@gmail.com
-            </div>
-            <div class="w3-xlarge w3-section desc">
-                <i class="fa fa-facebook-official w3-hover-opacity small-icon"></i>
-                <i class="fa fa-instagram w3-hover-opacity small-icon"></i>
-                <i class="fa fa-github w3-hover-opacity small-icon"></i>
-            </div>
-        </footer>
+        <div th:insert="fragments/top-menu :: top-menu"></div>
+        <div th:insert="fragments/login-form :: login-form"></div>
+        <div th:insert="fragments/footer :: footer"></div>
 
     </div>
+<!-- end of right side   -->
 </div>
 </body>
 </html>
