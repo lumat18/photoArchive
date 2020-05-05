@@ -55,13 +55,20 @@ body {
 
 #menucontainer {
   display:none;
+  background-color: #f44336;
+  min-width: 250px;
+  min-height: 300px;
+  top: 95px;
+  right: 40px;
   position: absolute;
   z-index: 1;
-  float: right;
 }
 #menuwrap{
-  float: right;
-  margin-right: 50px;
+
+}
+
+#menutoggle{
+  max-height: 45px;
 }
 
 .paragraph-title {
@@ -142,6 +149,13 @@ body {
   margin-bottom: 30px;
   min-width: 400px;
   padding: 11px;
+}
+
+.user-panel-container{
+  float: right;
+  width: 250px;
+  height: 45px;
+  margin-right: 16px;
 }
 
 .w3-half img {

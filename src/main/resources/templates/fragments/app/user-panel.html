@@ -14,14 +14,16 @@
 
 
     <div id="menuwrap">
-        <a href="#" id="menutoggle">
-            Signed as: <span sec:authentication="name"></span>
-            <i class="fa fa-user-circle" style="font-size: 30px"></i>
-        </a>
-        <div id="menucontainer">
-            <a th:href="@{/logout}" class="w3-button w3-padding-large w3-red w3-margin-bottom">
-                LOGOUT
-            </a>
+        <div id="menutoggle" class="user-panel-container">
+            <i class="fa fa-user-circle" style="font-size: 45px; float: right;"></i>
+            <div style="float: right; margin-right: 10px; margin-top: 10px">
+                Welcome <span sec:authentication="name"></span>
+            </div>
+            <div id="menucontainer">
+                <a th:href="@{/logout}" class="w3-button w3-padding-large w3-red w3-margin-bottom">
+                    LOGOUT
+                </a>
+            </div>
         </div>
     </div>
 
