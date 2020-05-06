@@ -136,6 +136,10 @@ body {
   float: left;
 }
 
+.tag i:hover {
+  cursor: pointer;
+}
+
 .upload {
   float: left;
   width: 48%;
