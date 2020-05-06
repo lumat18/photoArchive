@@ -15,12 +15,19 @@
 
     <div id="menuwrap">
         <div id="menutoggle" class="user-panel-container">
-            <i class="fa fa-user-circle" style="font-size: 45px; float: right;"></i>
+            <i class="fa fa-user-circle" style="font-size: 40px; float: right;"></i>
             <div style="float: right; margin-right: 10px; margin-top: 10px">
                 Welcome <span sec:authentication="name"></span>
             </div>
             <div id="menucontainer">
-                <a th:href="@{/logout}" class="w3-button w3-padding-large w3-red w3-margin-bottom">
+                <i class="fa fa-user-circle" style="font-size: 80px;"></i>
+                <p>
+                    <span th:text="${userInfo.firstName}"></span>
+                    <span th:text="${userInfo.surname}"></span>
+                </p>
+                <p th:text="${userInfo.email}"></p>
+                <hr>
+                <a th:href="@{/logout}" class="w3-bar-item w3-button w3-white w3-hover-black">
                     LOGOUT
                 </a>
             </div>
@@ -39,7 +46,7 @@
         });
 
         $('#menutoggle').click(function (event) {
-            $('#menucontainer').slideToggle("slow");
+            $('#menucontainer').slideToggle("fast");
         });
     </script>
 </div>

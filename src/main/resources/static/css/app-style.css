@@ -56,8 +56,13 @@ body {
 #menucontainer {
   display:none;
   background-color: #f44336;
+  color: white;
   min-width: 250px;
-  min-height: 300px;
+  min-height: 325px;
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  text-align: center;
   top: 95px;
   right: 40px;
   position: absolute;
