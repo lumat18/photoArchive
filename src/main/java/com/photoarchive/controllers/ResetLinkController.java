@@ -41,29 +41,18 @@ public class ResetLinkController {
     public String sendResetLink(@RequestParam String email, Model model) {
         Optional<User> user = userManager.loadUserByEmail(email);
 
-        String message = sendEmailIfUserExists(user);
-
-        model.addAttribute("message", message);
-        return "info-page";
-    }
-
-    private String sendEmailIfUserExists(Optional<User> user){
         if (user.isPresent()){
-            return sendEmailIfUserIsEnabled(user.get());
+            if (user.get().isEnabled()){
+                emailService.sendEmail(user.get(), MessageType.RESET);
+                model.addAttribute("message", LINK_SENT_MESSAGE);
+                return "info-page";
+            }else {
+                log.warn("Request was made by user that is not enabled");
+            }
         }else {
             log.warn("User does not exist. Email was not sent");
-            return LINK_NOT_SENT_MESSAGE;
         }
+        model.addAttribute("message", LINK_NOT_SENT_MESSAGE);
+        return "email-input";
     }
-
-    private String sendEmailIfUserIsEnabled(User user){
-        if (user.isEnabled()){
-            emailService.sendEmail(user, MessageType.RESET);
-            return LINK_SENT_MESSAGE;
-        }else {
-            log.warn("Request was made to sent reset link to user that is not enabled");
-            return LINK_NOT_SENT_MESSAGE;
-        }
-    }
-
 }

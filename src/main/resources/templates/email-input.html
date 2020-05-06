@@ -9,12 +9,49 @@
     <title>PhotoARCHive - Image service for architects</title>
 </head>
 <body>
-<div th:if="${message !=null}">
-    <span th:text="${message}"></span>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<title>PhotoARCHive - Image service for architects</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" th:href="@{/css/webpage-style.css}"/>
+<body>
+
+
+<div class="w3-row" style="height: 100%; width: 100%;">
+    <div class="w3-red w3-container left-side">
+        <div class="w3-padding-64 w3-center">
+            <img class="logo w3-margin" th:src="@{images/logo.PNG}" alt="Person">
+        </div>
+        <div class="w3-padding-16 w3-center">
+            <div class="info-form">
+
+                <h1 class="info-title">Type in your email and we send you a link to reset your password.</h1>
+                <div th:if="${message !=null}">
+                    <span class="error-span" th:text="${message}"></span>
+                </div>
+                <form method="post" th:action="@{/reset}">
+                    <div style="width: 100%">
+                        <input class="info-input w3-border" type="text" name="email" placeholder="Enter your email"/>
+                        <input  class="w3-button w3-padding-large w3-red" type="submit" value="Send">
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
 </div>
-    <form method="post" th:action="@{/reset}">
-        <input type="text" name="email" placeholder="Enter your email"/>
-        <input type="submit" value="Send">
-    </form>
 </body>
 </html>

@@ -60,10 +60,38 @@ html, body
     color: #f44336;
 }
 
+.info-form{
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Saira Semi Condensed', sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: #3b3b6b;
+    padding: 10px 40px 20px 40px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 12px #172747 ;
+}
+.info-input{
+    padding: 10px 10px 12px 10px;
+    width: 70%;
+}
+
 .info-message{
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    font-family: 'Saira Semi Condensed', sans-serif;
+    font-size: 32px;
+    text-decoration: none;
+    background-color: #3b3b6b;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 12px #172747 ;
+}
+.info-title{
+    font-family: 'Saira Semi Condensed', sans-serif;
+    font-size: 22px;
 }
 
 .logo{
