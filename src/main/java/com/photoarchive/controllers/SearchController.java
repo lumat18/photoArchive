@@ -30,7 +30,6 @@ public class SearchController {
     @GetMapping
     public String getPhotos(Model model, @AuthenticationPrincipal User user){
         UserInfo userInfo = UserInfo.createUserInfo(user);
-        System.out.println("userInfo = " + userInfo);
         model.addAttribute("userInfo", userInfo);
         model.addAttribute("foundPhotos", foundPhotos);
         return "search";
