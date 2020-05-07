@@ -3,7 +3,6 @@ package com.photoarchive.models;
 import com.photoarchive.annotations.PhotoURL;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
