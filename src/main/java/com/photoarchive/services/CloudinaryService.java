@@ -3,6 +3,7 @@ package com.photoarchive.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.photoarchive.exceptions.UploadFileFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,14 +26,14 @@ public class CloudinaryService {
         cloudinary = new Cloudinary(configMap);
     }
 
-    public Map upload(MultipartFile multipartFile){
+    public Map upload(MultipartFile multipartFile) throws UploadFileFailureException {
         File fileToUpload = null;
         Map result = null;
         try {
             fileToUpload = convert(multipartFile);
             result = cloudinary.uploader().upload(fileToUpload, ObjectUtils.emptyMap());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UploadFileFailureException();
         }finally {
             fileToUpload.delete();
         }

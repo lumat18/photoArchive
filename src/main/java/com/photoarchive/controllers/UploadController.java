@@ -1,5 +1,6 @@
 package com.photoarchive.controllers;
 
+import com.photoarchive.exceptions.UploadFileFailureException;
 import com.photoarchive.models.PhotoWithFileDTO;
 import com.photoarchive.models.PhotoWithUrlDTO;
 import com.photoarchive.services.UploadService;
@@ -50,11 +51,17 @@ public class UploadController {
     }
 
     @PostMapping("/photo-with-file")
-    public String processPostWithFile(@Valid PhotoWithFileDTO photoWithFileDTO, Errors errors){
+    public String processPostWithFile(@Valid PhotoWithFileDTO photoWithFileDTO, Errors errors, Model model){
         if (errors.hasErrors()){
             return "upload";
         }
+        try {
             uploadService.addPhoto(photoWithFileDTO);
-            return "redirect:/upload";
+        } catch (UploadFileFailureException e) {
+            log.warn(e.getMessage());
+            model.addAttribute("message", e.getMessage());
+            return "upload";
+        }
+        return "redirect:/upload";
     }
 }

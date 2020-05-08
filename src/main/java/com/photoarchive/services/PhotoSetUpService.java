@@ -2,6 +2,7 @@ package com.photoarchive.services;
 
 import com.photoarchive.domain.Photo;
 import com.photoarchive.domain.Tag;
+import com.photoarchive.exceptions.UploadFileFailureException;
 import com.photoarchive.repositories.TagRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class PhotoSetUpService {
         return photo;
     }
 
-    public Photo setCorrectUrl(Photo photo, MultipartFile multipartFile) {
+    public Photo setCorrectUrl(Photo photo, MultipartFile multipartFile) throws UploadFileFailureException {
         Map result = cloudinaryService.upload(multipartFile);
         String urlInCloud = (String) result.get("url");
         log.info("Photo uploaded and available at "+urlInCloud);
