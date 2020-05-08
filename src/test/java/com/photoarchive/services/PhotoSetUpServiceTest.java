@@ -118,7 +118,7 @@ class PhotoSetUpServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUploadingWringFile() throws UploadFileFailureException {
+    void shouldThrowWhenCloudinaryServiceFails() throws UploadFileFailureException {
         final MockMultipartFile multipartFile = new MockMultipartFile("url", "url".getBytes());
         when(cloudinaryService.upload(multipartFile)).thenThrow(UploadFileFailureException.class);
 
