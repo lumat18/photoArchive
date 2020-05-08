@@ -12,7 +12,6 @@ import java.util.Base64;
 public class ResetCodeService {
 
     public String createResetCode(Token token) {
-
         return Base64.getEncoder()
                 .encodeToString((token.getValue() + "_" + getTokenCreationDate()).getBytes());
     }

@@ -1,6 +1,7 @@
 package com.photoarchive.services;
 
 import com.photoarchive.domain.Photo;
+import com.photoarchive.exceptions.UploadFileFailureException;
 import com.photoarchive.models.PhotoWithFileDTO;
 import com.photoarchive.models.PhotoWithUrlDTO;
 import com.photoarchive.repositories.PhotoRepository;
@@ -36,7 +37,7 @@ public class UploadService {
         return saveToDB(photo);
     }
 
-    public Photo addPhoto(final PhotoWithFileDTO photoWithFileDTO) {
+    public Photo addPhoto(final PhotoWithFileDTO photoWithFileDTO) throws UploadFileFailureException {
         Photo photo = new Photo();
         photoSetUpService.setCorrectUrl(photo, photoWithFileDTO.getMultipartFile());
         photoSetUpService.setCorrectTags(photo, photoWithFileDTO.getTagsAsString());
