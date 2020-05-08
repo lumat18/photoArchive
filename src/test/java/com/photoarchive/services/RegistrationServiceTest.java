@@ -39,8 +39,11 @@ class RegistrationServiceTest {
     @Test
     void shouldRegisterNewUser() throws UserAlreadyExistsException {
         final User user = new User();
+        doNothing().when(userManager).saveUser(user);
+        doNothing().when(emailService).sendEmail(user, MessageType.ACTIVATION);
+
         registrationService.register(user);
-        
+
         verify(userManager, times(1)).saveUser(user);
         verify(emailService, times(1)).sendEmail(user, MessageType.ACTIVATION);
     }
