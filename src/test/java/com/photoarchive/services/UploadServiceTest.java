@@ -41,6 +41,7 @@ class UploadServiceTest {
         when(photoRepository.saveAndFlush(photo)).thenReturn(photo);
 
         final PhotoWithUrlDTO photoWithUrlDTO = new PhotoWithUrlDTO();
+        photoWithUrlDTO.setTagsAsString(tags);
         final Photo addedPhoto = uploadService.addPhoto(photoWithUrlDTO);
 
         assertThat(addedPhoto.getUrl()).isNull();
@@ -56,13 +57,17 @@ class UploadServiceTest {
         final String tags = "";
         final MultipartFile file = new MockMultipartFile("file", "file".getBytes());
         final Photo photo = new Photo();
+
         when(photoSetUpService.setCorrectUrl(photo, file)).thenReturn(photo);
+
         when(photoSetUpService.setCorrectTags(photo, tags)).thenReturn(photo);
         when(tagRepository.saveAll(photo.getTags())).thenReturn(List.of());
         doNothing().when(tagRepository).flush();
         when(photoRepository.saveAndFlush(photo)).thenReturn(photo);
 
         final PhotoWithFileDTO photoWithFileDTO = new PhotoWithFileDTO();
+        photoWithFileDTO.setMultipartFile(file);
+        photoWithFileDTO.setTagsAsString(tags);
         final Photo addedPhoto = uploadService.addPhoto(photoWithFileDTO);
 
         assertThat(addedPhoto.getUrl()).isNull();

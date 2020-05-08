@@ -5,14 +5,13 @@ import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.managers.UserManager;
 import com.photoarchive.messageCreation.MessageType;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.*;
 
@@ -22,6 +21,9 @@ class RegistrationServiceTest {
     private UserManager userManager;
     @MockBean
     private EmailService emailService;
+    @Captor
+    ArgumentCaptor<User> captor;
+
     @Autowired
     private RegistrationService registrationService;
 
@@ -43,7 +45,8 @@ class RegistrationServiceTest {
         doNothing().when(emailService).sendEmail(user, MessageType.ACTIVATION);
 
         registrationService.register(user);
-
+        verify(userManager).saveUser(captor.capture());
+        assertThat(user).isEqualTo(captor.getValue());
         verify(userManager, times(1)).saveUser(user);
         verify(emailService, times(1)).sendEmail(user, MessageType.ACTIVATION);
     }

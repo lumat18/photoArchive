@@ -11,9 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class ActivationServiceTest {
@@ -27,7 +25,7 @@ class ActivationServiceTest {
     private ActivationService activationService;
 
     @Test
-    void shouldActivateUser(){
+    void shouldActivateUser() {
         final Token token = new Token();
         final User user = new User();
         token.setUser(user);

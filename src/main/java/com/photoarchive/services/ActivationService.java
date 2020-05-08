@@ -14,7 +14,6 @@ public class ActivationService {
 
     @Autowired
     public ActivationService(UserManager userManager) {
-
         this.userManager = userManager;
     }
 
