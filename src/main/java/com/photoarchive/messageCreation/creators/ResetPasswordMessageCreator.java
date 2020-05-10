@@ -13,7 +13,7 @@ public class ResetPasswordMessageCreator implements MessageCreator {
 
     private static final String SUBJECT = "PhotoARCHive reset password";
     private static final String TEXT = "In order to reset your password, please click" +
-            "the link below and set a new password \n";
+            "the link below and set a new password {0}\n";
 
     private ResetCodeService resetCodeService;
 

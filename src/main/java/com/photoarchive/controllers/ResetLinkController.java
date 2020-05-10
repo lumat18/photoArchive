@@ -43,6 +43,7 @@ public class ResetLinkController {
 
         if (user.isPresent()){
             if (user.get().isEnabled()){
+
                 emailService.sendEmail(user.get(), MessageType.RESET);
                 model.addAttribute("message", LINK_SENT_MESSAGE);
                 return "info-page";
