@@ -41,11 +41,15 @@ class ChangePasswordControllerTest {
     private WebApplicationContext webApplicationContext;
 
     private String resetCode;
+    private String tokenValue;
+    private LocalDateTime creationDate;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         resetCode = "resetCode";
+        tokenValue = "tokenValue";
+        creationDate = LocalDateTime.now();
     }
 
     @Test
@@ -67,9 +71,9 @@ class ChangePasswordControllerTest {
 
     @Test
     void shouldNotProcessWhenTokenDoesntExist() throws Exception {
-        when(resetCodeService.extractTokenValue(resetCode)).thenReturn("tokenValue");
-        when(resetCodeService.extractTokenCreationDate(resetCode)).thenReturn(LocalDateTime.now());
-        when(tokenManager.existsByValue("tokenValue")).thenReturn(false);
+        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
+        when(resetCodeService.extractTokenCreationDate(resetCode)).thenReturn(creationDate);
+        when(tokenManager.existsByValue(tokenValue)).thenReturn(false);
 
         mockMvc.perform(MockMvcRequestBuilders
         .get("/change")
@@ -80,7 +84,47 @@ class ChangePasswordControllerTest {
 
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);
         verify(resetCodeService, times(1)).extractTokenCreationDate(resetCode);
-        verify(tokenManager, times(1)).existsByValue("tokenValue");
+        verify(tokenManager, times(1)).existsByValue(tokenValue);
+        verifyNoInteractions(userManager, passwordEncoder);
+    }
+
+    @Test
+    void shouldNotProcessWhenTokenHasExpired() throws Exception {
+        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
+        when(resetCodeService.extractTokenCreationDate(resetCode)).thenReturn(creationDate);
+        when(tokenManager.existsByValue(tokenValue)).thenReturn(true);
+        when(tokenManager.hasExpired(creationDate)).thenReturn(true);
+
+        mockMvc.perform(MockMvcRequestBuilders
+        .get("/change")
+        .param("value", resetCode))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("message", EXPIRED_LINK_MESSAGE))
+                .andExpect(view().name("email-input"));
+        verify(resetCodeService, times(1)).extractTokenValue(resetCode);
+        verify(resetCodeService, times(1)).extractTokenCreationDate(resetCode);
+        verify(tokenManager, times(1)).existsByValue(tokenValue);
+        verify(tokenManager, times(1)).hasExpired(creationDate);
+        verifyNoInteractions(userManager, passwordEncoder);
+    }
+
+    @Test
+    void shouldProcessPasswordReset() throws Exception {
+        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
+        when(resetCodeService.extractTokenCreationDate(resetCode)).thenReturn(creationDate);
+        when(tokenManager.existsByValue(tokenValue)).thenReturn(true);
+        when(tokenManager.hasExpired(creationDate)).thenReturn(false);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/change")
+                .param("value", resetCode))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("resetCode", resetCode))
+                .andExpect(view().name("new-password-input"));
+        verify(resetCodeService, times(1)).extractTokenValue(resetCode);
+        verify(resetCodeService, times(1)).extractTokenCreationDate(resetCode);
+        verify(tokenManager, times(1)).existsByValue(tokenValue);
+        verify(tokenManager, times(1)).hasExpired(creationDate);
         verifyNoInteractions(userManager, passwordEncoder);
     }
 }
