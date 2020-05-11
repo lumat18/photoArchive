@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,6 +34,9 @@ class UserManagerTest {
     @Autowired
     private UserManager userManager;
 
+    @Captor
+    private ArgumentCaptor<User> captor;
+
     @BeforeEach
     void setUp(){
         when(userRepository.findByUsername(EXISTING_USERNAME)).thenReturn(Optional.of(new User()));
@@ -43,7 +48,7 @@ class UserManagerTest {
     }
 
     @Test
-    void shouldReturnUserIfExistsInDatabase(){
+    void shouldReturnUserIfUserNameExistsInDatabase(){
         //when
         UserDetails result = userManager.loadUserByUsername(EXISTING_USERNAME);
         //then
@@ -51,7 +56,7 @@ class UserManagerTest {
         verify(userRepository,times(1)).findByUsername(EXISTING_USERNAME);
     }
     @Test
-    void shouldThrowIfUserDoesNotExistInDatabase(){
+    void shouldThrowIfUsernameDoesNotExistInDatabase(){
 
         assertThatExceptionOfType(UsernameNotFoundException.class)
                 .isThrownBy(()->userManager.loadUserByUsername(NON_EXISTING_USERNAME));
@@ -99,5 +104,33 @@ class UserManagerTest {
         //then
         assertThatExceptionOfType(UserAlreadyExistsException.class)
                 .isThrownBy(() -> userManager.saveUser(userToSave));
+    }
+
+    @Test
+    void shouldEnableUser(){
+        //given
+        final User userToBeEnabled = new User();
+        userToBeEnabled.setEnabled(false);
+        when(userRepository.save(userToBeEnabled)).thenReturn(userToBeEnabled);
+        //when
+        userManager.enableUser(userToBeEnabled);
+        verify(userRepository).save(captor.capture());
+        //then
+        assertThat(captor.getValue().isEnabled()).isTrue();
+        verify(userRepository, times(1)).save(userToBeEnabled);
+    }
+
+    @Test
+    void shouldSetNewPasswordForUser(){
+        //given
+        final User user = new User();
+        final String newPassword = "newPassword";
+        when(userRepository.save(user)).thenReturn(user);
+        //when
+        userManager.setNewPassword(user, newPassword);
+        verify(userRepository).save(captor.capture());
+        //then
+        assertThat(captor.getValue().getPassword()).isEqualTo(newPassword);
+        verify(userRepository, times(1)).save(user);
     }
 }

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 public class TokenManager {
 
-    private static final Integer TOKEN_EXPIRATION_TIME_IN_HOURS=24;
+    public static final Integer TOKEN_EXPIRATION_TIME_IN_HOURS=24;
 
     private TokenRepository tokenRepository;
 
