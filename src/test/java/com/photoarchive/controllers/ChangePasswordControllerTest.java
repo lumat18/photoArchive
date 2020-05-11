@@ -169,7 +169,7 @@ class ChangePasswordControllerTest {
                 .param("matchingPassword", newPassword)
                 .flashAttr("resetCode", resetCode))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message", PASSWORD_CHANGED_MESSAGE))
+                .andExpect(model().attributeDoesNotExist("message"))
                 .andExpect(view().name("login"));
 
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);

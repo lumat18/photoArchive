@@ -89,10 +89,10 @@ public class ChangePasswordController {
         if(user.isPresent()){
             userManager.setNewPassword(user.get(), passwordEncoder.encode(newPassword));
             log.info("Password for user " + user.get().getUsername() + " was changed");
+            model.addAttribute("message", PASSWORD_CHANGED_MESSAGE);
         }
 
         status.setComplete();
-        model.addAttribute("message", PASSWORD_CHANGED_MESSAGE);
         return "login";
     }
 }
