@@ -15,8 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class LoginController {
 
-    private static final String USER_NOT_ACTIVE_MESSAGE = "User account is not active";
-    private static final String BAD_CREDENTIALS_MESSAGE = "Wrong username or password";
+    public static final String USER_NOT_ACTIVE_MESSAGE = "User account is not active";
+    public static final String BAD_CREDENTIALS_MESSAGE = "Wrong username or password";
+
 
     @GetMapping("/login")
     public String showLoginForm() {
@@ -29,11 +30,6 @@ public class LoginController {
                 .getSession()
                 .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 
-        setProperAttributeMessage(exception, model);
-        return "login";
-    }
-
-    private void setProperAttributeMessage(Exception exception, Model model){
         if (exception instanceof DisabledException) {
             log.warn("Login error."+USER_NOT_ACTIVE_MESSAGE);
             model.addAttribute("message", USER_NOT_ACTIVE_MESSAGE);
@@ -42,5 +38,8 @@ public class LoginController {
             log.warn("Login error."+BAD_CREDENTIALS_MESSAGE);
             model.addAttribute("message", BAD_CREDENTIALS_MESSAGE);
         }
+
+        return "login";
     }
 }
+
