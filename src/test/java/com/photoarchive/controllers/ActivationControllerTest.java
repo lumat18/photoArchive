@@ -1,5 +1,6 @@
 package com.photoarchive.controllers;
 
+import com.photoarchive.PhotoarchiveApplication;
 import com.photoarchive.domain.Token;
 import com.photoarchive.managers.TokenManager;
 import com.photoarchive.managers.UserManager;
@@ -7,8 +8,10 @@ import com.photoarchive.services.ActivationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -16,8 +19,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Optional;
 
-import static java.util.function.Predicate.isEqual;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -25,8 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ActivationController.class)
 class ActivationControllerTest {
 
-    private static final String ACCOUNT_ACTIVATED_MESSAGE = "Account is activated!";
-    private static final String ACCOUNT_NOT_ACTIVATED = "Failed to activate account";
     private final String VALID_TOKEN_VALUE = "value";
     private final String INVALID_TOKEN_VALUE = "noValue";
 
@@ -60,7 +59,7 @@ class ActivationControllerTest {
         //when //then
         mockMvc.perform(MockMvcRequestBuilders.get("/activate")
                 .param("value", VALID_TOKEN_VALUE))
-                .andExpect(model().attribute("message", ACCOUNT_ACTIVATED_MESSAGE))
+                .andExpect(model().attribute("message", ActivationController.ACCOUNT_ACTIVATED_MESSAGE))
                 .andExpect(view().name("login"))
                 .andExpect(status().isOk());
 
@@ -77,7 +76,7 @@ class ActivationControllerTest {
         //when //then
         mockMvc.perform(MockMvcRequestBuilders.get("/activate")
                 .param("value", INVALID_TOKEN_VALUE))
-                .andExpect(model().attribute("message", ACCOUNT_NOT_ACTIVATED))
+                .andExpect(model().attribute("message", ActivationController.ACCOUNT_NOT_ACTIVATED))
                 .andExpect(view().name("info-page"))
                 .andExpect(status().isOk());
 
