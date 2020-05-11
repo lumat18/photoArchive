@@ -1,4 +1,4 @@
-package com.photoarchive.controllers;
+package com.photoarchive.models;
 
 import com.photoarchive.domain.User;
 import lombok.AllArgsConstructor;
