@@ -4,12 +4,10 @@ import com.photoarchive.domain.User;
 import com.photoarchive.managers.UserManager;
 import com.photoarchive.messageCreation.MessageType;
 import com.photoarchive.services.EmailService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,7 +17,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -58,12 +55,11 @@ class ResetLinkControllerTest {
     }
 
     @Test
-    void shouldNotSendMessageToNotExistingEmail() throws Exception {
+    void shouldNotSendMessageToNotExistingUser() throws Exception {
         when(userManager.loadUserByEmail("email")).thenReturn(Optional.empty());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/reset")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("email", "email"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message", LINK_NOT_SENT_MESSAGE))
@@ -78,7 +74,6 @@ class ResetLinkControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/reset")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("email", "email"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message", LINK_NOT_SENT_MESSAGE))
@@ -94,7 +89,6 @@ class ResetLinkControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/reset")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("email", "email"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message", LINK_SENT_MESSAGE))
