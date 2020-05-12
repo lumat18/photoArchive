@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,9 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ChangePasswordController.class)
 class ChangePasswordControllerTest {
-    private static final String PASSWORD_CHANGED_MESSAGE = "Password successfully changed";
-    private static final String INVALID_LINK_MESSAGE = "Something went wrong. Your link is not valid. Try again";
-    private static final String EXPIRED_LINK_MESSAGE = "Link has expired. Try Again";
 
     @MockBean
     private UserManager userManager;
@@ -69,7 +67,7 @@ class ChangePasswordControllerTest {
                 .get("/change")
                 .param("value", resetCode))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message", INVALID_LINK_MESSAGE))
+                .andExpect(model().attribute("message", ReflectionTestUtils.getField(ChangePasswordController.class, "INVALID_LINK_MESSAGE")))
                 .andExpect(view().name("email-input"));
 
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);
@@ -87,7 +85,7 @@ class ChangePasswordControllerTest {
                 .get("/change")
                 .param("value", resetCode))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message", INVALID_LINK_MESSAGE))
+                .andExpect(model().attribute("message", ReflectionTestUtils.getField(ChangePasswordController.class, "INVALID_LINK_MESSAGE")))
                 .andExpect(view().name("email-input"));
 
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);
@@ -107,7 +105,7 @@ class ChangePasswordControllerTest {
                 .get("/change")
                 .param("value", resetCode))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message", EXPIRED_LINK_MESSAGE))
+                .andExpect(model().attribute("message", ReflectionTestUtils.getField(ChangePasswordController.class, "EXPIRED_LINK_MESSAGE")))
                 .andExpect(view().name("email-input"));
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);
         verify(resetCodeService, times(1)).extractTokenCreationDate(resetCode);
@@ -149,7 +147,7 @@ class ChangePasswordControllerTest {
                 .param("matchingPassword", newPassword)
                 .flashAttr("resetCode", resetCode))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message", PASSWORD_CHANGED_MESSAGE))
+                .andExpect(model().attribute("message", ReflectionTestUtils.getField(ChangePasswordController.class, "PASSWORD_CHANGED_MESSAGE")))
                 .andExpect(view().name("login"));
 
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);

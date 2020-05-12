@@ -17,8 +17,8 @@ import java.util.Optional;
 @RequestMapping("/activate")
 @Slf4j
 public class ActivationController {
-    public static final String ACCOUNT_ACTIVATED_MESSAGE = "Account is activated!";
-    public static final String ACCOUNT_NOT_ACTIVATED = "Failed to activate account";
+    private static final String ACCOUNT_ACTIVATED_MESSAGE = "Account is activated!";
+    private static final String ACCOUNT_NOT_ACTIVATED = "Failed to activate account";
 
     private ActivationService activationService;
     private TokenManager tokenManager;
