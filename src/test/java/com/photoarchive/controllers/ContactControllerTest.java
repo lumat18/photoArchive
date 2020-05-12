@@ -1,6 +1,7 @@
 package com.photoarchive.controllers;
 
 import com.photoarchive.managers.UserManager;
+import com.photoarchive.models.UserInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
