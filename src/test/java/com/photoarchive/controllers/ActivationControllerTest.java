@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -59,7 +60,7 @@ class ActivationControllerTest {
         //when //then
         mockMvc.perform(MockMvcRequestBuilders.get("/activate")
                 .param("value", VALID_TOKEN_VALUE))
-                .andExpect(model().attribute("message", ActivationController.ACCOUNT_ACTIVATED_MESSAGE))
+                .andExpect(model().attribute("message", ReflectionTestUtils.getField(ActivationController.class, "ACCOUNT_ACTIVATED_MESSAGE")))
                 .andExpect(view().name("login"))
                 .andExpect(status().isOk());
 
@@ -76,7 +77,7 @@ class ActivationControllerTest {
         //when //then
         mockMvc.perform(MockMvcRequestBuilders.get("/activate")
                 .param("value", INVALID_TOKEN_VALUE))
-                .andExpect(model().attribute("message", ActivationController.ACCOUNT_NOT_ACTIVATED))
+                .andExpect(model().attribute("message", ReflectionTestUtils.getField(ActivationController.class, "ACCOUNT_NOT_ACTIVATED")))
                 .andExpect(view().name("info-page"))
                 .andExpect(status().isOk());
 
