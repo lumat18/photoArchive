@@ -28,16 +28,20 @@ public class RegistrationService {
 
     public void register(User user) throws UserAlreadyExistsException {
         Token token = tokenManager.createToken();
-        userManager.saveUser(user);
-        token.setUser(user);
-        tokenManager.saveToken(token);
+        bindUserWithToken(user, token);
         sendActivationEmailTo(user, token);
         log.info("User " + user.getUsername() + " saved to database");
     }
 
     private void sendActivationEmailTo(User user, Token token) {
         SimpleMailMessage activationMessage = emailService
-                .createMessage(user.getEmail(),token.getValue(), MessageType.ACTIVATION);
+                .createMessage(user.getEmail(), token.getValue(), MessageType.ACTIVATION);
         emailService.sendEmail(activationMessage);
+    }
+
+    private void bindUserWithToken(User user, Token token) throws UserAlreadyExistsException {
+        userManager.saveUser(user);
+        token.setUser(user);
+        tokenManager.saveToken(token);
     }
 }
