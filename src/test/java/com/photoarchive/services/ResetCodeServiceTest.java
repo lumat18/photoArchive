@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Base64;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +24,7 @@ class ResetCodeServiceTest {
         token.setValue("abc");
         String testCreationDate = LocalDateTime.now().toString();
 
-        final String resetCode = resetCodeService.createResetCode(token);
+        final String resetCode = resetCodeService.createResetCode(token.getValue());
         final byte[] bytes = Base64.getDecoder().decode(resetCode);
         final String decoded = new String(bytes);
         final String decodedDateTime = decoded.replace("abc_", "");
@@ -43,7 +42,7 @@ class ResetCodeServiceTest {
                 .encodeToString((resetString).getBytes());
 
         final LocalDateTime extractedDate
-                = resetCodeService.extractTokenCreationDate(resetCode);
+                = resetCodeService.extractCreationDate(resetCode);
 
         assertThat(extractedDate).isEqualTo(creationDate);
     }
@@ -55,7 +54,7 @@ class ResetCodeServiceTest {
                 .encodeToString((resetString).getBytes());
 
         assertThatExceptionOfType(DateTimeException.class)
-                .isThrownBy(() -> resetCodeService.extractTokenCreationDate(resetCode));
+                .isThrownBy(() -> resetCodeService.extractCreationDate(resetCode));
     }
 
     @Test

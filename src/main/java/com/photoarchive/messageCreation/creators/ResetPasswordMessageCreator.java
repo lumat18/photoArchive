@@ -23,16 +23,16 @@ public class ResetPasswordMessageCreator implements MessageCreator {
     }
 
     @Override
-    public SimpleMailMessage createMessage(User user) {
+    public SimpleMailMessage create(String email, String tokenValue) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject(SUBJECT);
-        message.setTo(user.getEmail());
-        message.setText(TEXT + createResetLink(user.getToken()));
+        message.setTo(email);
+        message.setText(TEXT + createResetLink(tokenValue));
         return message;
     }
 
-    private String createResetLink(Token token){
+    private String createResetLink(String tokenValue){
         return "http://localhost:8080/change?value=" +
-                resetCodeService.createResetCode(token);
+                resetCodeService.createResetCode(tokenValue);
     }
 }

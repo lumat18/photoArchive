@@ -22,12 +22,14 @@ public class TokenManager {
         this.tokenRepository = tokenRepository;
     }
 
-    public Token createTokenFor(User user) {
+    public Token createToken() {
         Token token = new Token();
         String value = UUID.randomUUID().toString();
         token.setValue(value);
-        token.setUser(user);
-        return tokenRepository.save(token);
+        return token;
+    }
+    public void saveToken(Token token){
+        tokenRepository.save(token);
     }
 
     public Optional<Token> findTokenByValue(String value) {

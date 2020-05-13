@@ -4,6 +4,7 @@ import com.photoarchive.domain.User;
 import com.photoarchive.managers.UserManager;
 import com.photoarchive.messageCreation.MessageType;
 import com.photoarchive.services.EmailService;
+import com.photoarchive.services.ResetLinkService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ class ResetLinkControllerTest {
     private static final String LINK_NOT_SENT_MESSAGE = "Account does not exist or is not activated";
 
     @MockBean
-    private EmailService emailService;
+    private ResetLinkService resetLinkService;
     @MockBean
     private UserManager userManager;
 
@@ -51,7 +52,7 @@ class ResetLinkControllerTest {
                 .get("/reset"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("email-input"));
-        verifyNoInteractions(emailService, userManager);
+        verifyNoInteractions(resetLinkService, userManager);
     }
 
     @Test
@@ -65,7 +66,7 @@ class ResetLinkControllerTest {
                 .andExpect(model().attribute("message", LINK_NOT_SENT_MESSAGE))
                 .andExpect(view().name("email-input"));
         verify(userManager, times(1)).loadUserByEmail("email");
-        verifyNoInteractions(emailService);
+        verifyNoInteractions(resetLinkService);
     }
 
     @Test
@@ -79,13 +80,13 @@ class ResetLinkControllerTest {
                 .andExpect(model().attribute("message", LINK_NOT_SENT_MESSAGE))
                 .andExpect(view().name("email-input"));
         verify(userManager, times(1)).loadUserByEmail("email");
-        verifyNoInteractions(emailService);
+        verifyNoInteractions(resetLinkService);
     }
 
     @Test
     void shouldSendResetLinkMessage() throws Exception {
         user.setEnabled(true);
-        doNothing().when(emailService).sendEmail(user, MessageType.RESET);
+        doNothing().when(resetLinkService).sendPasswordResetMessageTo(user);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/reset")
@@ -94,7 +95,7 @@ class ResetLinkControllerTest {
                 .andExpect(model().attribute("message", LINK_SENT_MESSAGE))
                 .andExpect(view().name("info-page"));
         verify(userManager, times(1)).loadUserByEmail("email");
-        verify(emailService, times(1)).sendEmail(user, MessageType.RESET);
+        verify(resetLinkService, times(1)).sendPasswordResetMessageTo(user);
     }
 
 }

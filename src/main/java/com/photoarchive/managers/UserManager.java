@@ -2,12 +2,14 @@ package com.photoarchive.managers;
 
 import com.photoarchive.domain.User;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
+import com.photoarchive.models.UserDTO;
 import com.photoarchive.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,10 +19,12 @@ import java.util.Optional;
 public class UserManager implements UserDetailsService {
 
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserManager(UserRepository userRepository) {
+    public UserManager(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -67,5 +71,16 @@ public class UserManager implements UserDetailsService {
 
     private void updateUser(User user) {
         userRepository.save(user);
+    }
+
+    public User createUser(UserDTO userDTO){
+        return User.builder()
+                .username(userDTO.getUsername())
+                .email(userDTO.getEmail())
+                .firstName(userDTO.getFirstName())
+                .surname(userDTO.getSurname())
+                .password(passwordEncoder.encode(userDTO.getPassword()))
+                .isEnabled(false)
+                .build();
     }
 }

@@ -14,24 +14,16 @@ public class ActivationMessageCreator implements MessageCreator {
     private static final String SUBJECT = "PhotoARCHive activation email";
     private static final String TEXT = "In order to activate your account, please click the link below: \n";
 
-    private TokenManager tokenManager;
-
-    @Autowired
-    public ActivationMessageCreator(TokenManager tokenManager) {
-        this.tokenManager = tokenManager;
-    }
-
     @Override
-    public SimpleMailMessage createMessage(User user) {
+    public SimpleMailMessage create(String email , String tokenValue) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject(SUBJECT);
-        message.setTo(user.getEmail());
-        message.setText(TEXT + createActivationLink(user));
+        message.setTo(email);
+        message.setText(TEXT + createActivationLink(tokenValue));
         return message;
     }
 
-    private String createActivationLink(User user) {
-        Token token = tokenManager.createTokenFor(user);
-        return "http://localhost:8080/activate?value=" + token.getValue();
+    private String createActivationLink(String tokenValue) {
+        return "http://localhost:8080/activate?value=" + tokenValue;
     }
 }

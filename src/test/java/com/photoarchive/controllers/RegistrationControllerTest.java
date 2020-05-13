@@ -56,6 +56,9 @@ class RegistrationControllerTest {
     void shouldProcessRegistration() throws Exception {
         //given
         final UserDTO userDTO = properUserDTO();
+        final User user = User.builder().username(userDTO.getUsername()).build();
+        when(userManager.createUser(any())).thenReturn(user);
+        doNothing().when(registrationService).register(user);
         //when
         mockMvc.perform(post("/register")
                 .param("username", userDTO.getUsername())
@@ -89,6 +92,8 @@ class RegistrationControllerTest {
     void shouldNotProcessRegistrationWhenUserAlreadyExists() throws Exception {
         //given
         final UserDTO userDTO = alreadyExistingUserDto();
+        final User user = User.builder().username(userDTO.getUsername()).build();
+        when(userManager.createUser(any())).thenReturn(user);
         doThrow(new UserAlreadyExistsException()).when(registrationService).register(any());
         //when then
         mockMvc.perform(post("/register")
@@ -110,6 +115,8 @@ class RegistrationControllerTest {
     @Test
     void shouldReturnErrorsWhenEmailIsNotValid() throws Exception {
         final UserDTO userDTO = notValidEmailUserDTO();
+        final User user = User.builder().username(userDTO.getUsername()).build();
+        when(userManager.createUser(any())).thenReturn(user);
         mockMvc.perform(post("/register")
                 .param("username", userDTO.getUsername())
                 .param("email", userDTO.getEmail())
@@ -137,6 +144,8 @@ class RegistrationControllerTest {
     @Test
     void shouldReturnErrorsWhenPasswordIsNotStrongEnough() throws Exception {
         final UserDTO userDTO = notValidPasswordUserDTO();
+        final User user = User.builder().username(userDTO.getUsername()).build();
+        when(userManager.createUser(any())).thenReturn(user);
         mockMvc.perform(post("/register")
                 .param("username", userDTO.getUsername())
                 .param("email", userDTO.getEmail())
@@ -164,6 +173,8 @@ class RegistrationControllerTest {
     @Test
     void shouldReturnErrorsWhenPasswordIsNotMatching() throws Exception {
         final UserDTO userDTO = notMatchingPasswordUserDTO();
+        final User user = User.builder().username(userDTO.getUsername()).build();
+        when(userManager.createUser(any())).thenReturn(user);
         mockMvc.perform(post("/register")
                 .param("username", userDTO.getUsername())
                 .param("email", userDTO.getEmail())

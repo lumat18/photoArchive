@@ -1,8 +1,9 @@
 package com.photoarchive.messageCreation;
 
+import com.photoarchive.domain.Token;
 import com.photoarchive.domain.User;
 import org.springframework.mail.SimpleMailMessage;
 
 public interface MessageCreator {
-    SimpleMailMessage createMessage(User user);
+    SimpleMailMessage create(String email, String tokenValue);
 }

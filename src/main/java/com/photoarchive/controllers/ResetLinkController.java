@@ -2,8 +2,7 @@ package com.photoarchive.controllers;
 
 import com.photoarchive.domain.User;
 import com.photoarchive.managers.UserManager;
-import com.photoarchive.messageCreation.MessageType;
-import com.photoarchive.services.EmailService;
+import com.photoarchive.services.ResetLinkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,13 +22,13 @@ public class ResetLinkController {
     private static final String LINK_SENT_MESSAGE = "Reset link was sent";
     private static final String LINK_NOT_SENT_MESSAGE = "Account does not exist or is not activated";
 
-    private EmailService emailService;
     private UserManager userManager;
+    private ResetLinkService resetLinkService;
 
     @Autowired
-    public ResetLinkController(EmailService emailService, UserManager userManager) {
-        this.emailService = emailService;
+    public ResetLinkController(UserManager userManager, ResetLinkService resetLinkService) {
         this.userManager = userManager;
+        this.resetLinkService = resetLinkService;
     }
 
     @GetMapping
@@ -38,13 +37,13 @@ public class ResetLinkController {
     }
 
     @PostMapping
-    public String sendResetLink(@RequestParam String email, Model model) {
-        Optional<User> user = userManager.loadUserByEmail(email);
+    public String processPasswordResetLinkSending(@RequestParam String email, Model model) {
+        Optional<User> optionalUser = userManager.loadUserByEmail(email);
 
-        if (user.isPresent()){
-            if (user.get().isEnabled()){
-
-                emailService.sendEmail(user.get(), MessageType.RESET);
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+            if (user.isEnabled()){
+                resetLinkService.sendPasswordResetMessageTo(user);
                 model.addAttribute("message", LINK_SENT_MESSAGE);
                 return "info-page";
             }else {

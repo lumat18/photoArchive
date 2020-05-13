@@ -1,6 +1,5 @@
 package com.photoarchive.services;
 
-import com.photoarchive.domain.User;
 import com.photoarchive.messageCreation.MessageCreator;
 import com.photoarchive.messageCreation.MessageType;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +10,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +23,7 @@ public class EmailService {
     private JavaMailSender javaMailSender;
 
     @Bean
-    private ThreadPoolExecutor threadPoolExecutor(){
+    private ThreadPoolExecutor threadPoolExecutor() {
         return new ThreadPoolExecutor(3, 3, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
     }
 
@@ -33,14 +33,16 @@ public class EmailService {
         this.beanFactory = beanFactory;
     }
 
-    public void sendEmail(User user,  MessageType messageType){
-        final MessageCreator messageCreator = chooseMessageCreator(messageType);
-        SimpleMailMessage message = messageCreator.createMessage(user);
-
+    public void sendEmail(SimpleMailMessage message) {
         threadPoolExecutor().execute(() -> {
             javaMailSender.send(message);
-            log.info("Email send to " + user.getEmail());
+            log.info("Email send to " + Objects.requireNonNull(message.getTo())[0]);
         });
+    }
+
+    public SimpleMailMessage createMessage(String email, String tokenValue, MessageType messageType) {
+        final MessageCreator messageCreator = chooseMessageCreator(messageType);
+        return messageCreator.create(email, tokenValue);
     }
 
     private MessageCreator chooseMessageCreator(MessageType messageType) {

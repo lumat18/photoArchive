@@ -58,7 +58,7 @@ public class ChangePasswordController {
         String tokenValue = resetCodeService.extractTokenValue(resetCode);
         LocalDateTime tokenCreationDate;
         try {
-            tokenCreationDate = resetCodeService.extractTokenCreationDate(resetCode);
+            tokenCreationDate = resetCodeService.extractCreationDate(resetCode);
         } catch (DateTimeException e) {
             model.addAttribute("message", INVALID_LINK_MESSAGE);
             log.warn(e.getMessage());

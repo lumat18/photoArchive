@@ -1,6 +1,5 @@
 package com.photoarchive.services;
 
-import com.photoarchive.domain.Token;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +10,12 @@ import java.util.Base64;
 @Service
 public class ResetCodeService {
 
-    public String createResetCode(Token token) {
+    public String createResetCode(String tokenValue) {
         return Base64.getEncoder()
-                .encodeToString((token.getValue() + "_" + getTokenCreationDate()).getBytes());
+                .encodeToString((tokenValue + "_" + getCreationDate()).getBytes());
     }
 
-    private String getTokenCreationDate() {
+    private String getCreationDate() {
         return LocalDateTime.now().toString();
     }
 
@@ -24,7 +23,7 @@ public class ResetCodeService {
         return StringUtils.substringBefore(decode(resetCode), "_");
     }
 
-    public LocalDateTime extractTokenCreationDate(String resetCode) throws DateTimeException {
+    public LocalDateTime extractCreationDate(String resetCode) throws DateTimeException {
         return LocalDateTime.parse(StringUtils.substringAfter(decode(resetCode), "_"));
     }
 

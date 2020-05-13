@@ -2,10 +2,10 @@ package com.photoarchive.controllers;
 
 import com.photoarchive.domain.User;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
+import com.photoarchive.managers.UserManager;
 import com.photoarchive.models.UserDTO;
 import com.photoarchive.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -23,18 +23,19 @@ public class RegistrationController {
     private static final String ACTIVATION_LINK_SENT_MESSAGE = "Activation link was sent, check your email";
 
     private RegistrationService registrationService;
-    private PasswordEncoder passwordEncoder;
+    private UserManager userManager;
+
+    @Autowired
+    public RegistrationController(RegistrationService registrationService, UserManager userManager) {
+        this.registrationService = registrationService;
+        this.userManager = userManager;
+    }
 
     @ModelAttribute(name = "userDTO")
     private UserDTO userDTO() {
         return new UserDTO();
     }
 
-    @Autowired
-    public RegistrationController(RegistrationService registrationService, PasswordEncoder passwordEncoder) {
-        this.registrationService = registrationService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @GetMapping
     public String showRegistrationPage() {
@@ -46,7 +47,7 @@ public class RegistrationController {
         if (errors.hasErrors()) {
             return "registration";
         }
-        User user = userDTO.toUser(passwordEncoder);
+        User user = userManager.createUser(userDTO);
         try {
             registrationService.register(user);
         } catch (UserAlreadyExistsException e) {
