@@ -14,8 +14,10 @@ public class UserInfo {
     private String surname;
     private String email;
 
-    public static UserInfo createUserInfo(User user){
-        return new UserInfo(user.getFirstName(), user.getSurname(), user.getEmail());
+    public UserInfo(User user) {
+        this.firstName = user.getFirstName();
+        this.surname = user.getSurname();
+        this.email = user.getEmail();
     }
 
     @Override

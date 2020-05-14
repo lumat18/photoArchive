@@ -27,8 +27,8 @@ public class SearchController {
     }
 
     @GetMapping
-    public String getPhotos(@AuthenticationPrincipal User user, Model model){
-        UserInfo userInfo = UserInfo.createUserInfo(user);
+    public String showSearchPage(@AuthenticationPrincipal User user, Model model){
+        UserInfo userInfo = new UserInfo(user);
         model.addAttribute("userInfo", userInfo);
         return "search";
     }
