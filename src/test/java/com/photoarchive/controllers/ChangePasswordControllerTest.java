@@ -3,13 +3,12 @@ package com.photoarchive.controllers;
 import com.photoarchive.domain.User;
 import com.photoarchive.managers.TokenManager;
 import com.photoarchive.managers.UserManager;
-import com.photoarchive.services.ResetCodeService;
+import com.photoarchive.managers.ResetCodeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -31,7 +30,7 @@ class ChangePasswordControllerTest {
     @MockBean
     private TokenManager tokenManager;
     @MockBean
-    private ResetCodeService resetCodeService;
+    private ResetCodeManager resetCodeManager;
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,8 +55,8 @@ class ChangePasswordControllerTest {
 
     @Test
     void shouldNotProcessResetWhenResetCodeIsWrong() throws Exception {
-        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(null);
-        when(resetCodeService.extractCreationDate(resetCode)).thenThrow(DateTimeException.class);
+        when(resetCodeManager.extractTokenValue(resetCode)).thenReturn(null);
+        when(resetCodeManager.extractCreationDate(resetCode)).thenThrow(DateTimeException.class);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/change")
@@ -66,15 +65,15 @@ class ChangePasswordControllerTest {
                 .andExpect(model().attribute("message", ReflectionTestUtils.getField(ChangePasswordController.class, "INVALID_LINK_MESSAGE")))
                 .andExpect(view().name("email-input"));
 
-        verify(resetCodeService, times(1)).extractTokenValue(resetCode);
-        verify(resetCodeService, times(1)).extractCreationDate(resetCode);
+        verify(resetCodeManager, times(1)).extractTokenValue(resetCode);
+        verify(resetCodeManager, times(1)).extractCreationDate(resetCode);
         verifyNoInteractions(userManager, tokenManager);
     }
 
     @Test
     void shouldNotProcessWhenTokenDoesntExist() throws Exception {
-        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
-        when(resetCodeService.extractCreationDate(resetCode)).thenReturn(creationDate);
+        when(resetCodeManager.extractTokenValue(resetCode)).thenReturn(tokenValue);
+        when(resetCodeManager.extractCreationDate(resetCode)).thenReturn(creationDate);
         when(tokenManager.existsByValue(tokenValue)).thenReturn(false);
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -84,16 +83,16 @@ class ChangePasswordControllerTest {
                 .andExpect(model().attribute("message", ReflectionTestUtils.getField(ChangePasswordController.class, "INVALID_LINK_MESSAGE")))
                 .andExpect(view().name("email-input"));
 
-        verify(resetCodeService, times(1)).extractTokenValue(resetCode);
-        verify(resetCodeService, times(1)).extractCreationDate(resetCode);
+        verify(resetCodeManager, times(1)).extractTokenValue(resetCode);
+        verify(resetCodeManager, times(1)).extractCreationDate(resetCode);
         verify(tokenManager, times(1)).existsByValue(tokenValue);
         verifyNoInteractions(userManager);
     }
 
     @Test
     void shouldNotProcessWhenTokenHasExpired() throws Exception {
-        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
-        when(resetCodeService.extractCreationDate(resetCode)).thenReturn(creationDate);
+        when(resetCodeManager.extractTokenValue(resetCode)).thenReturn(tokenValue);
+        when(resetCodeManager.extractCreationDate(resetCode)).thenReturn(creationDate);
         when(tokenManager.existsByValue(tokenValue)).thenReturn(true);
         when(tokenManager.hasExpired(creationDate)).thenReturn(true);
 
@@ -103,8 +102,8 @@ class ChangePasswordControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message", ReflectionTestUtils.getField(ChangePasswordController.class, "EXPIRED_LINK_MESSAGE")))
                 .andExpect(view().name("email-input"));
-        verify(resetCodeService, times(1)).extractTokenValue(resetCode);
-        verify(resetCodeService, times(1)).extractCreationDate(resetCode);
+        verify(resetCodeManager, times(1)).extractTokenValue(resetCode);
+        verify(resetCodeManager, times(1)).extractCreationDate(resetCode);
         verify(tokenManager, times(1)).existsByValue(tokenValue);
         verify(tokenManager, times(1)).hasExpired(creationDate);
         verifyNoInteractions(userManager);
@@ -112,8 +111,8 @@ class ChangePasswordControllerTest {
 
     @Test
     void shouldProcessPasswordReset() throws Exception {
-        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
-        when(resetCodeService.extractCreationDate(resetCode)).thenReturn(creationDate);
+        when(resetCodeManager.extractTokenValue(resetCode)).thenReturn(tokenValue);
+        when(resetCodeManager.extractCreationDate(resetCode)).thenReturn(creationDate);
         when(tokenManager.existsByValue(tokenValue)).thenReturn(true);
         when(tokenManager.hasExpired(creationDate)).thenReturn(false);
 
@@ -123,8 +122,8 @@ class ChangePasswordControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("resetCode", resetCode))
                 .andExpect(view().name("new-password-input"));
-        verify(resetCodeService, times(1)).extractTokenValue(resetCode);
-        verify(resetCodeService, times(1)).extractCreationDate(resetCode);
+        verify(resetCodeManager, times(1)).extractTokenValue(resetCode);
+        verify(resetCodeManager, times(1)).extractCreationDate(resetCode);
         verify(tokenManager, times(1)).existsByValue(tokenValue);
         verify(tokenManager, times(1)).hasExpired(creationDate);
         verifyNoInteractions(userManager);
@@ -132,7 +131,7 @@ class ChangePasswordControllerTest {
 
     @Test
     void shouldProcessPasswordChange() throws Exception {
-        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
+        when(resetCodeManager.extractTokenValue(resetCode)).thenReturn(tokenValue);
         when(userManager.loadUserByToken(tokenValue)).thenReturn(Optional.of(user));
         doNothing().when(userManager).setNewPassword(user, newPassword);
 
@@ -145,14 +144,14 @@ class ChangePasswordControllerTest {
                 .andExpect(model().attribute("message", ReflectionTestUtils.getField(ChangePasswordController.class, "PASSWORD_CHANGED_MESSAGE")))
                 .andExpect(view().name("login"));
 
-        verify(resetCodeService, times(1)).extractTokenValue(resetCode);
+        verify(resetCodeManager, times(1)).extractTokenValue(resetCode);
         verify(userManager, times(1)).loadUserByToken(tokenValue);
         verify(userManager, times(1)).setNewPassword(user, newPassword);
     }
 
     @Test
     void shouldNotProcessPasswordChange() throws Exception {
-        when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
+        when(resetCodeManager.extractTokenValue(resetCode)).thenReturn(tokenValue);
         when(userManager.loadUserByToken(tokenValue)).thenReturn(Optional.empty());
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -164,7 +163,7 @@ class ChangePasswordControllerTest {
                 .andExpect(model().attributeDoesNotExist("message"))
                 .andExpect(view().name("login"));
 
-        verify(resetCodeService, times(1)).extractTokenValue(resetCode);
+        verify(resetCodeManager, times(1)).extractTokenValue(resetCode);
         verify(userManager, times(1)).loadUserByToken(tokenValue);
         verifyNoMoreInteractions(userManager);
     }

@@ -2,15 +2,12 @@ package com.photoarchive.controllers;
 
 import com.photoarchive.domain.User;
 import com.photoarchive.managers.UserManager;
-import com.photoarchive.messageCreation.MessageType;
-import com.photoarchive.services.EmailService;
-import com.photoarchive.services.ResetLinkService;
+import com.photoarchive.services.PasswordResetMessageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -28,7 +25,7 @@ class ResetLinkControllerTest {
     private static final String LINK_NOT_SENT_MESSAGE = "Account does not exist or is not activated";
 
     @MockBean
-    private ResetLinkService resetLinkService;
+    private PasswordResetMessageService passwordResetMessageService;
     @MockBean
     private UserManager userManager;
 
@@ -52,7 +49,7 @@ class ResetLinkControllerTest {
                 .get("/reset"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("email-input"));
-        verifyNoInteractions(resetLinkService, userManager);
+        verifyNoInteractions(passwordResetMessageService, userManager);
     }
 
     @Test
@@ -66,7 +63,7 @@ class ResetLinkControllerTest {
                 .andExpect(model().attribute("message", LINK_NOT_SENT_MESSAGE))
                 .andExpect(view().name("email-input"));
         verify(userManager, times(1)).loadUserByEmail("email");
-        verifyNoInteractions(resetLinkService);
+        verifyNoInteractions(passwordResetMessageService);
     }
 
     @Test
@@ -80,13 +77,13 @@ class ResetLinkControllerTest {
                 .andExpect(model().attribute("message", LINK_NOT_SENT_MESSAGE))
                 .andExpect(view().name("email-input"));
         verify(userManager, times(1)).loadUserByEmail("email");
-        verifyNoInteractions(resetLinkService);
+        verifyNoInteractions(passwordResetMessageService);
     }
 
     @Test
     void shouldSendResetLinkMessage() throws Exception {
         user.setEnabled(true);
-        doNothing().when(resetLinkService).sendPasswordResetMessageTo(user);
+        doNothing().when(passwordResetMessageService).sendPasswordResetMessageTo(user);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/reset")
@@ -95,7 +92,7 @@ class ResetLinkControllerTest {
                 .andExpect(model().attribute("message", LINK_SENT_MESSAGE))
                 .andExpect(view().name("info-page"));
         verify(userManager, times(1)).loadUserByEmail("email");
-        verify(resetLinkService, times(1)).sendPasswordResetMessageTo(user);
+        verify(passwordResetMessageService, times(1)).sendPasswordResetMessageTo(user);
     }
 
 }

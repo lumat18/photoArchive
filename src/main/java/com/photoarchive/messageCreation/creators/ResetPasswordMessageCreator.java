@@ -1,9 +1,7 @@
 package com.photoarchive.messageCreation.creators;
 
-import com.photoarchive.domain.Token;
-import com.photoarchive.domain.User;
 import com.photoarchive.messageCreation.MessageCreator;
-import com.photoarchive.services.ResetCodeService;
+import com.photoarchive.managers.ResetCodeManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
@@ -15,11 +13,11 @@ public class ResetPasswordMessageCreator implements MessageCreator {
     private static final String TEXT = "In order to reset your password, please click" +
             "the link below and set a new password {0}\n";
 
-    private ResetCodeService resetCodeService;
+    private ResetCodeManager resetCodeManager;
 
     @Autowired
-    public ResetPasswordMessageCreator(ResetCodeService resetCodeService) {
-        this.resetCodeService = resetCodeService;
+    public ResetPasswordMessageCreator(ResetCodeManager resetCodeManager) {
+        this.resetCodeManager = resetCodeManager;
     }
 
     @Override
@@ -33,6 +31,6 @@ public class ResetPasswordMessageCreator implements MessageCreator {
 
     private String createResetLink(String tokenValue){
         return "http://localhost:8080/change?value=" +
-                resetCodeService.createResetCode(tokenValue);
+                resetCodeManager.createResetCode(tokenValue);
     }
 }

@@ -1,6 +1,7 @@
 package com.photoarchive.services;
 
 import com.photoarchive.domain.Token;
+import com.photoarchive.managers.ResetCodeManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
-class ResetCodeServiceTest {
+class ResetCodeManagerTest {
 
     @Autowired
-    private ResetCodeService resetCodeService;
+    private ResetCodeManager resetCodeManager;
 
     @Test
     void shouldCreateResetCodeFromToken() {
@@ -24,7 +25,7 @@ class ResetCodeServiceTest {
         token.setValue("abc");
         String testCreationDate = LocalDateTime.now().toString();
 
-        final String resetCode = resetCodeService.createResetCode(token.getValue());
+        final String resetCode = resetCodeManager.createResetCode(token.getValue());
         final byte[] bytes = Base64.getDecoder().decode(resetCode);
         final String decoded = new String(bytes);
         final String decodedDateTime = decoded.replace("abc_", "");
@@ -42,7 +43,7 @@ class ResetCodeServiceTest {
                 .encodeToString((resetString).getBytes());
 
         final LocalDateTime extractedDate
-                = resetCodeService.extractCreationDate(resetCode);
+                = resetCodeManager.extractCreationDate(resetCode);
 
         assertThat(extractedDate).isEqualTo(creationDate);
     }
@@ -54,7 +55,7 @@ class ResetCodeServiceTest {
                 .encodeToString((resetString).getBytes());
 
         assertThatExceptionOfType(DateTimeException.class)
-                .isThrownBy(() -> resetCodeService.extractCreationDate(resetCode));
+                .isThrownBy(() -> resetCodeManager.extractCreationDate(resetCode));
     }
 
     @Test
@@ -62,7 +63,7 @@ class ResetCodeServiceTest {
         final String resetCode = "tokenValue_DateOfCreation";
         final String encodedResetCode = Base64.getEncoder().encodeToString(resetCode.getBytes());
 
-        final String extractedTokenValue = resetCodeService.extractTokenValue(encodedResetCode);
+        final String extractedTokenValue = resetCodeManager.extractTokenValue(encodedResetCode);
 
         assertThat(extractedTokenValue).isEqualTo("tokenValue");
     }

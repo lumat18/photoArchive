@@ -3,7 +3,7 @@ package com.photoarchive.messageCreation.creators;
 import com.photoarchive.domain.Token;
 import com.photoarchive.domain.User;
 import com.photoarchive.managers.UserManager;
-import com.photoarchive.services.ResetCodeService;
+import com.photoarchive.managers.ResetCodeManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 class ResetPasswordMessageCreatorTest {
 
     @MockBean
-    private ResetCodeService resetCodeService;
+    private ResetCodeManager resetCodeManager;
     @MockBean
     private UserManager userManager;
 
@@ -37,15 +37,15 @@ class ResetPasswordMessageCreatorTest {
         user.setEmail("testUserEmail");
         user.setToken(token);
         
-        when(resetCodeService.createResetCode(tokenValue)).thenReturn(tokenValue);
+        when(resetCodeManager.createResetCode(tokenValue)).thenReturn(tokenValue);
         //when
         final SimpleMailMessage message = resetPasswordMessageCreator.create(user.getEmail(), token.getValue());
         //then
         assertThat(message).isNotNull();
         assertThat(Objects.requireNonNull(message.getTo())[0]).isEqualTo(user.getEmail());
         assertThat(message.getText()).contains(tokenValue);
-        verify(resetCodeService, times(1)).createResetCode(tokenValue);
-        verifyNoMoreInteractions(resetCodeService);
+        verify(resetCodeManager, times(1)).createResetCode(tokenValue);
+        verifyNoMoreInteractions(resetCodeManager);
     }
 
 }

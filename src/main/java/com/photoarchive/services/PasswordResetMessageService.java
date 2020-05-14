@@ -8,12 +8,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ResetLinkService {
+public class PasswordResetMessageService {
 
     private EmailService emailService;
 
     @Autowired
-    public ResetLinkService(EmailService emailService) {
+    public PasswordResetMessageService(EmailService emailService) {
         this.emailService = emailService;
     }
 

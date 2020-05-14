@@ -5,10 +5,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Base64;
+
 @Configuration
 public class EncoderConfig {
     @Bean
-    public PasswordEncoder createEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public Base64.Encoder getResetCodeEncoder() {
+        return Base64.getEncoder();
+    }
+
+    @Bean
+    public Base64.Decoder getResetCodeDecoder() {
+        return Base64.getDecoder();
     }
 }

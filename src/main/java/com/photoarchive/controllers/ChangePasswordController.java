@@ -4,7 +4,7 @@ import com.photoarchive.domain.User;
 import com.photoarchive.managers.TokenManager;
 import com.photoarchive.managers.UserManager;
 import com.photoarchive.models.ChangePasswordDTO;
-import com.photoarchive.services.ResetCodeService;
+import com.photoarchive.managers.ResetCodeManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ public class ChangePasswordController {
 
     private UserManager userManager;
     private TokenManager tokenManager;
-    private ResetCodeService resetCodeService;
+    private ResetCodeManager resetCodeManager;
 
     @ModelAttribute(name = "changePasswordDTO")
     private ChangePasswordDTO changePasswordDTO() {
@@ -43,19 +43,19 @@ public class ChangePasswordController {
     }
 
     @Autowired
-    public ChangePasswordController(UserManager userManager, TokenManager tokenManager, ResetCodeService resetCodeService) {
+    public ChangePasswordController(UserManager userManager, TokenManager tokenManager, ResetCodeManager resetCodeManager) {
         this.userManager = userManager;
         this.tokenManager = tokenManager;
-        this.resetCodeService = resetCodeService;
+        this.resetCodeManager = resetCodeManager;
     }
 
     @GetMapping
     public String processPasswordReset(@RequestParam("value") String resetCode, Model model) {
 
-        String tokenValue = resetCodeService.extractTokenValue(resetCode);
+        String tokenValue = resetCodeManager.extractTokenValue(resetCode);
         LocalDateTime tokenCreationDate;
         try {
-            tokenCreationDate = resetCodeService.extractCreationDate(resetCode);
+            tokenCreationDate = resetCodeManager.extractCreationDate(resetCode);
         } catch (DateTimeException e) {
             model.addAttribute("message", INVALID_LINK_MESSAGE);
             log.warn(e.getMessage());
@@ -75,7 +75,7 @@ public class ChangePasswordController {
 
     @PostMapping
     public String processPasswordChange(@Valid ChangePasswordDTO changePasswordDTO, Errors errors, @ModelAttribute(name = "resetCode") String resetCode, SessionStatus status, Model model) {
-        String tokenValue = resetCodeService.extractTokenValue(resetCode);
+        String tokenValue = resetCodeManager.extractTokenValue(resetCode);
 
         String newPassword = changePasswordDTO.getPassword();
         if (errors.hasErrors()) {

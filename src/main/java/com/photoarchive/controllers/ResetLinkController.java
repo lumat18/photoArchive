@@ -2,7 +2,7 @@ package com.photoarchive.controllers;
 
 import com.photoarchive.domain.User;
 import com.photoarchive.managers.UserManager;
-import com.photoarchive.services.ResetLinkService;
+import com.photoarchive.services.PasswordResetMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,12 +23,12 @@ public class ResetLinkController {
     private static final String LINK_NOT_SENT_MESSAGE = "Account does not exist or is not activated";
 
     private UserManager userManager;
-    private ResetLinkService resetLinkService;
+    private PasswordResetMessageService passwordResetMessageService;
 
     @Autowired
-    public ResetLinkController(UserManager userManager, ResetLinkService resetLinkService) {
+    public ResetLinkController(UserManager userManager, PasswordResetMessageService passwordResetMessageService) {
         this.userManager = userManager;
-        this.resetLinkService = resetLinkService;
+        this.passwordResetMessageService = passwordResetMessageService;
     }
 
     @GetMapping
@@ -43,7 +43,7 @@ public class ResetLinkController {
         if (optionalUser.isPresent()){
             User user = optionalUser.get();
             if (user.isEnabled()){
-                resetLinkService.sendPasswordResetMessageTo(user);
+                passwordResetMessageService.sendPasswordResetMessageTo(user);
                 model.addAttribute("message", LINK_SENT_MESSAGE);
                 return "info-page";
             }else {
