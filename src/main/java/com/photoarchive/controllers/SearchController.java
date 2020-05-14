@@ -33,7 +33,7 @@ public class SearchController {
         return "search";
     }
 
-    @PostMapping("/find-photos")
+    @GetMapping("/find-photos")
     public String processSearch(@RequestParam(name = "tagString") String tagString, Model model){
         Set<Photo> foundPhotos = searchService.getPhotosByTags(tagString);
         model.addAttribute("foundPhotos", foundPhotos);
