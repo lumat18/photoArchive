@@ -29,13 +29,13 @@ public class RegistrationService {
     public void register(User user) throws UserAlreadyExistsException {
         Token token = tokenManager.createToken();
         bindUserWithToken(user, token);
-        sendActivationEmailTo(user, token);
+        sendActivationEmailTo(user.getEmail(), token.getValue());
         log.info("User " + user.getUsername() + " saved to database");
     }
 
-    private void sendActivationEmailTo(User user, Token token) {
+    private void sendActivationEmailTo(String  email, String  tokenValue) {
         SimpleMailMessage activationMessage = emailService
-                .createMessage(user.getEmail(), token.getValue(), MessageType.ACTIVATION);
+                .createMessage(email, tokenValue, MessageType.ACTIVATION);
         emailService.sendEmail(activationMessage);
     }
 

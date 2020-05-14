@@ -32,8 +32,6 @@ class ChangePasswordControllerTest {
     private TokenManager tokenManager;
     @MockBean
     private ResetCodeService resetCodeService;
-    @MockBean
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private MockMvc mockMvc;
@@ -70,7 +68,7 @@ class ChangePasswordControllerTest {
 
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);
         verify(resetCodeService, times(1)).extractCreationDate(resetCode);
-        verifyNoInteractions(userManager, tokenManager, passwordEncoder);
+        verifyNoInteractions(userManager, tokenManager);
     }
 
     @Test
@@ -89,7 +87,7 @@ class ChangePasswordControllerTest {
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);
         verify(resetCodeService, times(1)).extractCreationDate(resetCode);
         verify(tokenManager, times(1)).existsByValue(tokenValue);
-        verifyNoInteractions(userManager, passwordEncoder);
+        verifyNoInteractions(userManager);
     }
 
     @Test
@@ -109,7 +107,7 @@ class ChangePasswordControllerTest {
         verify(resetCodeService, times(1)).extractCreationDate(resetCode);
         verify(tokenManager, times(1)).existsByValue(tokenValue);
         verify(tokenManager, times(1)).hasExpired(creationDate);
-        verifyNoInteractions(userManager, passwordEncoder);
+        verifyNoInteractions(userManager);
     }
 
     @Test
@@ -129,14 +127,13 @@ class ChangePasswordControllerTest {
         verify(resetCodeService, times(1)).extractCreationDate(resetCode);
         verify(tokenManager, times(1)).existsByValue(tokenValue);
         verify(tokenManager, times(1)).hasExpired(creationDate);
-        verifyNoInteractions(userManager, passwordEncoder);
+        verifyNoInteractions(userManager);
     }
 
     @Test
     void shouldProcessPasswordChange() throws Exception {
         when(resetCodeService.extractTokenValue(resetCode)).thenReturn(tokenValue);
         when(userManager.loadUserByToken(tokenValue)).thenReturn(Optional.of(user));
-        when(passwordEncoder.encode(newPassword)).thenReturn(newPassword);
         doNothing().when(userManager).setNewPassword(user, newPassword);
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -150,7 +147,6 @@ class ChangePasswordControllerTest {
 
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);
         verify(userManager, times(1)).loadUserByToken(tokenValue);
-        verify(passwordEncoder, times(1)).encode(newPassword);
         verify(userManager, times(1)).setNewPassword(user, newPassword);
     }
 
@@ -171,6 +167,5 @@ class ChangePasswordControllerTest {
         verify(resetCodeService, times(1)).extractTokenValue(resetCode);
         verify(userManager, times(1)).loadUserByToken(tokenValue);
         verifyNoMoreInteractions(userManager);
-        verifyNoInteractions(passwordEncoder);
     }
 }

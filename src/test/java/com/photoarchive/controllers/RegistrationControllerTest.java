@@ -29,8 +29,6 @@ class RegistrationControllerTest {
     @MockBean
     private RegistrationService registrationService;
     @MockBean
-    private PasswordEncoder passwordEncoder;
-    @MockBean
     private UserManager userManager;
 
     @Autowired
@@ -127,7 +125,7 @@ class RegistrationControllerTest {
                 .andExpect(model().hasErrors())
                 .andExpect(view().name("registration"));
 
-        verifyNoInteractions(passwordEncoder, registrationService);
+        verifyNoInteractions(registrationService);
     }
 
     private UserDTO notValidEmailUserDTO() {
@@ -156,7 +154,7 @@ class RegistrationControllerTest {
                 .andExpect(model().hasErrors())
                 .andExpect(view().name("registration"));
 
-        verifyNoInteractions(passwordEncoder, registrationService);
+        verifyNoInteractions(registrationService);
     }
 
     private UserDTO notValidPasswordUserDTO() {
@@ -185,7 +183,7 @@ class RegistrationControllerTest {
                 .andExpect(model().hasErrors())
                 .andExpect(view().name("registration"));
 
-        verifyNoInteractions(passwordEncoder, registrationService);
+        verifyNoInteractions(registrationService);
     }
 
     private UserDTO notMatchingPasswordUserDTO() {

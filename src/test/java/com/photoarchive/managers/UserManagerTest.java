@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -30,6 +31,8 @@ class UserManagerTest {
     private final String NON_EXISTING_USERNAME = "noUsername";
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserManager userManager;
@@ -126,11 +129,12 @@ class UserManagerTest {
         final User user = new User();
         final String newPassword = "newPassword";
         when(userRepository.save(user)).thenReturn(user);
+        when(passwordEncoder.encode(newPassword)).thenReturn(newPassword);
         //when
         userManager.setNewPassword(user, newPassword);
         verify(userRepository).save(captor.capture());
         //then
-        assertThat(captor.getValue().getPassword()).isEqualTo(newPassword);
         verify(userRepository, times(1)).save(user);
+        assertThat(captor.getValue().getPassword()).isEqualTo(newPassword);
     }
 }

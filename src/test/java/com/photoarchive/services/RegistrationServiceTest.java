@@ -5,7 +5,6 @@ import com.photoarchive.domain.User;
 import com.photoarchive.exceptions.UserAlreadyExistsException;
 import com.photoarchive.managers.TokenManager;
 import com.photoarchive.managers.UserManager;
-import com.photoarchive.messageCreation.MessageType;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -26,7 +25,9 @@ class RegistrationServiceTest {
     @MockBean
     private EmailService emailService;
     @Captor
-    ArgumentCaptor<User> captor;
+    ArgumentCaptor<User> captorUser;
+    @Captor
+    ArgumentCaptor<Token> captorToken;
 
     @Autowired
     private RegistrationService registrationService;
@@ -52,10 +53,14 @@ class RegistrationServiceTest {
 
         registrationService.register(user);
 
-        verify(userManager).saveUser(captor.capture());
-        assertThat(user).isEqualTo(captor.getValue());
-        assertThat(token).isEqualTo(captor.getValue().getToken());
+        verify(userManager).saveUser(captorUser.capture());
+        verify(tokenManager).saveToken(captorToken.capture());
+        assertThat(token).isEqualTo(captorToken.getValue());
+        assertThat(user)
+                .isEqualTo(captorUser.getValue())
+                .isEqualTo(captorToken.getValue().getUser());
         verify(userManager, times(1)).saveUser(user);
+        verify(tokenManager, times(1)).saveToken(token);
         verify(emailService, times(1)).sendEmail(any());
     }
 

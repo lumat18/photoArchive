@@ -7,7 +7,6 @@ import com.photoarchive.models.ChangePasswordDTO;
 import com.photoarchive.services.ResetCodeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -32,7 +31,6 @@ public class ChangePasswordController {
     private UserManager userManager;
     private TokenManager tokenManager;
     private ResetCodeService resetCodeService;
-    private PasswordEncoder passwordEncoder;
 
     @ModelAttribute(name = "changePasswordDTO")
     private ChangePasswordDTO changePasswordDTO() {
@@ -40,16 +38,15 @@ public class ChangePasswordController {
     }
 
     @ModelAttribute(name = "resetCode")
-    public String resetCode(){
+    public String resetCode() {
         return "";
     }
 
     @Autowired
-    public ChangePasswordController(UserManager userManager, TokenManager tokenManager, ResetCodeService resetCodeService, PasswordEncoder passwordEncoder) {
+    public ChangePasswordController(UserManager userManager, TokenManager tokenManager, ResetCodeService resetCodeService) {
         this.userManager = userManager;
         this.tokenManager = tokenManager;
         this.resetCodeService = resetCodeService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -81,13 +78,13 @@ public class ChangePasswordController {
         String tokenValue = resetCodeService.extractTokenValue(resetCode);
 
         String newPassword = changePasswordDTO.getPassword();
-        if (errors.hasErrors()){
+        if (errors.hasErrors()) {
             return "new-password-input";
         }
 
         Optional<User> user = userManager.loadUserByToken(tokenValue);
-        if(user.isPresent()){
-            userManager.setNewPassword(user.get(), passwordEncoder.encode(newPassword));
+        if (user.isPresent()) {
+            userManager.setNewPassword(user.get(), newPassword);
             log.info("Password for user " + user.get().getUsername() + " was changed");
             model.addAttribute("message", PASSWORD_CHANGED_MESSAGE);
         }

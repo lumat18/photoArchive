@@ -65,7 +65,7 @@ public class UserManager implements UserDetailsService {
     }
 
     public void setNewPassword(User user, String newPassword) {
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         updateUser(user);
     }
 
