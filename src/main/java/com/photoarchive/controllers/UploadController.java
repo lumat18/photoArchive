@@ -37,7 +37,7 @@ public class UploadController {
     }
 
     @GetMapping
-    public String show(Model model){
+    public String show(){
         return "upload";
     }
 
@@ -47,7 +47,7 @@ public class UploadController {
             return "upload";
         }
         uploadService.addPhoto(photoWithUrlDTO);
-        return "redirect:/upload";
+        return "upload";
     }
 
     @PostMapping("/photo-with-file")
@@ -60,8 +60,7 @@ public class UploadController {
         } catch (UploadFileFailureException e) {
             log.warn(e.getMessage());
             model.addAttribute("message", e.getMessage());
-            return "upload";
         }
-        return "redirect:/upload";
+        return "upload";
     }
 }
