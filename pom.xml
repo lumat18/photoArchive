@@ -118,7 +118,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <finalName>photoarchive</finalName>
+                    <executable>true</executable>
                 </configuration>
             </plugin>
         </plugins>
