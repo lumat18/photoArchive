@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-@Entity(name = "user")
+@Entity(name = "users")
 @Data
 @Builder
 @NoArgsConstructor
