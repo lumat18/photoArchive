@@ -21,8 +21,6 @@ The project was created with the use of following technologies:
 -	[Docker](https://www.docker.com/)
 -	[Heroku](https://www.heroku.com/)
 
-## Launch
-Application is waiting for delploy.
 ## Team Members
 - Bartek Matuszewski - [https://github.com/bartekmat](https://github.com/bartekmat)
 - Łukasz Matuszewski - [https://github.com/lumat18](https://github.com/lumat18)
